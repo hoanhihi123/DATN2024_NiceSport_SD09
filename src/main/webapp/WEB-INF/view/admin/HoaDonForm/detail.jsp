@@ -47,9 +47,9 @@
                 <%--                        <i class="menu-icon fa fa-laptop"></i>Dashboard--%>
                 <%--                    </a>--%>
                 <%--                </li>--%>
-                <li class="menu-title">Quản lý hóa đơn</li>
+                <li class="menu-title ">Quản lý hóa đơn</li>
                 <!-- /.menu-title -->
-                <%--                <li class="menu-item-has-children dropdown active">--%>
+                <%--                <li class="menu-item-has-children dropdown ">--%>
                 <%--                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">--%>
                 <%--                        <i class="menu-icon fa fa-cogs"></i>Quản lý thuộc tính--%>
                 <%--                    </a>--%>
@@ -85,23 +85,16 @@
                 <%--                    </ul>--%>
 
                 <%--                </li>--%>
-                <li>
-                    <a href="/hoa-don/hien-thi" aria-expanded="false">
-                        <i class="menu-icon fa fa-print"></i>Quản lý hóa đơn
-                    </a>
-                    <a href="/admin/quanLySanPham/hien-thi" aria-expanded="false">
-                        <i class="menu-icon fa fa-print"></i>Quản lý sản phẩm
-                    </a>
-                    <%--                    <ul class="sub-menu children dropdown-menu">--%>
-                    <%--                        <li>--%>
-                    <%--                            <i class="fa fa-puzzle-piece"></i>--%>
-                    <%--                            <a href="ui-buttons.html">Xuất hóa đơn</a>--%>
-                    <%--                        </li>--%>
-                    <%--                        <li>--%>
-                    <%--                            <i class="fa fa-id-badge"></i>--%>
-                    <%--                            <a href="ui-badges.html">Quản lý hóa đơn</a>--%>
-                    <%--                        </li>--%>
-                    <%--                    </ul>--%>
+                <li  class="active">
+                        <a href="/hoa-don/hien-thi" aria-expanded="false">
+                            <i class="menu-icon fa fa-print"></i>Quản lý hóa đơn
+                        </a>
+                    <li>
+                        <a href="/admin/quanLySanPham/hien-thi" aria-expanded="false" >
+                            <i class="menu-icon fa fa-star"></i>Quản lý sản phẩm
+                        </a>
+                    </li>
+
                 </li>
                 <%--                <li class="">--%>
                 <%--                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">--%>
@@ -111,30 +104,80 @@
                 <li class="menu-item-has-children dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-leaf" ></i>Quản lý khuyến mãi</a>
                     <ul class="sub-menu children dropdown-menu">
-                        <li><i class="fa fa-puzzle-piece"></i><a href="/dot-khuyen-mai/hien-thi">Đợt giảm giá</a></li>
+                        <li><i class="fa fa-puzzle-piece"></i><a href="/dot-khuyen-mai/hien-thi">Đợt khuyến mãi</a></li>
                         <li><i class="fa fa-id-badge"></i><a href="/phieu-giam-gia/hien-thi">Phiếu giảm giá</a></li>
                     </ul>
                 </li>
                 <li class="menu-item-has-children dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="menu-icon fa fa-user"></i>Quản lý tài khoản
+                        <i class="menu-icon fa fa-puzzle-piece"></i>Quản lý thuộc tính
                     </a>
                     <ul class="sub-menu children dropdown-menu">
                         <li class="">
-                            <a href="/khach-hang/hien-thi">
-                                <i class="fa fa-pencil-square-o"></i>Quản lý khách hàng
+                            <a href="/thuong-hieu/hien-thi">
+                                <i class="fa fa-id-badge"></i> Thương hiệu
                             </a>
                         </li>
                         <li class="">
-                            <a href="/nhan-vien/hien-thi">
-                                <i class="fa fa-users"></i>Quản lý nhân viên
+                            <a href="/nha-sx/hien-thi">
+                                <i class="fa fa-suitcase"></i> Nhà sản xuất
+                            </a>
+                        </li>
+                        <li class="">
+                            <a href="/danh-muc/hien-thi">
+                                <i class="fa fa-building-o"></i> Danh mục
+                            </a>
+                        </li>
+                        <li class="">
+                            <a href="/loai-sp/hien-thi">
+                                <i class="fa fa-sun-o"></i> Loại sản phẩm
+                            </a>
+                        </li>
+                        <li class="">
+                            <a href="/kieu-dang/hien-thi">
+                                <i class="fa fa-inbox"></i> Kiểu dáng
+                            </a>
+                        </li>
+                        <li class="">
+                            <a href="/chat-lieu/hien-thi">
+                                <i class="fa  fa-beer"></i> Chất liệu
+                            </a>
+                        </li>
+                        <li class="">
+                            <a href="/mui-giay/hien-thi">
+                                <i class="fa fa-cog"></i> Mũi giày
+                            </a>
+                        </li>
+                        <li class="">
+                            <a href="/day-giay/hien-thi">
+                                <i class="fa fa-bars"></i> Dây giày
+                            </a>
+                        </li>
+                        <li class="">
+                            <a href="/de-giay/hien-thi">
+                                <i class="fa fa-sort-desc"></i> Đế giày
+                            </a>
+                        </li>
+                        <li class="">
+                            <a href="/lot-giay/hien-thi">
+                                <i class="fa  fa-road "></i> Lót giày
+                            </a>
+                        </li>
+                        <li class="">
+                            <a href="/mau-sac/hien-thi">
+                                <i class="fa fa-eraser"></i> Màu sắc
+                            </a>
+                        </li>
+                        <li class="">
+                            <a href="/kich-thuoc/hien-thi">
+                                <i class="fa fa-arrows-h"></i> Size giày
                             </a>
                         </li>
                     </ul>
                 </li>
-                <li class="menu-title">Thống kê</li>
+                <li class="menu-title ">Thống kê</li>
                 <!-- /.menu-title -->
-                <li>
+                <li >
                     <a href="/thong-ke" aria-expanded="false"> <i class="menu-icon fa fa-bar-chart-o"></i>Thống kê doanh thu</a>
                 </li>
                 <%--                <li class="menu-item-has-children dropdown">--%>
@@ -158,7 +201,7 @@
                 <%--                </li>--%>
                 <li class="menu-title">Bán hàng</li>
                 <!-- /.menu-title -->
-                <li class="">
+                <li >
                     <a href="/ban-hang/view">
                         <i class="menu-icon fa fa-file-text-o"></i>Bán hàng tại quầy
                     </a>
@@ -168,6 +211,7 @@
         <!-- /.navbar-collapse -->
     </nav>
 </aside>
+
 <!-- /#left-panel -->
 
 <!-- Left Panel -->
@@ -268,6 +312,10 @@
                             <input type="date" class="form-control" id="payDate" readonly="true">
                         </div>
                         <div class="form-group">
+                            <label for="chargeShip">Phí ship</label>
+                            <input type="text" class="form-control" id="chargeShip" readonly="true">
+                        </div>
+                        <div class="form-group">
                             <label for="totalMoney">Tổng tiền</label>
                             <input type="text" class="form-control" id="totalMoney" readonly="true">
                         </div>
@@ -312,18 +360,35 @@
                             <th>Tên sản phẩm</th>
                             <th>Số lượng</th>
                             <th>Giá</th>
-                            <th>Tổng tiền</th>
+                            <th>Thành tiền</th>
                         </tr>
                         </thead>
                         <tbody>
                         <c:forEach items="${orderDetailList}" var="orderDetail" varStatus="loop">
                         <tr>
                             <td>${loop.index + 1}</td>
-                            <td>${orderDetail.productName}</td>
-                            <td>${orderDetail.quantity}</td>
-                            <td>${orderDetail.price}</td>
-                                <%--                            <td>${orderDetail.totalMoney}</td>--%>
-                            <td><fmt:formatNumber value="${orderDetail.totalMoney}" pattern="#,##0"/></td>
+                            <td>${orderDetail.chiTietSanPham.sanPham.ten}</td>
+                            <td>${orderDetail.soLuong}</td>
+<%--                            <td>${orderDetail.giaGocSP} - ${orderDetail.giaSauGiam}</td>--%>
+                            <td>
+                                <script>
+                                    var giaTriSanPham = ${orderDetail.giaGocSP};
+                                    var giaTriGiam = ${orderDetail.giaSauGiam >= 0 ? orderDetail.giaSauGiam : 0};
+
+                                    var formatted_giaGiam = new Intl.NumberFormat('vi-VN', { maximumFractionDigits: 0 }).format(giaTriGiam);
+                                    var formatted_giaGoc = new Intl.NumberFormat('vi-VN', { maximumFractionDigits: 0 }).format(giaTriSanPham);
+
+                                    if (giaTriGiam > 0) {
+                                        document.write("<del>" + formatted_giaGoc + "</del> - <b>" + formatted_giaGiam + "</b>");
+                                    } else {
+                                        document.write(formatted_giaGoc);
+                                    }
+                                </script>
+                            </td>
+
+
+                        <%--                            <td>${orderDetail.totalMoney}</td>--%>
+                            <td><fmt:formatNumber value="${orderDetail.donGia}" pattern="#,##0"/></td>
 
                         </tr>
                         </c:forEach>
@@ -496,6 +561,7 @@
             document.getElementById('orderId').value = data?.id;
             document.getElementById('orderDate').value = new Date(data?.ngayMua).toISOString().split('T')[0];
             document.getElementById('payDate').value = new Date(data?.ngayThanhToan).toISOString().split('T')[0];
+            document.getElementById('chargeShip').value = data?.tienVanChuyen.toLocaleString();
             document.getElementById('totalMoney').value = data?.tongTienThanhToan.toLocaleString();
             document.getElementById('customerName').value = data?.tenKH;
             document.getElementById('address').value = data?.diaChi;

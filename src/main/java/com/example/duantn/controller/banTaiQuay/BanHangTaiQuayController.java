@@ -550,7 +550,9 @@ public class BanHangTaiQuayController {
         }
 
         HoaDon hoaDonCurrent = hoaDonService.chiTietTheoId(muaHangTaiQuay.getIdHoaDon());
+
         if(hoaDonCurrent.getPhieuGiamGia()!=null){
+            UUID idPhieuGiamGia = hoaDonCurrent.getPhieuGiamGia().getId();
             PhieuGiamGia phieuGiamGiaCurrent = phieuGiamGiaService.detail(hoaDonCurrent.getPhieuGiamGia().getId());
             Double dieuKienGiamGia = phieuGiamGiaCurrent.getGiaTienXetDieuKien();
             Integer soLuongPhieuGiamGia = phieuGiamGiaCurrent.getSoLuong();
@@ -563,7 +565,7 @@ public class BanHangTaiQuayController {
                 hoaDonService.capNhat(hoaDonCurrent);
 
                 // cập nhật lại voucher đã sử dụng khi chưa thanh toán
-                phieuGiamGiaService.capNhatSoLuongMoi_phieuGiamGia(soLuongPhieuGiamGia+1,phieuGiamGiaCurrent.getId());
+                phieuGiamGiaService.capNhatSoLuongMoi_phieuGiamGia(soLuongPhieuGiamGia+1,idPhieuGiamGia);
             }
         }
 
@@ -650,13 +652,13 @@ public class BanHangTaiQuayController {
             hoaDonCTService.capNhat(hoaDonChiTiet);
         }
 
-        if(hoaDonCurrent.getPhieuGiamGia()!=null){
-            // cap nhat so luong voucher áp dụng
-            PhieuGiamGia phieuGiamGia = phieuGiamGiaService.detail(hoaDonCurrent.getPhieuGiamGia().getId());
-            phieuGiamGia.setSoLuong(phieuGiamGia.getSoLuong()-1);
-
-            phieuGiamGiaService.capNhat(phieuGiamGia);
-        }
+//        if(hoaDonCurrent.getPhieuGiamGia()!=null){
+//            // cap nhat so luong voucher áp dụng
+//            PhieuGiamGia phieuGiamGia = phieuGiamGiaService.detail(hoaDonCurrent.getPhieuGiamGia().getId());
+//            phieuGiamGia.setSoLuong(phieuGiamGia.getSoLuong()-1);
+//
+//            phieuGiamGiaService.capNhat(phieuGiamGia);
+//        }
 
         // cập nhật số lượng trong kho khi mua tại quầy ngay khi thanh toán
         for (HoaDonChiTiet sanPhamChiTietTrongHoaDon : dsHoaDonChiTietCuaHoaDonHienTai) {

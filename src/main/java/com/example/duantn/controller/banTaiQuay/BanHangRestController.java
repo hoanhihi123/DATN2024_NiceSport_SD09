@@ -224,6 +224,9 @@ public class BanHangRestController {
 
             ChiTietSanPham sanPhamChiTietThem = sanPhamCTService.chiTietTheoId(idSanPhamChiTiet);
             hoaDonChiTietMoi.setChiTietSanPham(sanPhamChiTietThem);
+            Double giaGiam = sanPhamChiTietThem.getGiaTriGiam()<=0||sanPhamChiTietThem.getGiaTriGiam()==null?0:sanPhamChiTietThem.getGiaTriGiam();
+            hoaDonChiTietMoi.setGiaSauGiam(giaGiam);
+            hoaDonChiTietMoi.setGiaGocSP(sanPhamChiTietThem.getGiaTriSanPham());
 
             hoaDonChiTietMoi.setSoLuong(soLuongMua);
 //            Double thanhTien = sanPhamChiTietThem.getGiaTriGiam()>0?(soLuongMua * ) : (soLuongMua * );

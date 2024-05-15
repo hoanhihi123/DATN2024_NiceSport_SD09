@@ -101,7 +101,7 @@
                         <i class="menu-icon fa fa-print"></i>Quản lý hóa đơn
                     </a>
                     <a href="/admin/quanLySanPham/hien-thi" aria-expanded="false" >
-                        <i class="menu-icon fa fa-print"></i>Quản lý sản phẩm
+                        <i class="menu-icon fa fa-star"></i>Quản lý sản phẩm
                     </a>
                     <%--                    <ul class="sub-menu children dropdown-menu">--%>
                     <%--                        <li>--%>
@@ -122,23 +122,73 @@
                 <li class="menu-item-has-children dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-leaf" ></i>Quản lý khuyến mãi</a>
                     <ul class="sub-menu children dropdown-menu">
-                        <li><i class="fa fa-puzzle-piece"></i><a href="/dot-khuyen-mai/hien-thi">Đợt giảm giá</a></li>
+                        <li><i class="fa fa-puzzle-piece"></i><a href="/dot-khuyen-mai/hien-thi">Đợt khuyến mãi</a></li>
                         <li><i class="fa fa-id-badge"></i><a href="/phieu-giam-gia/hien-thi">Phiếu giảm giá</a></li>
                     </ul>
                 </li>
                 <li class="menu-item-has-children dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="menu-icon fa fa-user"></i>Quản lý tài khoản
+                        <i class="menu-icon fa fa-puzzle-piece"></i>Quản lý thuộc tính
                     </a>
                     <ul class="sub-menu children dropdown-menu">
                         <li class="">
-                            <a href="/khach-hang/hien-thi">
-                                <i class="fa fa-pencil-square-o"></i>Quản lý khách hàng
+                            <a href="/thuong-hieu/hien-thi">
+                                <i class="fa fa-id-badge"></i> Thương hiệu
                             </a>
                         </li>
                         <li class="">
-                            <a href="/nhan-vien/hien-thi">
-                                <i class="fa fa-users"></i>Quản lý nhân viên
+                            <a href="/nha-sx/hien-thi">
+                                <i class="fa fa-suitcase"></i> Nhà sản xuất
+                            </a>
+                        </li>
+                        <li class="">
+                            <a href="/danh-muc/hien-thi">
+                                <i class="fa fa-building-o"></i> Danh mục
+                            </a>
+                        </li>
+                        <li class="">
+                            <a href="/loai-sp/hien-thi">
+                                <i class="fa fa-sun-o"></i> Loại sản phẩm
+                            </a>
+                        </li>
+                        <li class="">
+                            <a href="/kieu-dang/hien-thi">
+                                <i class="fa fa-inbox"></i> Kiểu dáng
+                            </a>
+                        </li>
+                        <li class="">
+                            <a href="/chat-lieu/hien-thi">
+                                <i class="fa  fa-beer"></i> Chất liệu
+                            </a>
+                        </li>
+                        <li class="">
+                            <a href="/mui-giay/hien-thi">
+                                <i class="fa fa-cog"></i> Mũi giày
+                            </a>
+                        </li>
+                        <li class="">
+                            <a href="/day-giay/hien-thi">
+                                <i class="fa fa-bars"></i> Dây giày
+                            </a>
+                        </li>
+                        <li class="">
+                            <a href="/de-giay/hien-thi">
+                                <i class="fa fa-sort-desc"></i> Đế giày
+                            </a>
+                        </li>
+                        <li class="">
+                            <a href="/lot-giay/hien-thi">
+                                <i class="fa  fa-road "></i> Lót giày
+                            </a>
+                        </li>
+                        <li class="">
+                            <a href="/mau-sac/hien-thi">
+                                <i class="fa fa-eraser"></i> Màu sắc
+                            </a>
+                        </li>
+                        <li class="">
+                            <a href="/kich-thuoc/hien-thi">
+                                <i class="fa fa-arrows-h"></i> Size giày
                             </a>
                         </li>
                     </ul>
@@ -287,7 +337,6 @@
                                                        data-target="#chonSanPhamVaoHoaDonCho" onclick="updateDataFromCallAPI_sanPhamChiTiet();"> <i class="menu-icon fa  fa-check-square-o"></i> Chọn sản phẩm</a>
                                                 </strong>
                                             </div>
-
                                         </div>
 
 
@@ -1078,8 +1127,16 @@
         // set lại nội dung cho tbody
         data.forEach(function(item, index) {
             var giaTriSanPham = item.chiTietSanPham.giaTriSanPham;
-            var giaTriGiam = item.chiTietSanPham.giaTriGiam > 0 ? item.chiTietSanPham.giaTriGiam : 0;
-            var hienThiGiaSanPham = giaTriGiam > 0 ? "<td><del>" + item.chiTietSanPham.giaTriSanPham +"</del> - "+ "<b>"+ giaTriGiam + "</b>" +  "</td>" : "<td>" + item.chiTietSanPham.giaTriSanPham + "</td>" ;
+            var giaTriGiam = item.chiTietSanPham.giaTriGiam >= 0 ? item.chiTietSanPham.giaTriGiam : 0;
+
+            var formatted_giaGiam = new Intl.NumberFormat('vi-VN', { maximumFractionDigits: 0 }).format(giaTriGiam);
+            var formatted_giaGoc = new Intl.NumberFormat('vi-VN', { maximumFractionDigits: 0 }).format(item.chiTietSanPham.giaTriSanPham);
+
+            var hienThiGiaSanPham = giaTriGiam > 0 ? "<td><del>" + formatted_giaGoc + "</del> - <b>" + formatted_giaGiam + "</b></td>" : "<td>" + formatted_giaGoc + "</td>";
+
+            var formatted_giaGoc = new Intl.NumberFormat('vi-VN', { maximumFractionDigits: 0 }).format(item.donGia);
+            var hienThiDonGia = "<td>" + formatted_giaGoc + "</td>";
+
 
             var row =
                 "<tr style='text-align: center;'>" +
@@ -1089,7 +1146,7 @@
                 "<td>Size: " + item.chiTietSanPham.kichCo.ten + " - màu: " + item.chiTietSanPham.mauSac.ten + "</td>" +
                 hienThiGiaSanPham +
                 "<td><input type='text' id='" + item.chiTietSanPham.id + "' class='form-control' min='1' value='" + item.soLuong + "' style='width: 70px;' onchange='handleChangeSoLuongMua(this.value, \""+ item.soLuong + "\", \"" + item.chiTietSanPham.id + "\", \"" + item.hoaDon.id + "\", \"" + item.chiTietSanPham.soLuong + "\")'></td>"+
-                "<td>" + item.donGia + "</td>" +
+                hienThiDonGia +
                 "<td><a href='#' class='btn btn-warning' onclick='xoaSanPhamKhoiHoaDonCT(\"" + item.hoaDon.id + "\", \"" + item.chiTietSanPham.id + "\", \"" + item.chiTietSanPham.sanPham.ten + "\");'><i class='menu-icon fa fa-trash-o'></i> Xóa</a></td>" +
                 "</tr>";
 
@@ -1682,7 +1739,13 @@
         data.forEach(function(item, index) {
             var giaTriSanPham = item.giaTriSanPham;
             var giaTriGiam = item.giaTriGiam > 0 ? item.giaTriGiam : 0;
-            var hienThiGiaSanPham = giaTriGiam > 0 ? "<td><del>" + item.giaTriSanPham + "</del> - " + "<b>" + giaTriGiam + "</b>" + "</td>" : "<td>" + item.giaTriSanPham + "</td>";
+            // var hienThiGiaSanPham = giaTriGiam > 0 ? "<td><del>" + item.giaTriSanPham + "</del> - " + "<b>" + giaTriGiam + "</b>" + "</td>" : "<td>" + item.giaTriSanPham + "</td>";
+
+            var formatted_giaGoc = new Intl.NumberFormat('vi-VN', { maximumFractionDigits: 0 }).format(item.giaTriSanPham);
+            var formatted_giaGiam = new Intl.NumberFormat('vi-VN', { maximumFractionDigits: 0 }).format(item.giaTriGiam);
+            var hienThiGiaSanPham = giaTriGiam > 0 ? "<td><del>" + formatted_giaGoc + "</del> - <b>" + formatted_giaGiam + "</b></td>" : "<td>" + formatted_giaGoc + "</td>";
+
+
             var disabledAttribute = item.soLuong <= 0 ? "disabled" : ""; // Kiểm tra số lượng sản phẩm
             var buttonClass = item.soLuong <= 0 ? "disabled-btn" : ""; // Lớp CSS để tùy chỉnh giao diện của nút
 
@@ -1694,7 +1757,7 @@
                 "<td>Size: " + item.kichCo.ten + " - màu: " + item.mauSac.ten + "</td>" +
                 "<td>" + item.soLuong + "</td>" +
                 hienThiGiaSanPham +
-                "<td><input type='number' data-id='" + item.id + "' value='1' min='1' class='form-control' style='width: 50%; margin: 0px auto;'></td>" +
+                "<td><input type='number' data-id='" + item.id + "' value='1' min='1' max='" + item.soLuong + "' class='form-control' style='width: 100%; margin: 0px auto;' ></td>" +
                 "<td><a href='#' id='btn-" + item.id + "' class='btn btn-success " + buttonClass + "' " + disabledAttribute + " onclick='themSanPhamVaoHoaDonHienTai(\"" + item.id + "\", this.parentNode.previousElementSibling.querySelector(\"input\").value);'>Chọn mua</a></td>" +
                 "</tr>";
             tableBody.append(row);
@@ -2093,7 +2156,6 @@
                         alert("Không thể thêm số lượng mua = 0 vào hóa đơn");
                         return;
                     }
-
                     if(result.soLuongConTrongKho <=0){
                         alert("Trong kho không đủ sản phẩm cho bạn mua");
                         return;
@@ -2475,10 +2537,9 @@
                     if(data.xacNhanXoa === true){
                         fetchDataAndFillTable_danhSachHoaDonCho();
                         phanTrangSanPhamCT_trongChonHoaDonCho(0,4,idHoaDon);
+                        chonMaGiamGia();
 
                         alert('Xóa dữ liệu thành công');
-                        getListHoaDonCho();
-
                     }
                 },
                 error: function(error) {
@@ -2561,14 +2622,18 @@
                         var tienDuocGiamResult = data.tienDuocGiam;
                         var tongTienSauGiam = data.tongTienDonHangSauGiam;
 
+
+                        var formatted_tongTienHang2 = new Intl.NumberFormat('vi-VN', { maximumFractionDigits: 0 }).format(tongTienDonHang);
                         var tongTienHang2 = document.getElementById("tongTienHang");
-                        tongTienHang2.textContent = tongTienDonHang;
+                        tongTienHang2.textContent = formatted_tongTienHang2;
 
+                        var formatted_tienDuocGiam = new Intl.NumberFormat('vi-VN', { maximumFractionDigits: 0 }).format(tienDuocGiamResult);
                         var tienDuocGiam = document.getElementById("tienDuocGiam");
-                        tienDuocGiam.textContent = tienDuocGiamResult;
+                        tienDuocGiam.textContent = formatted_tienDuocGiam;
 
+                        var formatted_tongTienSauGiam = new Intl.NumberFormat('vi-VN', { maximumFractionDigits: 0 }).format(tongTienSauGiam);
                         var tongTienThanhToan = document.getElementById("tongTienThanhToan");
-                        tongTienThanhToan.textContent = tongTienSauGiam;
+                        tongTienThanhToan.textContent = formatted_tongTienSauGiam;
 
                         console.log("=>>>>>>>>>>>>>>>>>>> Tổng tiền đơn hàng o tinh tong tien hang : " + tongTienDonHang);
                         resolve({ tongTienDonHang: tongTienDonHang, tongTienSauGiam: tongTienSauGiam }); // Trả về tổng tiền đơn hàng qua promise
@@ -2625,7 +2690,6 @@
         console.log("Chạy vào hàm chonMaGiamGia() ");
         var idHoaDon_active = layIDCuaButtonTabPane_active();
 
-
         // Sử dụng promise để lấy tổng tiền đơn hàng
         tongTienDonHang(idHoaDon_active).then(function(result) {
             var tongTien = result.tongTienDonHang;
@@ -2644,6 +2708,11 @@
                 document.getElementById("tienThuaTraKhach").value='0';
 
             }else{
+                fetchDataAndFillTable_danhSachPhieuGiamGia(tongTien);
+                layThongTinHoaDonActive_idDotKhuyenMai();
+                // var idHoaDon_active = layIDCuaButtonTabPane_active();
+                // pagination for list product detail
+                phanTrangSanPhamCT_trongChonPhieuGiamGia(0, 4, tongTien);
                 document.getElementById("tienKhachDua").setAttribute("readonly", true);
                 document.getElementById("tienKhachDua").value='0';
                 document.getElementById("tienThuaTraKhach").value='0';
@@ -2780,9 +2849,11 @@
 
             success: function(data) {
                 alert('Cập nhật số lượng mua thành công');
+                fetchDataAndFillTable_danhSachHoaDonCho();
+                phanTrangSanPhamCT_trongChonHoaDonCho(0,4,idHoaDon);
 
                 // cập nhật lại chính hóa đơn đã được sửa
-                getListHoaDonCho();
+                // getListHoaDonCho();
             },
             error: function(error) {
                 console.log("Error: " + error);
@@ -2950,10 +3021,13 @@
 
                 if(tongTienSauGiam>0){
                     var tienThua =  tienKhachDuaNumber - tongTienSauGiam;
-                    document.getElementById("tienThuaTraKhach").value=tienThua;
+                    var formatted_tienThua= new Intl.NumberFormat('vi-VN', { maximumFractionDigits: 0 }).format(tienThua);
+                    document.getElementById("tienThuaTraKhach").value=formatted_tienThua;
                 }else{
                     var tienThua =  tienKhachDuaNumber - tongTien;
-                    document.getElementById("tienThuaTraKhach").value=tienThua;
+                    var tienThua =  tienKhachDuaNumber - tongTienSauGiam;
+                    var formatted_tienThua= new Intl.NumberFormat('vi-VN', { maximumFractionDigits: 0 }).format(tienThua);
+                    document.getElementById("tienThuaTraKhach").value=formatted_tienThua;
                 }
             })
             .catch(function(error) {

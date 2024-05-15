@@ -154,11 +154,9 @@
                                                     <h2 class="card-title">Hình thức thanh toán: <br>
                                                         <input type="radio"  checked value="3" name="hinhThucThanhToan" style="transform: scale(1.5); margin-top: 10px;"> <span style="margin-left: 10px; margin-bottom: 10px;">Thanh toán khi nhận hàng <br></span>
                                                         <input type="radio"  value="2" name="hinhThucThanhToan" style="transform: scale(1.5); margin-top: 10px;"> <span style="margin-left: 10px; margin-bottom: 10px;">Thanh toán bằng VNPay</span>
-                                                    </h2>Thư
+                                                    </h2>
                                                 </div><!-- End .card-header -->
                                             </div><!-- End .card -->
-
-
 
                                         </div><!-- End .accordion -->
 
@@ -221,14 +219,11 @@
                                                 <td colspan="3">Tổng tiền cần thanh toán:</td>
                                                 <td colspan="3">
                                                     <sf:input path="tongTienDonHang" type="number" id="tongTienDonHang" name="tongTienDonHang"  value="${tongTienDonHang>0?tongTienDonHang:0}" readonly="true" style="border:none;" />
-                                                        <%--                                                    <fmt:formatNumber  type = "number"--%>
-                                                        <%--                                                                       maxFractionDigits = "0" value = "" />--%>
                                                 </td>
                                             </tr><!-- End .summary-total -->
                                             </tbody>
                                         </table><!-- End .table table-summary -->
                                         <input type="number" id="canNangGoiHang" value="${trongLuongDonHang}" hidden>
-
                                     </div>
                                 </div><!-- End .summary -->
                             </aside><!-- End .col-lg-3 -->
@@ -548,6 +543,16 @@
 <script src="/user/js/callAPIAdress.js"></script>
 
 <script>
+
+    // Lấy giá trị từ thẻ
+    let tongTienDonHangValue = document.getElementById('tongTienDonHang').value;
+
+    // Định dạng lại giá trị
+    let formattedValue = new Intl.NumberFormat('vi-VN').format(tongTienDonHangValue);
+
+    // Gán giá trị đã được định dạng vào thẻ
+    document.getElementById('tongTienDonHang').value = formattedValue;
+
     quayLaiHome = function() {
         console.log("Xóa các sản phẩm trong cart thanh toán, quay lại trang chủ");
 

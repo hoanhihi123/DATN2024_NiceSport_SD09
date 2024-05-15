@@ -49,24 +49,24 @@
     <div class="breadcrumbs">
         <div class="breadcrumbs-inner">
             <div class="row m-0">
-<%--                <div class="col-sm-4">--%>
-<%--                    <div class="page-header float-left">--%>
-<%--                        <div class="page-title">--%>
-<%--                            <h1>Dashboard</h1>--%>
-<%--                        </div>--%>
-<%--                    </div>--%>
-<%--                </div>--%>
-<%--                <div class="col-sm-8">--%>
-<%--                    <div class="page-header float-right">--%>
-<%--                        <div class="page-title">--%>
-<%--                            <ol class="breadcrumb text-right">--%>
-<%--                                <li><a href="#">Dashboard</a></li>--%>
-<%--                                <li><a href="#">Quản lý giày</a></li>--%>
-<%--                                <li class="active">Sửa thông tin khách hàng</li>--%>
-<%--                            </ol>--%>
-<%--                        </div>--%>
-<%--                    </div>--%>
-<%--                </div>--%>
+                <%--                <div class="col-sm-4">--%>
+                <%--                    <div class="page-header float-left">--%>
+                <%--                        <div class="page-title">--%>
+                <%--                            <h1>Dashboard</h1>--%>
+                <%--                        </div>--%>
+                <%--                    </div>--%>
+                <%--                </div>--%>
+                <%--                <div class="col-sm-8">--%>
+                <%--                    <div class="page-header float-right">--%>
+                <%--                        <div class="page-title">--%>
+                <%--                            <ol class="breadcrumb text-right">--%>
+                <%--                                <li><a href="#">Dashboard</a></li>--%>
+                <%--                                <li><a href="#">Quản lý giày</a></li>--%>
+                <%--                                <li class="active">Sửa thông tin khách hàng</li>--%>
+                <%--                            </ol>--%>
+                <%--                        </div>--%>
+                <%--                    </div>--%>
+                <%--                </div>--%>
             </div>
         </div>
     </div>
@@ -84,11 +84,8 @@
                     <sf:form action="/khach-hang/sua/${khachHang.id}" method="post" modelAttribute="khachHang" class="row">
                         <div class="col-lg-6">
                             <span>Mã Khách Hàng(<i class="fa fa-asterisk" style="color: red;"></i>)</span>
-                            <sf:input path="ma" type="text" style="margin-top: 5px;" class="form-control"/>
-                            <sf:errors path="ma" cssClass="text-danger" />
-                            <c:if test="${trungMa==true}">
-                                <p class="text-danger">Mã khách hàng đã có trong hệ thống, vui lòng nhập mã mới</p>
-                            </c:if>
+                            <sf:input path="ma" type="text" style="margin-top: 5px;" readonly="true"  class="form-control"/>
+
                         </div>
                         <div class="col-lg-6">
                             <span>Tên Khách Hàng(<i class="fa fa-asterisk" style="color: red;"></i>)</span>
@@ -98,12 +95,7 @@
                                 <p class="text-danger">Tên khách hàng đã có trong hệ thống, vui lòng nhập tên mới</p>
                             </c:if>
                         </div>
-                        <div class="col-lg-6" style="margin-top: 20px;">
-                            <span>Tài khoản (<i class="fa fa-asterisk" style="color: red;"></i>)</span>
-                            <sf:input id="taiKhoan" path="taiKhoan" style="margin-top: 5px;"  type="text" class="form-control"/>
-                            <sf:errors path="taiKhoan" cssClass="text-danger" />
 
-                        </div>
                         <div class="col-lg-6" style="margin-top: 20px;">
                             <span>Số Điện Thoại (<i class="fa fa-asterisk" style="color: red;"></i>)</span>
                             <sf:input id="soDT" path="soDT" style="margin-top: 5px;"  type="text" class="form-control"/>

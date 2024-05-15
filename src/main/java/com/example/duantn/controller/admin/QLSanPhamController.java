@@ -209,6 +209,7 @@ public class QLSanPhamController {
             chiTietSanPhamThemMoi.setMoTa(chiTietSP_request.getMoTa());
             chiTietSanPhamThemMoi.setTrangThai(chiTietSanPham.getTrangThai());
             chiTietSanPhamThemMoi.setHinhAnh(urlAnhChinh_toSaveDB);
+            chiTietSanPhamThemMoi.setGiaTriGiam(0.0);
 
           ChiTietSanPham chiTietSanPhamVuaThem = chiTietSPService.themMoi_traVeKetQua(chiTietSanPhamThemMoi);
 
@@ -271,6 +272,8 @@ public class QLSanPhamController {
     ) {
         // lấy ra sản phẩm chi tiết
         ChiTietSanPham chiTietSanPham_detail = chiTietSPService.chiTietTheoId(idSanPhamChiTiet);
+
+
         model.addAttribute("sanPhamChiTiet",chiTietSanPham_detail);
 
         // lấy ra danh sách tên sản phẩm
@@ -346,6 +349,7 @@ public class QLSanPhamController {
         SanPham sanPhamThem = new SanPham();
         sanPhamThem = sanPhamService.chiTietTheoId(chiTietSanPham.getSanPham().getId());
 
+
         ThuongHieu thuongHieuThem = new ThuongHieu();
         thuongHieuThem = thuongHieuService.chiTietTheoId(chiTietSanPham.getThuongHieu().getId());
 
@@ -383,6 +387,15 @@ public class QLSanPhamController {
         kichCoThem = kichCoService.chiTietTheoId(chiTietSanPham.getKichCo().getId());
 
         ChiTietSanPham chiTietSanPhamThemMoi = chiTietSPService.chiTietTheoId(chiTietSanPham.getId());
+        Double giaBanCu = chiTietSanPhamThemMoi.getGiaTriSanPham();
+        Double giaGiamCu = chiTietSanPhamThemMoi.getGiaTriGiam();
+        Double giaBanMoi = chiTietSanPham.getGiaTriSanPham();
+        Double giaGiamMoi = 0.0;
+        if(giaBanCu!=giaBanMoi){
+            giaGiamMoi = giaBanMoi - (giaBanCu-giaGiamCu);
+        }
+        chiTietSanPhamThemMoi.setGiaTriGiam(giaGiamMoi);
+
         chiTietSanPhamThemMoi.setId(idSanPhamChiTiet);
         chiTietSanPhamThemMoi.setSanPham(sanPhamThem);
         chiTietSanPhamThemMoi.setThuongHieu(thuongHieuThem);

@@ -8,6 +8,7 @@ import com.example.duantn.repository.HoaDonRepository;
 import com.example.duantn.repository.SanPhamCTRepository;
 import com.example.duantn.service.HoaDonService;
 import com.example.duantn.service.PhieuGiamGiaService;
+import com.example.duantn.service.impl.HoaDonCTServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -37,6 +38,9 @@ public class HoaDonController {
 
     @Autowired
     SanPhamCTRepository sanPhamCTRepository;
+
+    @Autowired
+    HoaDonCTServiceImpl hoaDonCTService;
 
     // hienthi
 //    @GetMapping("/hien-thi")
@@ -164,6 +168,9 @@ public class HoaDonController {
             HoaDon hd = hoaDonService.detail(UUID.fromString(id));
             hd.setTrangThai(trangThai);
             hoaDonService.update(UUID.fromString(id), hd);
+
+            // cap nhat ca trang thai cua hoa don chi tiet
+            hoaDonCTService.capNhatTrangThaiHDCT(hd.getId(),trangThai);
         }
 
         return "redirect:/hoa-don/hien-thi";

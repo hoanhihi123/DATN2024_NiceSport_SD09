@@ -224,7 +224,6 @@
                                                                 <fmt:formatNumber type="number" value="${Math.floor((((sanPhamChiTiet.giaTriSanPham - sanPhamChiTiet.giaTriGiam) / sanPhamChiTiet.giaTriSanPham) * 100))}" /> %
                                                              </span>
                                                 </c:if>
-
                                                 <a href="/giay/view-chiTietSanPham/${sanPhamChiTiet.id}">
                                                     <img src="${pageContext.request.contextPath}${sanPhamChiTiet.hinhAnh}" alt="Product image" class="product-image">
                                                 </a>
@@ -273,7 +272,7 @@
 
                                                 <div class="product-nav product-nav-thumbs">
                                                     <a href="/giay/view-chiTietSanPham/${sanPhamChiTiet.id}" class="active">
-                                                        <img src="${pageContext.servletContext.contextPath}${sanPhamChiTiet.hinhAnh}" alt="product desc">a
+                                                        <img src="${pageContext.servletContext.contextPath}${sanPhamChiTiet.hinhAnh}" alt="product desc">
                                                     </a>
                                                 </div>
                                             </div><!-- End .product-body -->
@@ -323,8 +322,10 @@
                                                 <!-- End .product-action-vertical -->
 
                                                 <div class="product-action">
-                                                    <a href="#" class="btn-product btn-cart" onclick="addToCart('${sanPhamChiTiet.id}', 1);"><span>Thêm vào giỏ</span></a>
-                                                    <a href="#" class="btn-product btn-cart" onclick="muaNgay('${sanPhamChiTiet.id}', 1);"><span>Mua ngay</span></a>
+<%--                                                    <a href="#" class="btn-product btn-cart" onclick="addToCart('${sanPhamChiTiet.id}', 1);"><span>Thêm vào giỏ</span></a>--%>
+<%--                                                    <a href="#" class="btn-product btn-cart" onclick="muaNgay('${sanPhamChiTiet.id}', 1);"><span>Mua ngay</span></a>--%>
+                                                    <a href="/giay/view-chiTietSanPham/${sanPhamChiTiet.id}" class="btn-product" ><span>Xem chi tiết</span></a>
+
                                                 </div><!-- End .product-action -->
                                             </figure><!-- End .product-media -->
 
@@ -421,8 +422,10 @@
                                                 </div><!-- End .product-action-vertical -->
 
                                                 <div class="product-action">
-                                                    <a href="#" class="btn-product btn-cart" onclick="addToCart('${sanPhamChiTiet.id}', 1);"><span>Thêm vào giỏ</span></a>
-                                                    <a href="#" class="btn-product btn-cart" onclick="muaNgay('${sanPhamChiTiet.id}', 1);"><span>Mua ngay</span></a>
+<%--                                                    <a href="#" class="btn-product btn-cart" onclick="addToCart('${sanPhamChiTiet.id}', 1);"><span>Thêm vào giỏ</span></a>--%>
+<%--                                                    <a href="#" class="btn-product btn-cart" onclick="muaNgay('${sanPhamChiTiet.id}', 1);"><span>Mua ngay</span></a>--%>
+                                                    <a href="/giay/view-chiTietSanPham/${sanPhamChiTiet.id}" class="btn-product" ><span>Xem chi tiết</span></a>
+
                                                 </div><!-- End .product-action -->
                                             </figure><!-- End .product-media -->
 

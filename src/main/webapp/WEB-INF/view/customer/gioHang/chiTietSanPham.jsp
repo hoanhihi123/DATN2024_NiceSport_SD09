@@ -305,11 +305,42 @@
                                     </div>
                                 </div><!-- End .product-details-action -->
 
-                                <div class="product-details-footer">
+                                <div style="margin-bottom: 10px;">
                                     <div class="product-cat">
                                         <span>Loại sản phẩm:</span>
                                         <a href="#">${sanPhamCT.loaiSanPham.ten}</a>
                                     </div><!-- End .product-cat -->
+                                </div>
+                                <div style="margin-bottom: 10px;">
+                                    <div class="product-cat">
+                                        <span>Thương hiệu:</span>
+                                        <a href="#">${sanPhamCT.thuongHieu.ten}</a>
+                                    </div><!-- End .product-cat -->
+                                </div>
+                                <div style="margin-bottom: 10px;">
+                                    <div class="product-cat">
+                                        <span>NSX:</span>
+                                        <a href="#">${sanPhamCT.nsx.ten}</a>
+                                    </div><!-- End .product-cat -->
+                                </div>
+                                <div style="margin-bottom: 10px;">
+                                    <div class="product-cat">
+                                        <span>Danh mục:</span>
+                                        <a href="#">${sanPhamCT.danhMuc.ten}</a>
+                                    </div><!-- End .product-cat -->
+                                </div>
+                                <div style="margin-bottom: 10px;">
+                                    <div class="product-cat">
+                                        <span>Chất liệu:</span>
+                                        <a href="#">${sanPhamCT.chatLieu.ten}</a>
+                                    </div><!-- End .product-cat -->
+                                </div>
+                                <div style="margin-bottom: 10px;">
+                                    <div class="product-cat">
+                                        <span>Mô tả:</span>
+                                        <a href="#">${sanPhamCT.moTa}</a>
+                                    </div><!-- End .product-cat -->
+                                </div>
 
                                     <!-- <div class="social-icons social-icons-sm">
                                         <span class="social-label">Share:</span>
@@ -329,9 +360,9 @@
                         <!-- <li class="nav-item">
                             <a class="nav-link active" id="product-desc-link" data-toggle="tab" href="#product-desc-tab" role="tab" aria-controls="product-desc-tab" aria-selected="true">Mô tả</a>
                         </li> -->
-                        <li class="nav-item">
-                            <a class="nav-link" id="product-info-link" data-toggle="tab" href="#product-info-tab" role="tab" aria-controls="product-info-tab" aria-selected="false">Thông tin bổ sung</a>
-                        </li>
+<%--                        <li class="nav-item">--%>
+<%--                            <a class="nav-link" id="product-info-link" data-toggle="tab" href="#product-info-tab" role="tab" aria-controls="product-info-tab" aria-selected="false">Thông tin bổ sung</a>--%>
+<%--                        </li>--%>
                         <li class="nav-item">
                             <a class="nav-link" id="product-shipping-link" data-toggle="tab" href="#product-shipping-tab" role="tab" aria-controls="product-shipping-tab" aria-selected="false">Vận chuyển &amp; Trả hàng</a>
                         </li>
@@ -341,22 +372,23 @@
                     </ul>
                     <div class="tab-content">
 
-                        <div class="tab-pane fade" id="product-info-tab" role="tabpanel" aria-labelledby="product-info-link">
-                            <div class="product-desc-content">
-                                <h3>Thông tin sản phẩm</h3>
-                                <p>Thời trang cá tính trẻ trung </p>
+<%--                        <div class="tab-pane fade" id="product-info-tab" role="tabpanel" aria-labelledby="product-info-link">--%>
+<%--                            <div class="product-desc-content">--%>
+<%--                                <h3>Thông tin sản phẩm</h3>--%>
+<%--                                <p>Thời trang cá tính trẻ trung </p>--%>
 
-                                <h3>Chi Tiết</h3>
-                                <ul>
-                                    <li>Màu sắc: Trắng,Đỏ</li>
-                                    <li>Da: Tổng hợp.</li>
-                                    <li>Thương hiệu: Nike</li>
-                                </ul>
+<%--                                <h3>Chi Tiết</h3>--%>
+<%--                                <ul>--%>
+<%--                                    <li>Màu sắc: Trắng,Đỏ</li>--%>
+<%--                                    <li>Da: Tổng hợp.</li>--%>
+<%--                                    <li>Thương hiệu: Nike</li>--%>
+<%--                                </ul>--%>
 
-                                <h3>Size</h3>
-                                <p> 40-44</p>
-                            </div><!-- End .product-desc-content -->
-                        </div><!-- .End .tab-pane -->
+<%--                                <h3>Size</h3>--%>
+<%--                                <p> 40-44</p>--%>
+<%--                            </div><!-- End .product-desc-content -->--%>
+<%--                        </div><!-- .End .tab-pane -->--%>
+
                         <div class="tab-pane fade" id="product-shipping-tab" role="tabpanel" aria-labelledby="product-shipping-link">
                             <div class="product-desc-content">
                                 <h3>Giao hàng &amp; trả hàng</h3>
@@ -744,6 +776,11 @@
         // console.log("Click vào function addToCart");
         let soLuongMua = document.getElementById('soLuongMua').value;
         // console.log("Số lượng mua chi tiết : " + soLuongMua);
+
+        if(soLuongMua<0){
+            alert("Vui lòng nhập số lượng mua > 0 ");
+            return;
+        }
 
         let idSanPhamCTDuocChon;
 

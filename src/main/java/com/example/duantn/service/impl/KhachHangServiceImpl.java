@@ -1,6 +1,7 @@
 package com.example.duantn.service.impl;
 
 import com.example.duantn.model.KhachHang;
+import com.example.duantn.model.NhanVien;
 import com.example.duantn.repository.KhachHangRepository;
 import com.example.duantn.service.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,12 +68,12 @@ public class KhachHangServiceImpl implements BaseService<KhachHang> {
     @Override
     public Page<KhachHang> layDanhSach(String textSearch, Pageable pageable) {
         if (textSearch != null) {
-//            System.out.println("Chạy vào đây");
             return repo_khachHang.getAll(textSearch, pageable);
         }
 
         return repo_khachHang.getAll(pageable);
     }
+
 
     @Override
     public void xoa(UUID id) {
@@ -100,26 +101,6 @@ public class KhachHangServiceImpl implements BaseService<KhachHang> {
     @Override
     public List<KhachHang> layDanhSachTheoTen(String ten) {
         return repo_khachHang.getAllTheoTen(ten);
-    }
-
-    public boolean kiemTraTrungMaKhong(String maMoi, String maCu) {
-        List<KhachHang> dsKhachHang=this.layDanhSach();
-        Boolean isCheck = false;
-        Boolean isCheck2 = true;
-        // kiem tra xem ma moi co trung voi cac ma khac khong
-        for (KhachHang khachHang : dsKhachHang) {
-            if (khachHang.getMa().equalsIgnoreCase(maMoi.trim())) {
-                isCheck = true;
-                break;
-            }
-        }
-
-        // kiem tra xem ma moi co bang ma cu khong
-        if (maMoi.trim().equalsIgnoreCase(maCu)) {
-            isCheck2 = false;
-        }
-
-        return isCheck && isCheck2;
     }
 
     public boolean kiemTraTrungTenKhong(String tenMoi, String tenCu) {
@@ -153,4 +134,36 @@ public class KhachHangServiceImpl implements BaseService<KhachHang> {
         }
         return isCheck;
     }
+
+    public Boolean kiemTraTrungMaKhong(String maCkeck) {
+        List<KhachHang> dsKhachHang = repo_khachHang.getAllTheoMa(maCkeck);
+        Boolean isCheck = false;
+
+        // kiem tra xem ten moi co trung voi cac ten khac khong
+        if (dsKhachHang.size() > 0) {
+            isCheck = true;
+        }
+        return isCheck;
+    }
+
+    public boolean kiemTraTrungMaKhong(String maMoi, String maCu) {
+        List<KhachHang> dsKhachHang=this.layDanhSach();
+        Boolean isCheck = false;
+        Boolean isCheck2 = true;
+        // kiem tra xem ma moi co trung voi cac ma khac khong
+        for (KhachHang khachHang : dsKhachHang) {
+            if (khachHang.getMa().equalsIgnoreCase(maMoi.trim())) {
+                isCheck = true;
+                break;
+            }
+        }
+
+        // kiem tra xem ma moi co bang ma cu khong
+        if (maMoi.trim().equalsIgnoreCase(maCu)) {
+            isCheck2 = false;
+        }
+
+        return isCheck && isCheck2;
+    }
+
 }

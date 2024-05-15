@@ -26,6 +26,12 @@ public class HoaDonChiTiet extends BaseModel {
     @Column(name = "DonGia")
     private Double donGia;
 
+    @Column(name = "giaGoc")
+    private Double giaGocSP;
+
+    @Column(name = "giaGiam")
+    private Double giaSauGiam;
+
     @Column(name = "SoLuong")
     private Integer soLuong;
 

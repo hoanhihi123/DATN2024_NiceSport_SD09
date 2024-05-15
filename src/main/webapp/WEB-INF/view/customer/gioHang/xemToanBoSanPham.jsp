@@ -274,8 +274,8 @@
                         <aside class="col-lg-3 order-lg-first">
                             <div class="sidebar sidebar-shop">
                                 <div class="widget widget-clean">
-                                    <label>Lọc:</label>
-                                    <a href="/gio-hang/view-xemToanBoSanPham" class="sidebar-filter-clear">Làm mới</a>
+                                    <label>Tìm kiếm:</label>
+                                    <a href="" class="sidebar-filter-clear" onclick="lamMoiTrangXemToanBoSanPham();">Làm mới</a>
                                 </div><!-- End .widget widget-clean -->
 
                                 <div class="widget widget-collapsible">
@@ -341,34 +341,34 @@
                                     </div><!-- End .collapse -->
                                 </div><!-- End .widget -->
 
-                                <div class="widget widget-collapsible">
-                                    <h3 class="widget-title">
-                                        <a data-toggle="collapse" href="#widget-5" role="button" aria-expanded="true" aria-controls="widget-5">
-                                            Giá bán:
-                                        </a>
-                                    </h3><!-- End .widget-title -->
+<%--                                <div class="widget widget-collapsible">--%>
+<%--                                    <h3 class="widget-title">--%>
+<%--                                        <a data-toggle="collapse" href="#widget-5" role="button" aria-expanded="true" aria-controls="widget-5">--%>
+<%--                                            Giá bán:--%>
+<%--                                        </a>--%>
+<%--                                    </h3><!-- End .widget-title -->--%>
 
-                                    <div class="collapse show" id="widget-5">
-                                        <div class="widget-body">
-                                            <div class="filter-price">
-                                                <div class="filter-price-text">
-                                                    <div class="select-custom">
-                                                        <select name="sortbyKhoangGia" id="sortby" class="form-control">
-                                                            <option value="" selected="selected">Lựa chọn khoảng giá</option>
-                                                            <option value="500000"> < 500.000 vnđ   </option>
-                                                            <option value="10000000"> < 1.000.000 vnđ </option>
-                                                            <option value="10000000"> > 1.000.000 vnđ </option>
-                                                            <!-- <option value="date"></option> -->
-                                                        </select>
-                                                    </div>
-<%--                                                    <span id="filter-price-range"></span>--%>
-                                                </div><!-- End .filter-price-text -->
+<%--                                    <div class="collapse show" id="widget-5">--%>
+<%--                                        <div class="widget-body">--%>
+<%--                                            <div class="filter-price">--%>
+<%--                                                <div class="filter-price-text">--%>
+<%--                                                    <div class="select-custom">--%>
+<%--                                                        <select name="sortbyKhoangGia" id="sortby" class="form-control">--%>
+<%--                                                            <option value="" selected="selected">Lựa chọn khoảng giá</option>--%>
+<%--                                                            <option value="500000"> < 500.000 vnđ   </option>--%>
+<%--                                                            <option value="10000000"> < 1.000.000 vnđ </option>--%>
+<%--                                                            <option value="10000000"> > 1.000.000 vnđ </option>--%>
+<%--                                                            <!-- <option value="date"></option> -->--%>
+<%--                                                        </select>--%>
+<%--                                                    </div>--%>
+<%--&lt;%&ndash;                                                    <span id="filter-price-range"></span>&ndash;%&gt;--%>
+<%--                                                </div><!-- End .filter-price-text -->--%>
 
-                                                <div id="price-slider"></div><!-- End #price-slider -->
-                                            </div><!-- End .filter-price -->
-                                        </div><!-- End .widget-body -->
-                                    </div><!-- End .collapse -->
-                                </div><!-- End .widget -->
+<%--                                                <div id="price-slider"></div><!-- End #price-slider -->--%>
+<%--                                            </div><!-- End .filter-price -->--%>
+<%--                                        </div><!-- End .widget-body -->--%>
+<%--                                    </div><!-- End .collapse -->--%>
+<%--                                </div>--%>
 
                                 <div class="widget widget-collapsible">
                                     <h3 class="w-100">
@@ -1182,6 +1182,10 @@
 
         });
 
+    }
+
+    function  lamMoiTrangXemToanBoSanPham(){
+        window.location="http://localhost:8080/gio-hang/view-xemToanBoSanPham";
     }
 
 </script>

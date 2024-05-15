@@ -13,4 +13,5 @@ public interface PhieuGiamGiaService {
     void add(PhieuGiamGia phieuGiamGia);
     PhieuGiamGia detail(UUID id);
     PhieuGiamGia update(UUID id,PhieuGiamGia phieuGiamGia);
+    PhieuGiamGia chiTietTheoId(UUID id) ;
 }

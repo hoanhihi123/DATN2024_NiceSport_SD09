@@ -54,7 +54,7 @@ public class CartController {
     ) {
         HttpSession session = request.getSession();
         GioHang cartThanhToan = new GioHang();
-        session.setAttribute("cartThanhToan",cartThanhToan);
+        session.setAttribute("cartThanhToan", cartThanhToan);
         // lấy giỏ hàng
         Double totalCartPrice = 0.0;
 
@@ -66,7 +66,7 @@ public class CartController {
         if (session.getAttribute("cart") != null) {
             cart = (GioHang) session.getAttribute("cart");
             List<SanPhamTrongGioHang> dsSanPhamTrongGio = cart.getDs_SanPhamTrongGioHang();
-            totalCartPrice = dsSanPhamTrongGio.stream().mapToDouble(x -> x.getSoLuong()*x.getGia()).sum();
+            totalCartPrice = dsSanPhamTrongGio.stream().mapToDouble(x -> x.getSoLuong() * x.getGia()).sum();
 
             model.addAttribute("totalCartPrice", totalCartPrice);
             model.addAttribute("totalCartProducts", session.getAttribute("totalCartProducts"));
@@ -87,13 +87,13 @@ public class CartController {
         dsSanPhamTrongGio = cart.getDs_SanPhamTrongGioHang();
 
         Integer tongSLSP_trongGio = 0;
-        for(SanPhamTrongGioHang sanPham : dsSanPhamTrongGio){
-            tongSLSP_trongGio+=sanPham.getSoLuong();
+        for (SanPhamTrongGioHang sanPham : dsSanPhamTrongGio) {
+            tongSLSP_trongGio += sanPham.getSoLuong();
         }
         System.out.println("Tổng số lượng sản phẩm trong giỏ : " + tongSLSP_trongGio);
 
         model.addAttribute("sanPhamTrongGio", dsSanPhamTrongGio);
-        model.addAttribute("tongSoLuongSanPhamTrongGio",tongSLSP_trongGio);
+        model.addAttribute("tongSoLuongSanPhamTrongGio", tongSLSP_trongGio);
         model.addAttribute("errorMessage", errorMessage);
         model.addAttribute("message", message);
 
@@ -111,7 +111,7 @@ public class CartController {
 
         // lấy ra danh sách sản phẩm được thêm vào giỏ
         GioHang cartThanhToan = (GioHang) session.getAttribute("cartThanhToan");
-        GioHang gioHangKH = (GioHang)session.getAttribute("cart");
+        GioHang gioHangKH = (GioHang) session.getAttribute("cart");
         List<SanPhamTrongGioHang> dsSanPhamTrongGio = new ArrayList<>();
 //        if(gioHangKH==null){
 //            model.addAttribute("gioHangRong",true);
@@ -119,10 +119,10 @@ public class CartController {
 //        }
 
         dsSanPhamTrongGio = cartThanhToan.getDs_SanPhamTrongGioHang();
-        if (cartThanhToan != null && dsSanPhamTrongGio.size()>0) {
+        if (cartThanhToan != null && dsSanPhamTrongGio.size() > 0) {
 //            System.out.println("Lấy danh sách đã được thêm vào giỏ hàng thanh toán");
             dsSanPhamTrongGio = cartThanhToan.getDs_SanPhamTrongGioHang();
-        }else{
+        } else {
 //            System.out.println("Lấy danh sách sản phẩm có trong giỏ hàng");
             dsSanPhamTrongGio = gioHangKH.getDs_SanPhamTrongGioHang();
             for (SanPhamTrongGioHang sanPhamGio : dsSanPhamTrongGio) {
@@ -131,7 +131,7 @@ public class CartController {
         }
 
         Double tongTienDonHang = dsSanPhamTrongGio.stream().mapToDouble(sp -> sp.getGia() * sp.getSoLuong()).sum();
-        Integer tongCanNangDonHang = dsSanPhamTrongGio.stream().mapToInt(sp -> (int) (sp.getTrongLuong()*sp.getSoLuong())).sum();
+        Integer tongCanNangDonHang = dsSanPhamTrongGio.stream().mapToInt(sp -> (int) (sp.getTrongLuong() * sp.getSoLuong())).sum();
 //        System.out.println("Tổng cân nặng đơn hàng : "  + tongCanNangDonHang);
 //        System.out.println("Tổng tiền đơn hàng " +  tongTienDonHang);
         model.addAttribute("dsSanPham", dsSanPhamTrongGio);
@@ -150,7 +150,7 @@ public class CartController {
             sb.append(scanner.nextLine());
         }
         ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.readValue(sb.toString().getBytes(StandardCharsets.UTF_8),Object.class);
+        objectMapper.readValue(sb.toString().getBytes(StandardCharsets.UTF_8), Object.class);
     }
 
     @PostMapping("/dat-hang")
@@ -181,8 +181,8 @@ public class CartController {
         // hết lỗi trên form thanh toán => check tiếp hình thức thanh toán
         String hinhThucThanhToan = request.getParameter("hinhThucThanhToan");
 //        System.out.println("Hình thức thanh toán" + hinhThucThanhToan);
-        if(hinhThucThanhToan.equals("vnpay")){
-            session.setAttribute("ThongTinDatHang",datHangRequest);
+        if (hinhThucThanhToan.equals("2")) {
+            session.setAttribute("ThongTinDatHang", datHangRequest);
             return "redirect:/apivnpay/create";
         }
 
@@ -205,13 +205,13 @@ public class CartController {
         hoaDon.setQuan_huyen(datHangRequest.getQuan_huyen());
         hoaDon.setPhuong_xa(datHangRequest.getPhuong_xa());
         hoaDon.setHinhThucTT(datHangRequest.getHinhThucThanhToan());
-        hoaDon.setLoaiHoaDon("2");
+        hoaDon.setLoaiHoaDon("3");
         hoaDon.setNgayTao(Constant.getDateNowByTime());
         hoaDon.setNgaySua(Constant.getDateNowByTime());
         hoaDon.setMa("HD-" + maHoaDon);
 
-        hoaDon.setTienVanChuyen(datHangRequest.getPhiShip());
-        hoaDon.setTongTienThanhToan(datHangRequest.getTongTienDonHang());
+        hoaDon.setTienVanChuyen(datHangRequest.getPhiShip() * 1000);
+        hoaDon.setTongTienThanhToan(datHangRequest.getTongTienDonHang() * 1000);
 
         hoaDon.setTrangThai("1");
 
@@ -233,7 +233,7 @@ public class CartController {
             HoaDonChiTiet hoaDonChiTiet = new HoaDonChiTiet();
             // chi tiet san pham
             ChiTietSanPham chiTietSanPham = new ChiTietSanPham();
-            chiTietSanPham.setId(sanPhamGio.getIdSanPhamCT());
+            chiTietSanPham = chiTietSPService.chiTietTheoId(sanPhamGio.getIdSanPhamCT());
 
             hoaDonChiTiet.setChiTietSanPham(chiTietSanPham);
             // hóa đơn
@@ -241,10 +241,18 @@ public class CartController {
             hoaDon2.setId(id_hoaDon);
             hoaDonChiTiet.setHoaDon(hoaDon2);
 
+            Double giaGiam = 0.0;
+            if(chiTietSanPham.getGiaTriGiam()!=null){
+                giaGiam = chiTietSanPham.getGiaTriGiam()<=0||chiTietSanPham.getGiaTriGiam()==null?0:chiTietSanPham.getGiaTriGiam();
+
+            }
+            hoaDonChiTiet.setGiaSauGiam(giaGiam);
+            hoaDonChiTiet.setGiaGocSP(chiTietSanPham.getGiaTriSanPham());
+
             hoaDonChiTiet.setDonGia(sanPhamGio.getGia());
             hoaDonChiTiet.setSoLuong(sanPhamGio.getSoLuong());
             hoaDonChiTiet.setNgayTao(Constant.getDateNow());
-
+            hoaDonChiTiet.setTrangThai(1);
 
             // them sản phẩm vào hóa đơn chi tiết
             hoaDonChiTietService.themMoi(hoaDonChiTiet);
@@ -310,9 +318,9 @@ public class CartController {
 
         // tạo 1 danh sách sản phẩm mới => lưu danh sách sản phẩm chi tiết sẽ hiển thị lên trang chủ
         List<ChiTietSanPham> dsSanPhamCT_new = new ArrayList<>();
-        for(UUID idSanPham : ds_uuidSanPham_tuSPCT){
-            for(ChiTietSanPham sanPhamCT : dsSanPhamCT){
-                if(idSanPham.equals(sanPhamCT.getSanPham().getId())){
+        for (UUID idSanPham : ds_uuidSanPham_tuSPCT) {
+            for (ChiTietSanPham sanPhamCT : dsSanPhamCT) {
+                if (idSanPham.equals(sanPhamCT.getSanPham().getId())) {
                     dsSanPhamCT_new.add(sanPhamCT);
                     break;
                 }
@@ -326,9 +334,9 @@ public class CartController {
 //        model.addAttribute("dsLoaiSP_trongSanPhamCT", dsLoaiSPTrongSanPhamCT);
 
         session = httpServletRequest.getSession();
-        Integer soLuongSanPhamTrongGio = (Integer) session.getAttribute("totalCartProducts")==null?0:(Integer) session.getAttribute("totalCartProducts");
+        Integer soLuongSanPhamTrongGio = (Integer) session.getAttribute("totalCartProducts") == null ? 0 : (Integer) session.getAttribute("totalCartProducts");
 //        System.out.println("Số lượng sản phẩm trong giỏ : " + soLuongSanPhamTrongGio);
-        model.addAttribute("totalCartProducts",soLuongSanPhamTrongGio);
+        model.addAttribute("totalCartProducts", soLuongSanPhamTrongGio);
 
         return "customer/gioHang/trang_chu_daSua";
     }
@@ -347,9 +355,9 @@ public class CartController {
 
         // tạo 1 danh sách sản phẩm mới => lưu danh sách sản phẩm chi tiết sẽ hiển thị lên trang chủ
         List<ChiTietSanPham> dsSanPhamCT_new = new ArrayList<>();
-        for(UUID idSanPham : ds_uuidSanPham_tuSPCT){
-            for(ChiTietSanPham sanPhamCT : dsSanPhamCT){
-                if(idSanPham.equals(sanPhamCT.getSanPham().getId())){
+        for (UUID idSanPham : ds_uuidSanPham_tuSPCT) {
+            for (ChiTietSanPham sanPhamCT : dsSanPhamCT) {
+                if (idSanPham.equals(sanPhamCT.getSanPham().getId())) {
                     dsSanPhamCT_new.add(sanPhamCT);
                     break;
                 }
@@ -363,9 +371,9 @@ public class CartController {
 //        model.addAttribute("dsLoaiSP_trongSanPhamCT", dsLoaiSPTrongSanPhamCT);
 
         session = httpServletRequest.getSession();
-        Integer soLuongSanPhamTrongGio = (Integer) session.getAttribute("totalCartProducts")==null?0:(Integer) session.getAttribute("totalCartProducts");
+        Integer soLuongSanPhamTrongGio = (Integer) session.getAttribute("totalCartProducts") == null ? 0 : (Integer) session.getAttribute("totalCartProducts");
 //        System.out.println("Số lượng sản phẩm trong giỏ : " + soLuongSanPhamTrongGio);
-        model.addAttribute("totalCartProducts",soLuongSanPhamTrongGio);
+        model.addAttribute("totalCartProducts", soLuongSanPhamTrongGio);
 
         return "customer/gioHang/xemToanBoSanPham";
     }
@@ -373,7 +381,7 @@ public class CartController {
     @GetMapping("/getListLoaiSanPham_countNumber")
     public ResponseEntity<?> getListProductDetail(
             Model model
-    ){
+    ) {
         List<LoaiSanPham> danhSach_loaiSanPham = new ArrayList<>();
         danhSach_loaiSanPham = loaiSanPhamService.layDanhSach();
 
@@ -390,10 +398,10 @@ public class CartController {
         // chạy hết for 2 => được tổng đếm => lưu id loai, số lượng đếm được
         // lưu danh sách loại sản phẩm đếm được vào danh sách
         int count = 0;
-        for(LoaiSanPham loaiSanPham : danhSach_loaiSanPham){
+        for (LoaiSanPham loaiSanPham : danhSach_loaiSanPham) {
             count = 0;
-            for(ChiTietSanPham chiTietSanPham : ds_chiTietSanPham){
-                if(chiTietSanPham.getLoaiSanPham().getId().equals(loaiSanPham.getId())){
+            for (ChiTietSanPham chiTietSanPham : ds_chiTietSanPham) {
+                if (chiTietSanPham.getLoaiSanPham().getId().equals(loaiSanPham.getId())) {
                     count++;
                 }
             }
@@ -437,8 +445,8 @@ public class CartController {
             cart = (GioHang) session.getAttribute("cart"); // nếu cart đang tồn tại giá trị thì gán giá trị đang tồn tại của cart này vào
 
             dsSanPhamGioHangN = cart.getDs_SanPhamTrongGioHang();
-            for(SanPhamTrongGioHang sanPhamDuocChon : dsSanPhamGioHangN){
-                if(sanPhamDuocChon.getIdSanPhamCT().equals(sanPhamTrongGioHang.getIdSanPhamCT())){
+            for (SanPhamTrongGioHang sanPhamDuocChon : dsSanPhamGioHangN) {
+                if (sanPhamDuocChon.getIdSanPhamCT().equals(sanPhamTrongGioHang.getIdSanPhamCT())) {
                     soLuongSPTrongGio = sanPhamDuocChon.getSoLuong();
                     break;
                 }
@@ -451,7 +459,7 @@ public class CartController {
 
         // TH: tổng số lượng mua + tổng số lượng trong giỏ > số lượng trong kho ( số lượng mua - vượt quá số lượng trong kho )
         // đưa ra thông báo số lượng mua vượt quá
-        if((soLuongMuonMua+soLuongSPTrongGio)>soLuongSPTrongKho){
+        if ((soLuongMuonMua + soLuongSPTrongGio) > soLuongSPTrongKho) {
             int totalCartProducts = dsSanPhamGioHangN.size();
 
             Map<String, Object> jsonResult = new HashMap<String, Object>();
@@ -463,8 +471,8 @@ public class CartController {
             // hiển thị số lượng sản phẩm đã thêm vào giỏ
 
             jsonResult.put("totalCartProducts", totalCartProducts);
-            jsonResult.put("soLuongSPTrongKho",soLuongSPTrongKho);
-            jsonResult.put("soLuongCuaSanPhamChon_trongGioDaThem",soLuongSPTrongGio);
+            jsonResult.put("soLuongSPTrongKho", soLuongSPTrongKho);
+            jsonResult.put("soLuongCuaSanPhamChon_trongGioDaThem", soLuongSPTrongGio);
 
 //            jsonResult.put("soLuongSPTrongGio",soLuongSPTrongGio);
 
@@ -508,7 +516,7 @@ public class CartController {
             System.out.println("Gia tri giam : " + giaTriGiam);
             System.out.println("gia tri san pham : " + giaTriSanPham);
 
-            if (giaTriGiam ==null || giaTriGiam<=0.0) {
+            if (giaTriGiam == null || giaTriGiam <= 0.0) {
                 giaMua = giaTriSanPham;
             } else {
                 giaMua = giaTriGiam;
@@ -528,7 +536,7 @@ public class CartController {
 //        model.addAttribute("sanPhamTrongGio", dsSanPhamTrongGios);
 
         int tongSoLuongTrongGio = cart.getDs_SanPhamTrongGioHang().size();
-        Double tongTien = cart.getDs_SanPhamTrongGioHang().stream().mapToDouble(x -> x.getGia()*x.getSoLuong()).sum();
+        Double tongTien = cart.getDs_SanPhamTrongGioHang().stream().mapToDouble(x -> x.getGia() * x.getSoLuong()).sum();
 
 
 //        if(cart.getDs_SanPhamTrongGioHang().size()>0){
@@ -549,12 +557,11 @@ public class CartController {
         jsonResult.put("code", 200);
         jsonResult.put("status", "Success");
         jsonResult.put("totalCartProducts", tongSoLuongTrongGio);
-        jsonResult.put("totalPriceResult",tongTien );
+        jsonResult.put("totalPriceResult", tongTien);
         jsonResult.put("soLuongMuaVuotQua", false);
 
         return ResponseEntity.ok(jsonResult);
     }
-
 
 
     @PostMapping("/capNhatSoLuongSPCT")
@@ -583,11 +590,11 @@ public class CartController {
             session.setAttribute("cart", cart);
         }
 
-        if(soLuongSPTrongGio>soLuongSPTrongKho){
+        if (soLuongSPTrongGio > soLuongSPTrongKho) {
             System.out.println("== >>>> Số lượng mua vượt quá cho phép ");
 
             int tongSoLuongTrongGio = dsSanPhamGioHangN.stream().mapToInt(SanPhamTrongGioHang::getSoLuong).sum();
-            Double tongTien = cart.getDs_SanPhamTrongGioHang().stream().mapToDouble(x -> x.getGia()*x.getSoLuong()).sum();
+            Double tongTien = cart.getDs_SanPhamTrongGioHang().stream().mapToDouble(x -> x.getGia() * x.getSoLuong()).sum();
 
 
             // lưu cart vào giỏ
@@ -628,7 +635,7 @@ public class CartController {
         }
 
         int tongSoLuongTrongGio = dsSanPhamTrongGio.stream().mapToInt(SanPhamTrongGioHang::getSoLuong).sum();
-        Double tongTien = cart.getDs_SanPhamTrongGioHang().stream().mapToDouble(x -> x.getGia()*x.getSoLuong()).sum();
+        Double tongTien = cart.getDs_SanPhamTrongGioHang().stream().mapToDouble(x -> x.getGia() * x.getSoLuong()).sum();
 
 
         // lưu cart vào giỏ
@@ -652,40 +659,40 @@ public class CartController {
             , final HttpServletRequest request
             , final HttpServletResponse response
             , @RequestBody LocSanPhamChiTietRequest locSanPhamChiTietRequest
-            ) throws IOException {
+    ) throws IOException {
         List<String> ds_tenMauSac = new ArrayList<>();
-        if(locSanPhamChiTietRequest.getDs_uuid_mauSac()!=null){
+        if (locSanPhamChiTietRequest.getDs_uuid_mauSac() != null) {
             ds_tenMauSac = locSanPhamChiTietRequest.getDs_uuid_mauSac();
-        }else{
+        } else {
             ds_tenMauSac.add("");
         }
 
         System.out.println("Danh sách tên mầu sắc search : ");
-        for(String mauSac : ds_tenMauSac){
+        for (String mauSac : ds_tenMauSac) {
             System.out.println(mauSac);
         }
 
         List<String> ds_tenLoaiSP = new ArrayList<>();
-        if(locSanPhamChiTietRequest.getDs_uuid_loaiSP()!=null){
+        if (locSanPhamChiTietRequest.getDs_uuid_loaiSP() != null) {
             ds_tenLoaiSP = locSanPhamChiTietRequest.getDs_uuid_loaiSP();
-        }else{
+        } else {
             ds_tenLoaiSP.add("");
         }
 
         System.out.println("Danh sách tên loại sản phẩm search : ");
-        for(String loaiSP : ds_tenLoaiSP){
+        for (String loaiSP : ds_tenLoaiSP) {
             System.out.println(loaiSP);
         }
 
         List<String> ds_sizeGiay = new ArrayList<>();
-        if(locSanPhamChiTietRequest.getDs_uuid_sizeGiay()!=null){
+        if (locSanPhamChiTietRequest.getDs_uuid_sizeGiay() != null) {
             ds_sizeGiay = locSanPhamChiTietRequest.getDs_uuid_sizeGiay();
-        }else{
+        } else {
             ds_sizeGiay.add("");
         }
 
         System.out.println("Danh sách tên size giày search : ");
-        for(String sizeGiay : ds_sizeGiay){
+        for (String sizeGiay : ds_sizeGiay) {
             System.out.println(sizeGiay);
         }
 
@@ -693,7 +700,7 @@ public class CartController {
         List<ChiTietSanPham> dsSanPhamCT = chiTietSPService.locSanPhamChiTiet_layDanhSachSPCT(ds_tenLoaiSP, ds_sizeGiay, ds_tenMauSac);
 
         System.out.println("Danh sách sản phẩm sau khi tìm kiếm được :");
-        for(ChiTietSanPham chiTietSanPham : dsSanPhamCT){
+        for (ChiTietSanPham chiTietSanPham : dsSanPhamCT) {
             System.out.println(chiTietSanPham.toString());
         }
 
@@ -713,9 +720,9 @@ public class CartController {
 
         // tạo 1 danh sách sản phẩm mới => lưu danh sách sản phẩm chi tiết sẽ hiển thị lên trang chủ
         List<ChiTietSanPham> dsSanPhamCT_new = new ArrayList<>();
-        for(UUID idSanPham : ds_uuidSanPham_tuSPCT){
-            for(ChiTietSanPham sanPhamCT : dsSanPhamCT){
-                if(idSanPham.equals(sanPhamCT.getSanPham().getId())){
+        for (UUID idSanPham : ds_uuidSanPham_tuSPCT) {
+            for (ChiTietSanPham sanPhamCT : dsSanPhamCT) {
+                if (idSanPham.equals(sanPhamCT.getSanPham().getId())) {
                     dsSanPhamCT_new.add(sanPhamCT);
                     break;
                 }
@@ -729,19 +736,19 @@ public class CartController {
 //        model.addAttribute("dsLoaiSP_trongSanPhamCT", dsLoaiSPTrongSanPhamCT);
 
         session = request.getSession();
-        Integer soLuongSanPhamTrongGio = (Integer) session.getAttribute("totalCartProducts")==null?0:(Integer) session.getAttribute("totalCartProducts");
+        Integer soLuongSanPhamTrongGio = (Integer) session.getAttribute("totalCartProducts") == null ? 0 : (Integer) session.getAttribute("totalCartProducts");
 //        System.out.println("Số lượng sản phẩm trong giỏ : " + soLuongSanPhamTrongGio);
-        model.addAttribute("totalCartProducts",soLuongSanPhamTrongGio);
+        model.addAttribute("totalCartProducts", soLuongSanPhamTrongGio);
 
         // lưu cart vào giỏ
 //        session.setAttribute("cart", cart);
-        session.setAttribute("totalAllProducts",soLuongSanPhamTrongGio);
+        session.setAttribute("totalAllProducts", soLuongSanPhamTrongGio);
 
         Map<String, Object> jsonResult = new HashMap<String, Object>();
         jsonResult.put("code", 200);
         jsonResult.put("status", "Success");
-        jsonResult.put("totalAllProducts",soLuongSanPhamTrongGio);
-        jsonResult.put("danhSachSanPhamCT",dsSanPhamCT_new);
+        jsonResult.put("totalAllProducts", soLuongSanPhamTrongGio);
+        jsonResult.put("danhSachSanPhamCT", dsSanPhamCT_new);
 
 
         return ResponseEntity.ok(jsonResult);
@@ -769,17 +776,17 @@ public class CartController {
             session.setAttribute("cart", cart);
         }
 
-        int tongSoLuongTrongGio = dsSanPhamGioHangN!=null?dsSanPhamGioHangN.stream().mapToInt(SanPhamTrongGioHang::getSoLuong).sum():0;
+        int tongSoLuongTrongGio = dsSanPhamGioHangN != null ? dsSanPhamGioHangN.stream().mapToInt(SanPhamTrongGioHang::getSoLuong).sum() : 0;
         System.out.println("Tổng số lượng toàn bộ sản phẩm trong giỏ : " + tongSoLuongTrongGio);
 
         // lưu cart vào giỏ
         session.setAttribute("cart", cart);
-        session.setAttribute("totalAllProducts",tongSoLuongTrongGio);
+        session.setAttribute("totalAllProducts", tongSoLuongTrongGio);
 
         Map<String, Object> jsonResult = new HashMap<String, Object>();
         jsonResult.put("code", 200);
         jsonResult.put("status", "Success");
-        jsonResult.put("totalAllProducts",tongSoLuongTrongGio);
+        jsonResult.put("totalAllProducts", tongSoLuongTrongGio);
 
 
         return ResponseEntity.ok(jsonResult);
@@ -814,7 +821,7 @@ public class CartController {
             cart.getDs_SanPhamTrongGioHang().add(sanPhamTrongGioHang);
         }
 
-        Double tongTien = cart.getDs_SanPhamTrongGioHang().stream().mapToDouble(x -> x.getGia()*x.getSoLuong()).sum();
+        Double tongTien = cart.getDs_SanPhamTrongGioHang().stream().mapToDouble(x -> x.getGia() * x.getSoLuong()).sum();
 
 
         // lưu cart vào giỏ
@@ -868,7 +875,7 @@ public class CartController {
             sanPhamMoiThem.setSanPham(chiTietSanPham.getSanPham());
             sanPhamMoiThem.setMauSac(chiTietSanPham.getMauSac());
             sanPhamMoiThem.setKichCo(chiTietSanPham.getKichCo());
-            sanPhamMoiThem.setGia((chiTietSanPham.getGiaTriGiam()>0)?chiTietSanPham.getGiaTriGiam():chiTietSanPham.getGiaTriSanPham());
+            sanPhamMoiThem.setGia((chiTietSanPham.getGiaTriGiam() > 0) ? chiTietSanPham.getGiaTriGiam() : chiTietSanPham.getGiaTriSanPham());
             sanPhamMoiThem.setNumberCheck(1);
             sanPhamMoiThem.setSoLuong(sanPhamTrongGioHang.getSoLuong());
             sanPhamMoiThem.setHinhAnh(chiTietSanPham.getHinhAnh());  // chưa xử lý được hình ảnh
@@ -923,7 +930,7 @@ public class CartController {
                         sanPhamMoiThem.setSanPham(chiTietSanPham.getSanPham());
                         sanPhamMoiThem.setMauSac(chiTietSanPham.getMauSac());
                         sanPhamMoiThem.setKichCo(chiTietSanPham.getKichCo());
-                        sanPhamMoiThem.setGia((chiTietSanPham.getGiaTriGiam()>0)?chiTietSanPham.getGiaTriGiam():chiTietSanPham.getGiaTriSanPham());
+                        sanPhamMoiThem.setGia((chiTietSanPham.getGiaTriGiam() > 0) ? chiTietSanPham.getGiaTriGiam() : chiTietSanPham.getGiaTriSanPham());
                         sanPhamMoiThem.setNumberCheck(1);
                         sanPhamMoiThem.setSoLuong(sanPhamTrongGioHang.getSoLuong());
                         sanPhamMoiThem.setHinhAnh(chiTietSanPham.getHinhAnh());  // chưa xử lý được hình ảnh
@@ -1042,8 +1049,8 @@ public class CartController {
             cart = (GioHang) session.getAttribute("cart"); // nếu cart đang tồn tại giá trị thì gán giá trị đang tồn tại của cart này vào
 
             dsSanPhamGioHangN = cart.getDs_SanPhamTrongGioHang();
-            for(SanPhamTrongGioHang sanPhamDuocChon : dsSanPhamGioHangN){
-                if(sanPhamDuocChon.getIdSanPhamCT().equals(sanPhamTrongGioHang.getIdSanPhamCT())){
+            for (SanPhamTrongGioHang sanPhamDuocChon : dsSanPhamGioHangN) {
+                if (sanPhamDuocChon.getIdSanPhamCT().equals(sanPhamTrongGioHang.getIdSanPhamCT())) {
                     soLuongSPTrongGio = sanPhamDuocChon.getSoLuong();
                     break;
                 }
@@ -1055,15 +1062,15 @@ public class CartController {
         }
 
 
-        if((soLuongMuonMua+soLuongSPTrongGio)>soLuongSPTrongKho){
+        if ((soLuongMuonMua + soLuongSPTrongGio) > soLuongSPTrongKho) {
 //            model.addAttribute("soLuongMuaVuotQua",true);
             Map<String, Object> jsonResult = new HashMap<String, Object>();
             jsonResult.put("code", 200);
             jsonResult.put("status", "Success");
-            int tongSoLuongTrongGio = (dsSanPhamGioHangN!=null?dsSanPhamGioHangN.size():0);
+            int tongSoLuongTrongGio = (dsSanPhamGioHangN != null ? dsSanPhamGioHangN.size() : 0);
             jsonResult.put("totalCartProducts", tongSoLuongTrongGio);
-            jsonResult.put("soLuongMuaVuotQua", true );
-            jsonResult.put("giaTriSoLuongCoTheMua", (soLuongSPTrongKho-soLuongSPTrongGio)>0?(soLuongSPTrongKho-soLuongSPTrongGio):0);
+            jsonResult.put("soLuongMuaVuotQua", true);
+            jsonResult.put("giaTriSoLuongCoTheMua", (soLuongSPTrongKho - soLuongSPTrongGio) > 0 ? (soLuongSPTrongKho - soLuongSPTrongGio) : 0);
 
 
             return ResponseEntity.ok(jsonResult);
@@ -1103,7 +1110,7 @@ public class CartController {
             System.out.println("Gia tri giam : " + giaTriGiam);
             System.out.println("gia tri san pham : " + giaTriSanPham);
 
-            if (giaTriGiam ==null || giaTriGiam<=0.0) {
+            if (giaTriGiam == null || giaTriGiam <= 0.0) {
                 giaMua = giaTriSanPham;
             } else {
                 giaMua = giaTriGiam;
@@ -1121,9 +1128,9 @@ public class CartController {
         model.addAttribute("sanPhamTrongGio", dsSanPhamTrongGios);
 
         Double tongTien = 0.0;
-        if(cart.getDs_SanPhamTrongGioHang().size()>0){
-            for(SanPhamTrongGioHang dsSP : cart.getDs_SanPhamTrongGioHang()){
-                tongTien+=dsSP.getGia()*dsSP.getSoLuong();
+        if (cart.getDs_SanPhamTrongGioHang().size() > 0) {
+            for (SanPhamTrongGioHang dsSP : cart.getDs_SanPhamTrongGioHang()) {
+                tongTien += dsSP.getGia() * dsSP.getSoLuong();
             }
         }
 
@@ -1149,7 +1156,7 @@ public class CartController {
     ) {
         HttpSession session = httpServletRequest.getSession();  // tạo mới 1 session
         GioHang cartThanhToan = new GioHang();
-        session.setAttribute("cartThanhToan",cartThanhToan);
+        session.setAttribute("cartThanhToan", cartThanhToan);
 
         Map<String, Object> jsonResult = new HashMap<String, Object>();
         jsonResult.put("code", 200);
@@ -1176,7 +1183,7 @@ public class CartController {
         hoaDon.setDiaChi(datHangRequest.getDiaChi());
         hoaDon.setGhiChu(datHangRequest.getGhiChu());
         hoaDon.setSoDT(datHangRequest.getSoDT());
-        hoaDon.setTongTienThanhToan(gioHangThanhToan.tongTienTrongGioHang());
+//        hoaDon.setTongTienThanhToan(gioHangThanhToan.tongTienTrongGioHang()*1000);
         hoaDon.setEmail(datHangRequest.getEmail());
         hoaDon.setNgayTao(Constant.getDateNowByTime());
         hoaDon.setNgaySua(Constant.getDateNowByTime());
@@ -1188,10 +1195,10 @@ public class CartController {
         hoaDon.setHinhThucTT("2");
         hoaDon.setLoaiHoaDon("2");
 
-        hoaDon.setTienVanChuyen(datHangRequest.getPhiShip());
-        hoaDon.setTongTienThanhToan(datHangRequest.getTongTienDonHang());
+        hoaDon.setTienVanChuyen(datHangRequest.getPhiShip()*1000);
+        hoaDon.setTongTienThanhToan(datHangRequest.getTongTienDonHang()*1000);
         hoaDon.setTrangThai("1");
-        hoaDon.setMa("HD-" +maHoaDon);
+        hoaDon.setMa("HD-" + maHoaDon);
 
         // thêm thông tin đơn hàng vào hóa đơn - trong database
         HoaDon hoaDon1 = hoaDonService.themMoi(hoaDon);
@@ -1211,7 +1218,7 @@ public class CartController {
             HoaDonChiTiet hoaDonChiTiet = new HoaDonChiTiet();
             // chi tiet san pham
             ChiTietSanPham chiTietSanPham = new ChiTietSanPham();
-            chiTietSanPham.setId(sanPhamGio.getIdSanPhamCT());
+            chiTietSanPham = chiTietSPService.chiTietTheoId(sanPhamGio.getIdSanPhamCT());
 
             hoaDonChiTiet.setChiTietSanPham(chiTietSanPham);
             // hóa đơn
@@ -1219,10 +1226,18 @@ public class CartController {
             hoaDon2.setId(id_hoaDon);
             hoaDonChiTiet.setHoaDon(hoaDon2);
 
+            Double giaGiam = 0.0;
+            if(chiTietSanPham.getGiaTriGiam()!=null){
+                giaGiam = chiTietSanPham.getGiaTriGiam()<=0||chiTietSanPham.getGiaTriGiam()==null?0:chiTietSanPham.getGiaTriGiam();
+
+            }
+
+            hoaDonChiTiet.setGiaSauGiam(giaGiam);
+            hoaDonChiTiet.setGiaGocSP(chiTietSanPham.getGiaTriSanPham());
             hoaDonChiTiet.setDonGia(sanPhamGio.getGia());
             hoaDonChiTiet.setSoLuong(sanPhamGio.getSoLuong());
             hoaDonChiTiet.setNgayTao(Constant.getDateNow());
-
+            hoaDonChiTiet.setTrangThai(1);
 
             // them sản phẩm vào hóa đơn chi tiết
             hoaDonChiTietService.themMoi(hoaDonChiTiet);
@@ -1270,7 +1285,7 @@ public class CartController {
 
         session.setAttribute("totalCartProducts", tongSoLuongTrongGio);
 
-        session.setAttribute("ThongTinDatHang",new HoaDonRequest());
+        session.setAttribute("ThongTinDatHang", new HoaDonRequest());
 
 //        System.out.println("Đặt hàng thành công sau khi thanh toán vnpay");
         return "redirect:/gio-hang/view-trangChu2";
@@ -1280,22 +1295,22 @@ public class CartController {
 //    public ResponseEntity<Map<String, Object>> updateNumberOfCart(
 
     @GetMapping("/kiemTraSoLuongSPTrongGio")
-    public ResponseEntity<Map<String , Object>> kiemTraSoLuongSPTrongGio(
+    public ResponseEntity<Map<String, Object>> kiemTraSoLuongSPTrongGio(
             Model model,
             HttpServletRequest request
-    ){
+    ) {
         HttpSession session = request.getSession();
         GioHang cart = (GioHang) session.getAttribute("cart");
 
         boolean checkResult = false;
-        if(cart==null){
+        if (cart == null) {
             checkResult = true;
         }
 
         Map<String, Object> jsonResult = new HashMap<>();
-        jsonResult.put("code",200);
-        jsonResult.put("status","Success");
-        jsonResult.put("checkResult",checkResult);
+        jsonResult.put("code", 200);
+        jsonResult.put("status", "Success");
+        jsonResult.put("checkResult", checkResult);
 
         return ResponseEntity.ok(jsonResult);
     }
@@ -1323,12 +1338,12 @@ public class CartController {
         }
 
         Integer tongSoLuongSP = 0;
-        if(dsSanPhamTrongGio!=null){
-            for(SanPhamTrongGioHang sanPhamTrongGio : dsSanPhamTrongGio){
+        if (dsSanPhamTrongGio != null) {
+            for (SanPhamTrongGioHang sanPhamTrongGio : dsSanPhamTrongGio) {
                 System.out.println("ID san pham sua : " + sanPhamTrongGio.getIdSanPhamCT());
                 System.out.println("sanPham gio : " + sanPhamTrongGio.getIdSanPhamCT());
-                if(!sanPhamTrongGioHang.getIdSanPhamCT().equals(sanPhamTrongGio.getIdSanPhamCT())){
-                    tongSoLuongSP+=sanPhamTrongGio.getSoLuong();
+                if (!sanPhamTrongGioHang.getIdSanPhamCT().equals(sanPhamTrongGio.getIdSanPhamCT())) {
+                    tongSoLuongSP += sanPhamTrongGio.getSoLuong();
                 }
             }
         }
@@ -1342,5 +1357,5 @@ public class CartController {
 //        System.out.println("Chạy vào giỏ hàng xong ... cần redirect lại giỏ hàng ");
         return ResponseEntity.ok(jsonResult);
     }
-
 }
+    
