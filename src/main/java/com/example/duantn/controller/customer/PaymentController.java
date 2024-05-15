@@ -30,7 +30,7 @@ public class PaymentController {
         String vnp_Version = "2.1.0";
         String vnp_Command = "pay";
         String orderType = "other";
-        long amount = (datHangRequest!=null?(long) (datHangRequest.getTongTienDonHang() *100):100);
+        long amount = (datHangRequest!=null?(long) (datHangRequest.getTongTienDonHang() *100):100)*1000;
         String bankCode = "NCB";
 
         String vnp_TxnRef = ConfigVNPay.getRandomNumber(8);

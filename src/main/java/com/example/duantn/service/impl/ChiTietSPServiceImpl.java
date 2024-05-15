@@ -2,6 +2,8 @@ package com.example.duantn.service.impl;
 
 import com.example.duantn.model.*;
 import com.example.duantn.repository.ChiTietSanPhamRepository;
+import com.example.duantn.repository.HoaDonCTRepository;
+import com.example.duantn.repository.HoaDonRepository;
 import com.example.duantn.repository.LoaiSanPhamRepository;
 import com.example.duantn.service.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,6 +66,15 @@ public class ChiTietSPServiceImpl implements BaseService<ChiTietSanPham> {
     @Autowired
     LoaiSanPhamRepository repo_loaiSanPham;
 
+    @Autowired
+     HoaDonRepository hoaDonRepository;
+
+    @Autowired
+     HoaDonCTRepository hoaDonCTRepository;
+
+    @Autowired
+     ChiTietSanPhamRepository chiTietSanPhamRepository;
+
     @Override
     public Page<ChiTietSanPham> layDanhSach(Pageable pageable) {
         return repo_chiTietSanPham.getAll(pageable);
@@ -107,8 +118,42 @@ public class ChiTietSPServiceImpl implements BaseService<ChiTietSanPham> {
         return repo_chiTietSanPham.save(chiTietSanPham);
     }
 
-    public ChiTietSanPham capNhat_traVeKetQua(ChiTietSanPham chiTietSanPham) {
-        return repo_chiTietSanPham.save(chiTietSanPham);
+    public ChiTietSanPham capNhat_traVeKetQua(ChiTietSanPham chiTietSanPhamUPDATE) {
+        // lấy ra các hóa đơn chờ trang thái = 0
+        List<HoaDon> danhSach_hoaDonCho = new ArrayList<>();
+        danhSach_hoaDonCho = hoaDonRepository.getHoaDonBy_status(0);
+
+        for(HoaDon hoaDonCho : danhSach_hoaDonCho){
+            List<HoaDonChiTiet> danhSachHoaDonChiTiet_tuongUng = new ArrayList<>();
+            danhSachHoaDonChiTiet_tuongUng = hoaDonCTRepository.getListHoaDonChiTiet_theoIdHoaDon(hoaDonCho.getId());
+            for(HoaDonChiTiet hoaDonChiTiet: danhSachHoaDonChiTiet_tuongUng){
+                // duyệt lần lượt hóa đơn chi tiết - mỗi hóa đơn chi tiết tương ứng với 1 sản phẩm chi tiết
+                // lấy ra thông tin của sản phẩm chi tiết ứng với hóa đơn chi tiết đó => cập nhật lại thông tin cho hóa đơn chi tiết đó
+                HoaDonChiTiet hoaDonChiTiet_update = hoaDonChiTiet;
+                ChiTietSanPham chiTietSanPham = chiTietSanPhamRepository.findById(hoaDonChiTiet.getChiTietSanPham().getId()).orElse(null);
+                hoaDonChiTiet_update.setGiaGocSP(chiTietSanPham.getGiaTriSanPham());
+                Double giaGiam = 0.0;
+                if(chiTietSanPham.getGiaTriGiam()!=null&&chiTietSanPham.getGiaTriGiam()>0){
+                    giaGiam = chiTietSanPham.getGiaTriGiam();
+                }
+                hoaDonChiTiet_update.setGiaSauGiam(giaGiam);
+                Double thanhTien = 0.0;
+                if(chiTietSanPham.getGiaTriGiam()!=null&&chiTietSanPham.getGiaTriGiam()>0) {
+                    thanhTien = chiTietSanPham.getGiaTriGiam()*hoaDonChiTiet_update.getSoLuong();
+                }else {
+                    thanhTien = chiTietSanPham.getGiaTriSanPham()*hoaDonChiTiet_update.getSoLuong();
+                }
+                hoaDonChiTiet_update.setDonGia(thanhTien);
+                System.out.println(">>>>>>>>>>>>>>> tại class scheduled task - cập nhật hóa đơn chi tiết ");
+                System.out.println("Thành tiền : " + thanhTien);
+                System.out.println("Gia giam : " + giaGiam);
+                System.out.println("gia gốc : " + chiTietSanPham.getGiaTriSanPham());
+                System.out.println("Hóa đơn chi tiết được cập nhật : " + hoaDonChiTiet_update.toString());
+                hoaDonCTRepository.save(hoaDonChiTiet_update);
+            }
+        }
+
+        return repo_chiTietSanPham.save(chiTietSanPhamUPDATE);
     }
 
     @Override

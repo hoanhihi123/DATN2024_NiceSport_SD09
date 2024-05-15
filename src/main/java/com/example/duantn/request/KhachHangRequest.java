@@ -14,10 +14,10 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class KhachHangRequest extends BaseModel {
-    @NotBlank(message = "{giohang.taikhoan.notblank}")
+//    @NotBlank(message = "{giohang.taikhoan.notblank}")
     private String taiKhoan;
 
-//    @NotBlank(message = "{giohang.matkhau.notblank}")
+    //    @NotBlank(message = "{giohang.matkhau.notblank}")
     private String matKhau;
 
     private UUID id;

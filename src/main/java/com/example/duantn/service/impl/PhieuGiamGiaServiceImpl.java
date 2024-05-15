@@ -83,4 +83,85 @@ public class PhieuGiamGiaServiceImpl implements PhieuGiamGiaService {
         PhieuGiamGia phieuGiamGia1 = phieuGiamGiaRepository.save(phieuGiamGia);
         return phieuGiamGia1;
     }
+
+    @Override
+    public PhieuGiamGia chiTietTheoId(UUID id) {
+        Optional<PhieuGiamGia> phieuGiamGia = phieuGiamGiaRepository.findById(id);
+        PhieuGiamGia phieuGiamGia1 = phieuGiamGia.get();
+        return phieuGiamGia1;
+    }
+
+    public Boolean kiemTraTrungMaKhong(String maCkeck) {
+        List<PhieuGiamGia> dsPhieuGiam = phieuGiamGiaRepository.getAllTheoMa(maCkeck);
+        Boolean isCheck = false;
+
+        // kiem tra xem ten moi co trung voi cac ten khac khong
+        if (dsPhieuGiam.size() > 0) {
+            isCheck = true;
+        }
+        return isCheck;
+    }
+
+    public Boolean kiemTraTrungMaKhong(String maMoi, String maCu) {
+        List<PhieuGiamGia> dsPhieuGiam = this.layDanhSach();
+        Boolean isCheck = false;
+        Boolean isCheck2 = true;
+
+        // kiem tra xem ma moi co trung voi cac ma khac khong
+        for (PhieuGiamGia phieuGiamGia : dsPhieuGiam) {
+            if (phieuGiamGia.getMa().equalsIgnoreCase(maMoi.trim())) {
+                isCheck = true;
+                break;
+            }
+        }
+
+        // kiem tra xem ma moi co bang ma cu khong
+        if (maMoi.trim().equalsIgnoreCase(maCu)) {
+            isCheck2 = false;
+        }
+
+        return isCheck && isCheck2;
+    }
+
+    public Boolean kiemTraTrungTenKhong(String tenMoi, String tenCu) {
+        List<PhieuGiamGia> dsPhieuGiam = this.layDanhSach();
+        Boolean isCheck = false;
+        Boolean isCheck2 = true;
+
+        // kiem tra xem ten moi co trung voi cac ten khac khong
+        for (PhieuGiamGia phieuGiamGia : dsPhieuGiam) {
+            if (phieuGiamGia.getTenPhieu().equalsIgnoreCase(tenMoi.trim())) {
+                isCheck = true;
+            }
+        }
+
+        // kiem tra xem ten moi co bang ten cu khong
+        if (tenMoi.trim().equalsIgnoreCase(tenCu)) {
+            isCheck2 = false;
+        }
+
+        return isCheck && isCheck2;
+    }
+
+    public Boolean kiemTraTrungTenKhong(String tenCheck) {
+        List<PhieuGiamGia> dsPhieuGiam = this.layDanhSach();
+        Boolean isCheck = false;
+
+        // kiem tra xem ten moi co trung voi cac ten khac khong
+        for (PhieuGiamGia phieuGiamGia : dsPhieuGiam) {
+            if (phieuGiamGia.getTenPhieu().equalsIgnoreCase(tenCheck.trim())) {
+                isCheck = true;
+                break;
+            }
+        }
+        return isCheck;
+    }
+
+//    @Autowired
+//    public PhieuGiamGia chiTietTheoId(UUID idPhieuGiamGia) {
+//        Optional<PhieuGiamGia> phieuGiamGia = phieuGiamGiaRepository.findById(idPhieuGiamGia);
+//        PhieuGiamGia phieuGiamGia1 = phieuGiamGia.get();
+//        return phieuGiamGia1;
+//
+//    }
 }

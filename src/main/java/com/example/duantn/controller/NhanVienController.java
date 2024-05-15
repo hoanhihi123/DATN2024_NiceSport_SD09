@@ -1,13 +1,17 @@
+
 package com.example.duantn.controller;
 
 import com.example.duantn.model.ChucVu;
+import com.example.duantn.model.MauSac;
 import com.example.duantn.model.NhanVien;
+import com.example.duantn.request.MauSacRequest;
 import com.example.duantn.request.NhanVienRequest;
 import com.example.duantn.service.impl.ChucVuServiceImpl;
 import com.example.duantn.service.impl.NhanVienServiceImpl;
 import com.example.duantn.dto.Constant;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -53,7 +57,7 @@ public class NhanVienController {
         model.addAttribute("dsNhanVien", nhanViens);
         model.addAttribute("dsChucVu",dsChucVu);
         model.addAttribute("pageChoosedNumber",currentPage);
-        return "admin/nhanVien/create";
+        return "admin/nhanVien/create1";
     }
 
     @GetMapping("/view-sua/{id}")
@@ -77,6 +81,7 @@ public class NhanVienController {
     ) throws ParseException {
 
         if(result.hasErrors()){
+            model.addAttribute("dsNhanVien",nhanVienService.layDanhSach());
             model.addAttribute("dsChucVu",chucVuService.layDanhSach());
             System.out.println("Có lỗi nhưng không hiện lỗi");
             System.out.println("Ngày sinh của nhân viên : " + request.getNgaySinh());
@@ -91,10 +96,10 @@ public class NhanVienController {
 //            return "admin/sanPham/update";
 //        }
 //
-//        if(nhanVienService.kiemTraTrungTenKhong(request.getHoVaTen(), nhanVienCu.getHoVaTen())){
-//            model.addAttribute("trungTen",true);
-//            return "admin/sanPham/update";
-//        }
+        if(nhanVienService.kiemTraTrungTenKhong(request.getHoVaTen(), nhanVienCu.getHoVaTen())){
+            model.addAttribute("trungTen",true);
+            return "admin/nhanVien/update";
+        }
 
         NhanVien nhanVienUpdate = new NhanVien();
         ChucVu loaiChucVu = new ChucVu();
@@ -103,39 +108,83 @@ public class NhanVienController {
         nhanVienUpdate.setChucVu(loaiChucVu);
 
         nhanVienUpdate.setId(nhanVienCu.getId());
-        nhanVienUpdate.setMa(request.getTaiKhoan());
+        nhanVienUpdate.setMa(request.getMa());
         nhanVienUpdate.setTaiKhoan(request.getTaiKhoan());
         nhanVienUpdate.setMatKhau(request.getMatKhau());
         nhanVienUpdate.setHoVaTen(request.getHoVaTen());
         nhanVienUpdate.setGioiTinh(request.getGioiTinh());
-        nhanVienUpdate.setEmail(request.getEmail());
         nhanVienUpdate.setSdt(request.getSdt());
         nhanVienUpdate.setDiaChi(request.getDiaChi());
         nhanVienUpdate.setTrangThai(request.getTrangThai());
 
         Date ngaySinh = request.getNgaySinh();
         nhanVienUpdate.setNgaySinh(new java.sql.Date(ngaySinh.getTime()));
-        nhanVienUpdate.setTrangThai(request.getTrangThai());
 
-        nhanVienUpdate.setMa(request.getTaiKhoan());
-        nhanVienUpdate.setNguoiTao(1);
-        nhanVienUpdate.setNguoiSua(1);
-        nhanVienUpdate.setNgayTao(Constant.getDateNow());
-        nhanVienUpdate.setNgaySua(Constant.getDateNow());
 
         nhanVienService.capNhat(nhanVienUpdate);
         System.out.println("Sửa dữ liệu thành công");
         model.addAttribute("nhanVien",nhanVienUpdate);
         model.addAttribute("messageSuccess",true);
 
-        return "admin/nhanVien/update";
+        return "admin/nhanVien/update" ;
     }
+
     @PostMapping("/them")
     public String themMoi(
             Model model,
-            @ModelAttribute("nhanVien") NhanVienRequest request
-    ) throws ParseException
-    {
+            @Valid @ModelAttribute("nhanVien") NhanVienRequest request,
+            BindingResult result,
+            @RequestParam(name = "page",defaultValue = "0")
+                    int currentPage,
+            HttpServletRequest httpServletRequest)
+            throws ParseException {
+        if(result.hasErrors()){
+            model.addAttribute("dsNhanVien",nhanVienService.layDanhSach());
+            model.addAttribute("dsChucVu",chucVuService.layDanhSach());
+
+            System.out.println("Có lỗi nhưng không hiện lỗi");
+            System.out.println("Ngày sinh của nhân viên : " + request.getNgaySinh());
+            System.out.println("Lỗi tại : " + result.toString());
+            return "admin/nhanVien/create1";
+        }
+
+        if (nhanVienService.kiemTraTrungMaKhong(request.getMa())) {
+//            System.out.println("Trùng mã rồi ...");
+            model.addAttribute("trungMa", true);
+
+            String textSearch = httpServletRequest.getParameter("textsearch");
+
+            // phan trang
+            Pageable pageable = PageRequest.of(currentPage, Constant.pageNumber);
+            Page<NhanVien> pageNhanVien = nhanVienService.layDanhSach(textSearch, pageable);
+            List<NhanVien> nhanViens = pageNhanVien.getContent();
+
+            // muon hien thi so trang
+            model.addAttribute("tongSL", pageNhanVien.getNumberOfElements());
+            model.addAttribute("totalPage", pageNhanVien.getTotalPages());
+            model.addAttribute("dsNhanVien", nhanViens);
+            model.addAttribute("dsChucVu", chucVuService.layDanhSach());
+
+            model.addAttribute("pageChoosedNumber", currentPage);
+            return "admin/nhanVien/create1";
+        }
+        if (nhanVienService.kiemTraTrungTenKhong(String.valueOf(request.getHoVaTen()))) {
+            model.addAttribute("trungTen", true);
+
+            String textSearch = httpServletRequest.getParameter("textsearch");
+
+            // phan trang
+            Pageable pageable = PageRequest.of(currentPage, Constant.pageNumber);
+            Page<NhanVien> pageNhanVien = nhanVienService.layDanhSach(textSearch, pageable);
+            List<NhanVien> nhanViens = pageNhanVien.getContent();
+
+            // muon hien thi so trang
+            model.addAttribute("tongSL", pageNhanVien.getNumberOfElements());
+            model.addAttribute("totalPage", pageNhanVien.getTotalPages());
+            model.addAttribute("dsNhanVien", nhanViens);
+            model.addAttribute("pageChoosedNumber", currentPage);
+            return "admin/nhanVien/create1";
+        }
         NhanVien nhanVienThemMoi = new NhanVien();
         ChucVu loaiChucVu = new ChucVu();
         loaiChucVu.setId(request.getChucVu().getId());
@@ -146,27 +195,36 @@ public class NhanVienController {
         nhanVienThemMoi.setNgaySinh(new java.sql.Date(ngaySinh.getTime()));
 
         nhanVienThemMoi.setId(null);
-        nhanVienThemMoi.setMa(request.getTaiKhoan());
+        nhanVienThemMoi.setMa(request.getMa());
         nhanVienThemMoi.setTaiKhoan(request.getTaiKhoan());
         nhanVienThemMoi.setMatKhau(request.getMatKhau());
         nhanVienThemMoi.setHoVaTen(request.getHoVaTen());
         nhanVienThemMoi.setGioiTinh(request.getGioiTinh());
-        nhanVienThemMoi.setEmail(request.getEmail());
         nhanVienThemMoi.setSdt(request.getSdt());
         nhanVienThemMoi.setDiaChi(request.getDiaChi());
         nhanVienThemMoi.setTrangThai(request.getTrangThai());
 
-        nhanVienThemMoi.setNguoiTao(1);
-        nhanVienThemMoi.setNguoiSua(1);
-        nhanVienThemMoi.setNgayTao(Constant.getDateNow());
-        nhanVienThemMoi.setNgaySua(Constant.getDateNow());
+
 
         nhanVienService.themMoi(nhanVienThemMoi);
-        System.out.println("Thêm mới nhân viên thành công");
+        model.addAttribute("nhanVien", new NhanVienRequest());
+        model.addAttribute("messageSuccess", true);
+        String textSearch = httpServletRequest.getParameter("textsearch");
+
+
+        // phan trang
+        Pageable pageable = PageRequest.of(currentPage, Constant.pageNumber);
+        Page<NhanVien> pageNhanVien = nhanVienService.layDanhSach(textSearch, pageable);
+        List<NhanVien> nhanViens = pageNhanVien.getContent();
+
+        // muon hien thi so trang
+        model.addAttribute("tongSL", pageNhanVien.getNumberOfElements());
+        model.addAttribute("totalPage", pageNhanVien.getTotalPages());
+        model.addAttribute("dsNhanVien", nhanViens);
+        model.addAttribute("pageChoosedNumber", currentPage);
 
         return "redirect:/nhan-vien/hien-thi" ;
     }
-
     @GetMapping("/xoa/{id}")
     public String xoa(
             @PathVariable("id") UUID id
@@ -176,4 +234,3 @@ public class NhanVienController {
     }
 
 }
-

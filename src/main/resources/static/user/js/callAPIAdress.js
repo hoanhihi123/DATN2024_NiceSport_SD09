@@ -101,14 +101,18 @@ var renderDataShipPrice = (object, input) => {
 
     let phiShip = object.total;
     console.log("Phi ship " + phiShip);
-    let tongTien = parseInt(document.getElementById("tongTienDonHang").value);
+    let tongTien = parseInt(document.getElementById("tongTienDonHang").value)*1000;
     let tongTienHang = phiShip + tongTien;
-    // document.querySelector("#" + input).innerHTML = phiShip;
-    // document.querySelector("#tongTienDonHang").innerHTML = tongTienHang;
-    document.getElementById("phiShip").value = phiShip;
-    document.getElementById("tongTienDonHang").value = tongTienHang;
 
-    // console.log("Tong tien don hang : " + tongTienHang);
+    // Định dạng số thành dạng "1.000.000"
+    let formattedNumber_phiShip = new Intl.NumberFormat('vi-VN').format(phiShip);
+    // Gán giá trị đã được định dạng vào thẻ
+    document.getElementById('phiShip').value = formattedNumber_phiShip;
+
+    // Định dạng số thành dạng "1.000.000"
+    let formattedNumber_tongTienHang = new Intl.NumberFormat('vi-VN').format(tongTienHang);
+    // Gán giá trị đã được định dạng vào thẻ
+    document.getElementById('tongTienDonHang').value = formattedNumber_tongTienHang;
 
 }
 

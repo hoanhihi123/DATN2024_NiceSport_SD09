@@ -1,5 +1,6 @@
 package com.example.duantn.service.impl;
 
+import com.example.duantn.model.HoaDon;
 import com.example.duantn.model.HoaDonChiTiet;
 import com.example.duantn.record.OrderDetailRecord;
 import com.example.duantn.repository.HoaDonCTRepository;
@@ -8,6 +9,8 @@ import com.example.duantn.service.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -69,6 +72,8 @@ public class HoaDonCTServiceImpl implements BaseService<HoaDonChiTiet> {
         public HoaDonChiTiet xemHoaDonChiTiet_detail(UUID idHoaDon, UUID idSanPhamCT){
            return hoaDonCTRepository.getHoaDonChiTietTheo_idHoaDon_IdSPCT(idHoaDon, idSanPhamCT);
         }
+
+
     // hoan code
 
 
@@ -112,8 +117,19 @@ public class HoaDonCTServiceImpl implements BaseService<HoaDonChiTiet> {
         return hoaDonRepository.findByOrderId(id);
     }
 
+    public  List<HoaDonChiTiet> layDanhSachHoaDon_theoIdHoaDon(UUID idHoaDon){
+//        return hoaDonRepository.getHoaDonBy_status(trangThai);
+        return  hoaDonCTRepository.layDanhSachHoaDonCT_theoIDHoaDon(idHoaDon);
+    }
+
     @Override
     public List<HoaDonChiTiet> layDanhSachTheoTen(String ten) {
         return null;
     }
+
+    public void capNhatTrangThaiHDCT(UUID idHoaDon, String trangThai){
+            hoaDonCTRepository.updateTrangThaiHoaDonCT(idHoaDon, trangThai);
+    }
+
+
 }

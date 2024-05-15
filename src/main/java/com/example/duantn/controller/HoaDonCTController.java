@@ -44,8 +44,9 @@ public class HoaDonCTController {
     //detail
     @GetMapping("/detail/{id}")
     public String detail(@PathVariable String id, Model model) {
-        List<OrderDetailRecord> orderDetailList = hoaDonCtService.findByOrderId(UUID.fromString(id));
-        model.addAttribute("orderDetailList", orderDetailList);
+//        List<OrderDetailRecord> orderDetailList = hoaDonCtService.findByOrderId(UUID.fromString(id));
+        List<HoaDonChiTiet> hoaDonChiTietList = hoaDonCtService.layDanhSachHoaDonChiTiet_theoIdHoaDon(UUID.fromString(id));
+        model.addAttribute("orderDetailList", hoaDonChiTietList);
         return "admin/HoaDonForm/detail";
     }
 

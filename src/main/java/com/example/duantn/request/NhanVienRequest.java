@@ -1,6 +1,7 @@
 package com.example.duantn.request;
 
 import com.example.duantn.model.ChucVu;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -15,14 +16,15 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class NhanVienRequest {
+public class NhanVienRequest  {
 
     private UUID id;
 
+    @NotBlank(message = "Vui lòng nhập mã")
     private String ma;
 
-    @NotBlank(message = "{nhanVien.tenNhanVien.notblank}")
-    @Size(max=50, message = "{nhanVien.tenNhanVien.size}")
+    @NotBlank(message = "Vui lòng nhập tên nhân viên")
+    @Size(min=6,max=50, message = "{nhanVien.tenNhanVien.size}")
     private String hoVaTen ;
 
     @NotNull(message = "{nhanVien.gioiTinh.notnull}")
@@ -34,23 +36,20 @@ public class NhanVienRequest {
     @NotBlank(message = "{nhanVien.matKhau.notblank}")
     private String matKhau;
 
-    @NotNull(message = "{nhanVien.idChucVu.notnull}")
     private ChucVu chucVu;
 
     @NotNull(message = "{nhanVien.ngaySinh.notnull}")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date ngaySinh;
 
-    @NotBlank(message = "{nhanVien.email.notblank}")
-    private String email;
 
     @NotBlank(message = "{nhanVien.sdt.notblank}")
+    @Size(min = 10,max = 10, message = "số điện thoại không hợp lệ")
     private String sdt;
 
     @NotBlank(message = "{nhanVien.diaChi.notblank}")
     private String diaChi;
 
-    @NotNull(message = "{nhanVien.trangThai.notnull}")
     private Integer trangThai;
 
 }

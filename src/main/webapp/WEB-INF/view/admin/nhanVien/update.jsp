@@ -34,153 +34,167 @@
     </style>
 </head>
 <body>
-    <!-- Left Panel -->
-    <jsp:include page="/WEB-INF/view/admin/layout/left_menu_admin.jsp"></jsp:include>
-    <!-- /Left Panel -->
+<!-- Left Panel -->
+<jsp:include page="/WEB-INF/view/admin/layout/left_menu_admin.jsp"></jsp:include>
+<!-- /Left Panel -->
 
-    <!-- Right Panel -->
+<!-- Right Panel -->
 
-    <div id="right-panel" class="right-panel">
+<div id="right-panel" class="right-panel">
 
-        <!-- Header-->
-        <jsp:include page="/WEB-INF/view/admin/layout/header_admin.jsp"></jsp:include>
-        <!-- Header-->
+    <!-- Header-->
+    <jsp:include page="/WEB-INF/view/admin/layout/header_admin.jsp"></jsp:include>
+    <!-- Header-->
 
-        <div class="breadcrumbs">
-            <div class="breadcrumbs-inner">
-                <div class="row m-0">
-<%--                    <div class="col-sm-4">--%>
-<%--                        <div class="page-header float-left">--%>
-<%--                            <div class="page-title">--%>
-<%--                                <h1>Dashboard</h1>--%>
-<%--                            </div>--%>
-<%--                        </div>--%>
-<%--                    </div>--%>
-<%--                    <div class="col-sm-8">--%>
-<%--                        <div class="page-header float-right">--%>
-<%--                            <div class="page-title">--%>
-<%--                                <ol class="breadcrumb text-right">--%>
-<%--                                    <li><a href="#">Dashboard</a></li>--%>
-<%--                                    <li><a href="#">Quản lý nhân viên</a></li>--%>
-<%--                                    <li class="active">Sửa thông tin nhân viên</li>--%>
-<%--                                </ol>--%>
-<%--                            </div>--%>
-<%--                        </div>--%>
-<%--                    </div>--%>
-                </div>
+    <div class="breadcrumbs">
+        <div class="breadcrumbs-inner">
+            <div class="row m-0">
+                <%--                    <div class="col-sm-4">--%>
+                <%--                        <div class="page-header float-left">--%>
+                <%--                            <div class="page-title">--%>
+                <%--                                <h1>Dashboard</h1>--%>
+                <%--                            </div>--%>
+                <%--                        </div>--%>
+                <%--                    </div>--%>
+                <%--                    <div class="col-sm-8">--%>
+                <%--                        <div class="page-header float-right">--%>
+                <%--                            <div class="page-title">--%>
+                <%--                                <ol class="breadcrumb text-right">--%>
+                <%--                                    <li><a href="#">Dashboard</a></li>--%>
+                <%--                                    <li><a href="#">Quản lý nhân viên</a></li>--%>
+                <%--                                    <li class="active">Sửa thông tin nhân viên</li>--%>
+                <%--                                </ol>--%>
+                <%--                            </div>--%>
+                <%--                        </div>--%>
+                <%--                    </div>--%>
             </div>
         </div>
+    </div>
 
-        <div class="content" style="margin-bottom: 50px;">
-            <div class="animated fadeIn">
-                <div class="card col-lg-12">
-                    <div class="card-header">
-                        <div>
-                            <strong class="card-title" ><h3>Sửa thông tin nhân viên</h3></strong>
-                        </div>
-
-                    </div>
-                    <div class="card-body">
-                        <sf:form action="/nhan-vien/sua/${nhanVien.id}" method="post" modelAttribute="nhanVien" class="row">
-                            <div class="col-lg-6" >
-                                Tên nhân viên (<i class="fa fa-asterisk" style="color: red;"></i>)
-                                <sf:input path="hoVaTen" name="hoVaTen" type="text" class="form-control" />
-                                <sf:errors path="hoVaTen" cssClass="text-danger" />
-
-                            </div>
-                            <div class="col-lg-6" >
-                                Giới tính (<i class="fa fa-asterisk" style="color: red;"></i>)<br>
-                                <div style="margin-top: 5px;">
-                                    <sf:radiobutton path="gioiTinh" name="gioiTinh" value="1" /> Nữ
-                                    <sf:radiobutton path="gioiTinh"  name="gioiTinh" value="0" style="margin-left: 20px;"/> Nam <br>
-                                    <sf:errors path="gioiTinh" cssClass="text-danger" />
-                                </div>
-                            </div>
-                            <div class="col-lg-6" style="margin-top: 20px;">
-                                <span>Tên tài khoản  (<i class="fa fa-asterisk" style="color: red;"></i>)</span>
-                                <sf:input path="taiKhoan" name="taiKhoan" type="text" class="form-control"  />
-                                <sf:errors path="taiKhoan" cssClass="text-danger" />
-                                <c:if test="${trungTen==true}">
-                                    <p class="text-danger">Tên tài khoản này đã có trong hệ thống, vui lòng nhập tên mới</p>
-                                </c:if>
-                            </div>
-                            <div class="col-lg-6" style="margin-top: 20px;">
-                                <span>Mật khẩu  (<i class="fa fa-asterisk" style="color: red;"></i>)</span>
-                                <sf:input path="matKhau" name="matKhau" type="text" class="form-control" />
-                                <sf:errors path="matKhau" cssClass="text-danger" />
-                            </div>
-                            <div class="col-lg-6" style="margin-top: 20px;">
-                                Loại nhân viên (<i class="fa fa-asterisk" style="color: red;"></i>)
-                                <sf:select path="chucVu.id" name="IdChucVu" class="form-control">
-                                    <c:forEach items="${dsChucVu}" var="chucVu" varStatus="chucvu">
-                                            <option <c:if test="${nhanVien.chucVu.id == chucVu.id}">selected="selected"</c:if>   value="${chucVu.id}" >${chucVu.ten}</option>
-                                    </c:forEach>
-                                </sf:select>
-                                <sf:errors path="chucVu.id" cssClass="text-danger" />
-                            </div>
-                            <div class="col-lg-6" style="margin-top: 20px;">
-                                Ngày sinh (<i class="fa fa-asterisk" style="color: red;"></i>)
-                                <sf:input path="ngaySinh" name="ngaySinh" type="date" class="form-control"/>
-                                <sf:errors path="ngaySinh" cssClass="text-danger" />
-                            </div>
-                            <div class="col-lg-6" style="margin-top: 20px;">
-                                Email (<i class="fa fa-asterisk" style="color: red;"></i>)
-                                <sf:input path="email" name="email" type="text" class="form-control" />
-                                <sf:errors path="email" cssClass="text-danger" />
-                            </div>
-                            <div class="col-lg-6" style="margin-top: 20px;">
-                                Số điện thoại (<i class="fa fa-asterisk" style="color: red;"></i>)
-                                <sf:input path="sdt" name="sdt" type="text" class="form-control" />
-                                <sf:errors path="sdt" cssClass="text-danger" />
-                            </div>
-                            <div class="col-lg-6" style="margin-top: 20px;">
-                                <span> Địa chỉ  (<i class="fa fa-asterisk" style="color: red;"></i>)</span> <br>
-                                <sf:textarea path="diaChi" name="diaChi" rows="4" cols="50" class="form-control" />
-                                <sf:errors path="diaChi" cssClass="text-danger" />
-                            </div>
-                            <div class="col-lg-6" style="margin-top: 20px;">
-                                <span>Trạng thái</span>
-                                <br>
-                                <sf:radiobutton path="trangThai"  value="1" checked="true" />    Hoạt động
-                                <sf:radiobutton path="trangThai"  value="0" style="margin-left:20px;"/>    Ngưng hoạt động
-                                <sf:errors path="trangThai" cssClass="text-danger" />
-                            </div>
-
-                            <div class="col-lg-9" style="margin-top: 20px;"  >
-                                <c:if test="${messageSuccess==true}">
-                                    <div id="messageAlertSuccess" class="alert alert-primary alert-dismissible "  style="width: 300px;" >
-
-                                        <button type="button" class="close" data-dismiss="alert">&times;</button>
-                                        <i class="menu-icon fa fa-check"></i> Sửa dữ liệu thành công !
-                                    </div>
-
-                                    <script>
-                                        // Lấy thẻ alert
-                                        var alert = document.getElementById('messageAlertSuccess');
-
-                                        // Ẩn thẻ alert sau 3 giây
-                                        setTimeout(function() {
-                                            alert.style.display = 'none';
-                                        }, 3000); // 3000 milliseconds tương ứng với 3 giây
-                                    </script>
-                                </c:if>
-                            </div>
-                            <div class="col-lg-3 ml-auto" style="margin-top: 20px;">
-                                <button class="btn btn-success" > <i class="menu-icon fa fa-pencil-square-o"></i></a>  Sửa </button>
-                                <a href="/nhan-vien/hien-thi" class="btn btn-secondary"> <i class="menu-icon fa fa-undo"></i> Quay lại</a>
-                            </div>
-                        </sf:form>
-
+    <div class="content" style="margin-bottom: 50px;">
+        <div class="animated fadeIn">
+            <div class="card col-lg-12">
+                <div class="card-header">
+                    <div>
+                        <strong class="card-title" ><h3>Sửa thông tin nhân viên</h3></strong>
                     </div>
 
                 </div>
-            </div><!-- .animated -->
-        </div><!-- .content -->
+                <div class="card-body">
+                    <sf:form action="/nhan-vien/sua/${nhanVien.id}" method="post" modelAttribute="nhanVien" class="row">
+                        <div class="col-lg-6">
+                            <span>Mã (<i class="fa fa-asterisk" style="color: red;"></i>)</span>
+                            <sf:input path="ma" type="text" style="margin-top: 5px;" readonly="true" class="form-control"/>
+<%--                            <sf:errors path="ma" cssClass="text-danger"/>--%>
+                                <%--                            <c:forEach items="${dsKhachHang}" var="khachHang" varStatus="khachhang">--%>
+                                <%--                                <c:if test="">--%>
+                                <%--                                    <p class="text-danger">Mã khách hàng đã có trong hệ thống, vui lòng nhập mã mới</p>--%>
+                                <%--                                </c:if>--%>
+                                <%--                            </c:forEach>--%>
 
-        <div class="clearfix"></div>
-<!-- footer -->
-<jsp:include page="/WEB-INF/view/admin/layout/footer.jsp"></jsp:include>
-<!--/ footer -->
+                        </div>
+                        <div class="col-lg-6">
+                            <span>Tên nhân viên(<i class="fa fa-asterisk" style="color: red;"></i>)</span>
+                            <sf:input path="hoVaTen" type="text" style="margin-top: 5px;" class="form-control"/>
+                            <sf:errors path="hoVaTen" cssClass="text-danger"/>
+                            <c:if test="${trungTen==true}">
+                                <p class="text-danger">Tên nhân viên đã có trong hệ thống, vui lòng nhập tên mới</p>
+                            </c:if>
+                        </div>
+                        <div class="col-lg-6" style="margin-top: 20px;">
+                            <span>Giới tính (<i class="fa fa-asterisk" style="color: red;"></i>)</span>
+                            <sf:radiobutton path="gioiTinh" name="gioiTinh" value="1" checked="true"/> Nam
+                            <sf:radiobutton path="gioiTinh" name="gioiTinh" value="0" style="margin-left: 20px"/> Nữ
+
+
+                        </div>
+                        <div class="col-lg-6" style="margin-top: 20px;">
+                            <span>Tên tài khoản (<i class="fa fa-asterisk" style="color: red;"></i>)</span>
+                            <sf:input id="taiKhoan" path="taiKhoan" style="margin-top: 5px;" type="text" class="form-control"/>
+                            <sf:errors path="taiKhoan"  cssClass="text-danger"/>
+
+                        </div>
+                        <div class="col-lg-6" style="margin-top: 20px;">
+                            <span>Mật khẩu (<i class="fa fa-asterisk" style="color: red;"></i>)</span>
+                            <sf:input id="matKhau" path="matKhau" style="margin-top: 5px;" type="text" class="form-control"/>
+                            <sf:errors path="matKhau"  cssClass="text-danger"/>
+                        </div>
+                        <div class="col-lg-6" style="margin-top: 20px;">
+                            <span>Loại nhân viên(<i class="fa fa-asterisk" style="color: red;"></i>)</span>
+                            <sf:select path="chucVu.id" name="IdChucVu" class="form-control">
+                                <c:forEach items="${dsChucVu}" var="chucVu" varStatus="chucvu">
+                                    <sf:option value="${chucVu.id}">${chucVu.ten}</sf:option>
+                                </c:forEach>
+                            </sf:select>
+                        </div>
+                        <div class="col-lg-6" style="margin-top: 20px;">
+                            <span>Ngày sinh (<i class="fa fa-asterisk" style="color: red;"></i>)</span>
+                            <sf:input id="ngaySinh" path="ngaySinh" style="margin-top: 5px;" type="date"   class="form-control"/>
+                            <sf:errors path="ngaySinh"  cssClass="text-danger"/>
+
+                        </div>
+                        <%--                        <div class="col-lg-6" style="margin-top: 20px;">--%>
+                        <%--                            <span>Email (<i class="fa fa-asterisk" style="color: red;"></i>)</span>--%>
+                        <%--                            <sf:input id="email" path="email" style="margin-top: 5px;" type="text"--%>
+                        <%--                                      class="form-control"/>--%>
+                        <%--                            <sf:errors path="email" cssClass="text-danger"/>--%>
+                        <%--                            <div th:if =  th:errors="*{email}" class="invalid-feedback"></div>--%>
+
+                        <%--                        </div>--%>
+                        <div class="col-lg-6" style="margin-top: 20px;">
+                            <span>Số điện thoại (<i class="fa fa-asterisk" style="color: red;"></i>)</span>
+                            <sf:input id="sdt" path="sdt" style="margin-top: 5px;" type="number" class="form-control"/>
+                            <sf:errors path="sdt"  cssClass="text-danger"/>
+                        </div>
+                        <div class="col-lg-6" style="margin-top: 20px;">
+                            <span>Địa chỉ (<i class="fa fa-asterisk" style="color: red;"></i>)</span>
+                            <sf:textarea id="diaChi" path="diaChi" style="margin-top: 5px;" type="text" class="form-control"/>
+                            <sf:errors path="diaChi"  cssClass="text-danger"/>
+                        </div>
+                        <div class="col-lg-6" style="margin-top: 20px;">
+                            <span>Trạng thái (<i class="fa fa-asterisk" style="color: red;"></i>)</span>
+                            <sf:radiobutton path="trangThai" name="trangThai" value="1" checked="true"/> Hoạt động
+                            <sf:radiobutton path="trangThai" name="trangThai" value="0" style="margin-left: 20px"/>  Ngừng hoạt động
+                        </div>
+
+                        <div class="col-lg-8" style="margin-top: 20px;">
+                            <c:if test="${messageSuccess==true}">
+                                <%--                                style="z-index: 9999; position: fixed; top: 10px; right: 10px; width: 350px;"--%>
+                                <div id="messageAlertSuccess" class="alert alert-primary alert-dismissible "
+                                     style="width: 300px;">
+
+                                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                    <i class="menu-icon fa fa-check"></i> Sửa dữ liệu thành công!
+                                </div>
+
+                                <script>
+                                    // Lấy thẻ alert
+                                    var alert = document.getElementById('messageAlertSuccess');
+
+                                    // Ẩn thẻ alert sau 3 giây
+                                    setTimeout(function () {
+                                        alert.style.display = 'none';
+                                    }, 3000); // 3000 milliseconds tương ứng với 3 giây
+                                </script>
+                            </c:if>
+                        </div>
+                        <div class="col-lg-4" style="margin-top: 20px; ">
+                            <button class="btn btn-success"><i class="menu-icon fa fa-plus"></i> </a> Sửa </button>
+                            <a href="/nhan-vien/hien-thi" class="btn btn-secondary" style="margin-left: 10px;"> <i
+                                    class="menu-icon fa fa-undo"></i> Quay lại</a>
+                        </div>
+                    </sf:form>
+
+                </div>
+
+            </div>
+        </div><!-- .animated -->
+    </div><!-- .content -->
+
+    <div class="clearfix"></div>
+    <!-- footer -->
+    <jsp:include page="/WEB-INF/view/admin/layout/footer.jsp"></jsp:include>
+    <!--/ footer -->
 
 </div><!-- /#right-panel -->
 
@@ -197,32 +211,7 @@
     // Sử dụng JavaScript để đặt giá trị của trường ngày thành ngày hôm nay
     document.getElementById('dateToday').valueAsDate = new Date();
 
-    function myValidationFormBeforeAdd(){
-        console.log("Chạy vào validation");
-        let muiGiay = document.getElementById("tenMuiGiay").value;
-        let maMuiGiay = document.getElementById("maMuiGiay").value;
-        let check=true;
 
-        // kiểm tra mã mũi giày có được nhập không ?
-        if(maMuiGiay===null || maMuiGiay.trim()===""){
-            document.getElementById("messagemaMuiGiay").innerHTML = "Vui lòng nhập mã";
-            return  false;
-        }else{
-            document.getElementById("messagemaMuiGiay").innerHTML = "";
-        }
-
-        // kiem tra size giay - rong, null, ko phai so, trung du lieu
-        if(muiGiay===null || muiGiay.trim()===""){
-            document.getElementById("messagetenMuiGiay").innerHTML = "Vui lòng nhập mũi giày";
-            return  false;
-        }else{
-            document.getElementById("messagetenMuiGiay").innerHTML = "";
-        }
-
-        alert("Dữ liệu bạn nhập hợp lệ, dữ liệu sẽ được cập nhật vào database");
-
-        return check;
-    }
 
 </script>
 </body>

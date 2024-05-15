@@ -8,7 +8,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Quản lý Khách hàng </title>
+    <title>Quản lý phiếu giảm giá </title>
     <meta name="description" content="Ela Admin - HTML5 Admin Template">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -46,79 +46,71 @@
     <jsp:include page="/WEB-INF/view/admin/layout/header_admin.jsp"></jsp:include>
     <!-- Header-->
 
-    <div class="breadcrumbs">
-        <div class="breadcrumbs-inner">
-            <div class="row m-0">
-                <%--                <div class="col-sm-4">--%>
-                <%--                    <div class="page-header float-left">--%>
-                <%--                        <div class="page-title">--%>
-                <%--                            <h1>Dashboard</h1>--%>
-                <%--                        </div>--%>
-                <%--                    </div>--%>
-                <%--                </div>--%>
-                <%--                <div class="col-sm-8">--%>
-                <%--                    <div class="page-header float-right">--%>
-                <%--                        <div class="page-title">--%>
-                <%--                            <ol class="breadcrumb text-right">--%>
-                <%--                                <li><a href="#">Dashboard</a></li>--%>
-                <%--                                <li><a href="#">Quản lý giày</a></li>--%>
-                <%--                                <li class="active">Khách hàng</li>--%>
-                <%--                            </ol>--%>
-                <%--                        </div>--%>
-                <%--                    </div>--%>
-                <%--                </div>--%>
-            </div>
-        </div>
-    </div>
+    <%--    <div class="breadcrumbs">--%>
+    <%--        <div class="breadcrumbs-inner">--%>
+    <%--            <div class="row m-0">--%>
+    <%--                <div class="col-sm-4">--%>
+    <%--                    <div class="page-header float-left">--%>
+    <%--                        <div class="page-title">--%>
+    <%--                            <h1>Dashboard</h1>--%>
+    <%--                        </div>--%>
+    <%--                    </div>--%>
+    <%--                </div>--%>
+    <%--                <div class="col-sm-8">--%>
+    <%--                    <div class="page-header float-right">--%>
+    <%--                        <div class="page-title">--%>
+    <%--                            <ol class="breadcrumb text-right">--%>
+    <%--                                <li><a href="#">Dashboard</a></li>--%>
+    <%--                                <li><a href="#">Quản lý giày</a></li>--%>
+    <%--                                <li class="active">màu sắc</li>--%>
+    <%--                            </ol>--%>
+    <%--                        </div>--%>
+    <%--                    </div>--%>
+    <%--                </div>--%>
+    <%--            </div>--%>
+    <%--        </div>--%>
+    <%--    </div>--%>
 
     <div class="content">
         <div class="animated fadeIn">
             <div class="card col-lg-12">
                 <div class="card-header">
                     <div>
-                        <strong class="card-title"><h3>Thêm mới khách hàng</h3></strong>
+                        <strong class="card-title"><h3>Thêm mới phiếu giảm giá</h3></strong>
                     </div>
 
                 </div>
                 <div class="card-body">
-                    <sf:form action="/khach-hang/them" method="post" modelAttribute="khachHang" class="row">
+                    <sf:form action="/phieu-giam-gia/them" method="post" modelAttribute="phieuGiam" class="row">
                         <div class="col-lg-6">
                             <span>Mã (<i class="fa fa-asterisk" style="color: red;"></i>)</span>
                             <sf:input path="ma" type="text" style="margin-top: 5px;" class="form-control"/>
                             <sf:errors path="ma" cssClass="text-danger"/>
                             <c:if test="${trungMa==true}">
-                                <p class="text-danger">Mã khách hàng đã có trong hệ thống, vui lòng nhập mã mới</p>
+                                <p class="text-danger">Mã phiếu đã có trong hệ thống, vui lòng nhập mã mới</p>
                             </c:if>
-
                         </div>
                         <div class="col-lg-6">
-                            <span>Tên khách hàng(<i class="fa fa-asterisk" style="color: red;"></i>)</span>
-                            <sf:input path="hoTen" type="text" style="margin-top: 5px;" class="form-control"/>
-                            <sf:errors path="hoTen" cssClass="text-danger"/>
+                            <span>Tên phiếu(<i class="fa fa-asterisk" style="color: red;"></i>)</span>
+                            <sf:input path="tenPhieu" type="text" style="margin-top: 5px;" class="form-control"/>
+                            <sf:errors path="tenPhieu" cssClass="text-danger"/>
                             <c:if test="${trungTen==true}">
-                                <p class="text-danger">Tên khách hàng đã có trong hệ thống, vui lòng nhập tên mới</p>
+                                <p class="text-danger">Tên phiếu giảm giá đã có trong hệ thống, vui lòng nhập tên mới</p>
                             </c:if>
                         </div>
-
                         <div class="col-lg-6" style="margin-top: 20px;">
-                            <span>Số điện thoại (<i class="fa fa-asterisk" style="color: red;"></i>)</span>
-                            <sf:input id="soDT" path="soDT" style="margin-top: 5px;" type="number" class="form-control"/>
-                            <sf:errors path="soDT"  cssClass="messageError"/>
-                        </div>
-                        <div class="col-lg-6" style="margin-top: 20px;">
-                            <span>Email (<i class="fa fa-asterisk" style="color: red;"></i>)</span>
-                            <sf:input id="email" path="email" style="margin-top: 5px;" type="text"
-                                      class="form-control"/>
-                            <sf:errors path="email" cssClass="text-danger"/>
-                            <div th:if =  th:errors="*{email}" class="invalid-feedback"></div>
+                            <span>Giá trị giảm (<i class="fa fa-asterisk" style="color: red;"></i>)</span>
+                            <sf:input id="giaTriGiam" path="giaTriGiam" style="margin-top: 5px;" type="number" class="form-control"  />
+                            <sf:errors path="giaTriGiam" cssClass="text-danger"/>
+<%--                            <div th:if =  th:errors="*{giaTriGiam}" class="invalid-feedback"></div>--%>
 
                         </div>
                         <div class="col-lg-6" style="margin-top: 20px;">
-                            <span>Giới tính(<i class="fa fa-asterisk" style="color: red;"></i>)</span>
+                            <span>Trạng thái (<i class="fa fa-asterisk" style="color: red;"></i>)</span>
                             <br>
-                            <sf:radiobutton path="gioiTinh" value="1" checked="true"/> Nam
-                            <sf:radiobutton path="gioiTinh" value="0"/> Nữ
-                            <sf:errors path="gioiTinh" cssClass="text-danger"/>
+                            <sf:radiobutton path="trangThai" value="1" checked="true"/> Hoạt động
+                            <sf:radiobutton path="trangThai" value="0"/> Ngưng hoạt động
+                            <sf:errors path="trangThai" cssClass="text-danger"/>
 
                         </div>
                         <div class="col-lg-8" style="margin-top: 20px;">
@@ -144,7 +136,7 @@
                         </div>
                         <div class="col-lg-4" style="margin-top: 20px; ">
                             <button class="btn btn-success"><i class="menu-icon fa fa-plus"></i> </a> Thêm mới</button>
-                            <a href="/khach-hang/hien-thi" class="btn btn-secondary" style="margin-left: 10px;"> <i
+                            <a href="/phieu-giam-gia/hien-thi" class="btn btn-secondary" style="margin-left: 10px;"> <i
                                     class="menu-icon fa fa-undo"></i> Quay lại</a>
                         </div>
                     </sf:form>
@@ -159,13 +151,13 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col-lg-10">
-                            <strong class="card-title"><h3>Danh sách khách hàng</h3></strong>
+                            <strong class="card-title"><h3>Danh sách phiếu giảm</h3></strong>
                         </div>
                     </div>
                     <br>
-                    <form action="/khach-hang/hien-thi" method="get">
+                    <form action="/phieu-giam-gia/hien-thi" method="get">
                         <div class="row d-flex" style=" margin-left: 3px;">
-                            <input class="form-control col-lg-4" id="textSearch" name="textSearch" type="text"
+                            <input class="form-control col-lg-4" id="textsearch" name="textsearch" type="text"
                                    placeholder="(Tìm kiếm theo mã, tên)">
                             <span style="margin: 0px 5px;"></span>
                             <button class="btn btn-secondary" type="submit"><i class="menu-icon fa fa-search"></i>
@@ -183,40 +175,38 @@
                                 <%--                                <th scope="col">ID</th>--%>
                                 <th scope="col">STT</th>
                                 <th scope="col">Mã</th>
-                                <th scope="col">Họ Tên</th>
-                                <th scope="col">Giới tính</th>
-                                <th scope="col">Số Điện Thoại</th>
-                                <th scope="col">Email</th>
-<%--                                <th scope="col">Ngày tạo</th>--%>
-<%--                                <th scope="col">Ngày sửa</th>--%>
-                                <%--                                <th scope="col">Trạng thái</th>--%>
+                                <th scope="col">Tên phiếu</th>
+                                <th scope="col">Giá trị giảm</th>
+
+                                <%--                                <th scope="col">Tạo bởi</th>--%>
+                                <%--                                <th scope="col">Sửa bởi</th>--%>
+                                <th scope="col">Ngày tạo</th>
+                                <th scope="col">Ngày sửa</th>
+                                <th scope="col">Trạng thái</th>
                                 <th scope="col" colspan="2">Tác động</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <c:forEach items="${dsKhachHang}" var="khachHang" varStatus="khachhang">
+                            <c:forEach items="${listPG}" var="pg" varStatus="i">
                                 <tr>
-                                    <th scope="row">${khachhang.index +1}</th>
-                                    <td> ${khachHang.ma}</td>
-                                    <td> ${khachHang.hoTen}</td>
-                                    <td> ${khachHang.gioiTinh==1?"Nam":"Nữ"}</td>
-                                    <td> ${khachHang.soDT}</td>
-                                    <td> ${khachHang.email}</td>
-<%--                                    <td> ${khachHang.ngayTao}</td>--%>
-<%--                                    <td> ${khachHang.ngaySua}</td>--%>
-                                        <%--                                    <td> ${khachHang.trangThai == 1 ? 'Hoạt động': 'Ngưng hoạt động'}</td>--%>
-                                    <td><a href="/khach-hang/view-sua/${khachHang.id}" class="btn btn-success"> Xem <i
-                                            class="menu-icon fa fa-pencil-square-o"></i> </a></td>
-                                    <td><a href="/khach-hang/xoa/${khachHang.id}" class="btn btn-warning"
-                                           onclick="return confirm('Bạn chắc chắn muốn xóa khách hàng ${khachHang.hoTen} ?')">
-                                        <i class="menu-icon fa fa-trash-o"></i> Xóa</a></td>
+                                    <th scope="row">${i.index +1}</th>
+                                    <td>${pg.ma}</td>
+                                    <td>${pg.tenPhieu}</td>
+                                    <td>${pg.giaTriGiam}</td>
+
+                                    <td> ${pg.ngayTao}</td>
+                                    <td> ${pg.ngaySua}</td>
+                                    <td> ${pg.trangThai == 1 ? 'Hoạt động': 'Ngưng hoạt động'}</td>
+                                    <td>  <a href="/phieu-giam-gia/detail/${pg.id}" class="btn btn-success">Xem <i class="menu-icon fa fa-pencil-square-o" ></i></a></td>
+
+                                    <td>
+                                        <a href="/phieu-giam-gia/delete/${pg.id}" class="btn btn-warning" onclick="return confirm('Bạn chắc chắn muốn xóa  ${pg.tenPhieu}?')">Xóa <i class="menu-icon fa fa-trash-o"></i></a>
+                                    </td>
                                 </tr>
                             </c:forEach>
                             </tbody>
                         </table>
                     </div>
-
-
                     <div class="row" style="margin-top: 20px;">
                         <div class="col-lg-4">
                         </div>
@@ -226,7 +216,7 @@
                                     <ul class="pagination justify-content-end">
                                         <c:if test="${pageChoosedNumber > 0}">
                                             <li class="page-item">
-                                                <a class="page-link" href="/khach-hang/hien-thi?${pageChoosedNumber-1}"
+                                                <a class="page-link" href="/phieu-giam-gia/hien-thi?${pageChoosedNumber-1}"
                                                    tabindex="-1" aria-disabled="true">Previous</a>
                                             </li>
                                         </c:if>
@@ -236,13 +226,13 @@
                                                 <c:when test="${pageChoosedNumber==loop.index}">
                                                     <li class="page-item active" aria-current="page">
                                                         <a name="page" class="page-link"
-                                                           href="/khach-hang/hien-thi?page=${loop.index}">${loop.index + 1}</a>
+                                                           href="/phieu-giam-gia/hien-thi?page=${loop.index}">${loop.index + 1}</a>
                                                     </li>
                                                 </c:when>
                                                 <c:otherwise>
                                                     <li class="page-item" aria-current="page">
                                                         <a name="page" class="page-link"
-                                                           href="/khach-hang/hien-thi?page=${loop.index}">${loop.index + 1}</a>
+                                                           href="/phieu-giam-gia/hien-thi?page=${loop.index}">${loop.index + 1}</a>
                                                     </li>
                                                 </c:otherwise>
                                             </c:choose>
@@ -250,7 +240,7 @@
                                         <c:if test="${pageChoosedNumber < (totalPage-1)}">
                                             <li class="page-item">
                                                 <a class="page-link"
-                                                   href="/khach-hang/hien-thi?page=${pageChoosedNumber+1}">Next</a>
+                                                   href="/phieu-giam-gia/hien-thi?page=${pageChoosedNumber+1}">Next</a>
                                             </li>
                                         </c:if>
                                     </ul>
@@ -284,33 +274,27 @@
     // Sử dụng JavaScript để đặt giá trị của trường ngày thành ngày hôm nay
     document.getElementById('dateToday').valueAsDate = new Date();
 
-    // function  check(){
-    //     let makhachHang = document.getElementById("maKhachHang").value;
-    //     for(i = 0; $ <0; i++){
-    //         if(dsKhachHang.)
-    //     }
-    }
 
     function myValidationFormBeforeAdd() {
         console.log("Chạy vào validation");
-        let tenKhachHang = document.getElementById("tenKhachHang").value;
-        let maKhachHang = document.getElementById("maKhachHang").value;
+        let tenPhieu = document.getElementById("tenPhieu").value;
+        let maPhieu = document.getElementById("maPhieu").value;
         let check = true;
 
-        // kiểm tra mã khách hàng có được nhập không ?
-        if (maKhachHang === null || maKhachHang.trim() === "") {
-            document.getElementById("messagemaKhachHang").innerHTML = "Vui lòng nhập mã khách hàng";
+        // kiểm tra mã chất liệu có được nhập không ?
+        if (maPhieu === null || maPhieu.trim() === "") {
+            document.getElementById("messagemaPhieu").innerHTML = "Vui lòng nhập mã";
             return false;
         } else {
-            document.getElementById("messagemaKhachHang").innerHTML = "";
+            document.getElementById("messagemaPhieu").innerHTML = "";
         }
 
-        // kiem tra ten khach, null, ko phai so, trung du lieu
-        if (tenKhachHang === null || tenKhachHang.trim() === "") {
-            document.getElementById("messagemaKhachHang").innerHTML = "Vui lòng nhập khách hàng";
+        // kiem tra size giay - rong, null, ko phai so, trung du lieu
+        if (tenPhieu === null || tenPhieu.trim() === "") {
+            document.getElementById("messagetenPhieu").innerHTML = "Vui lòng nhập tên phiếu";
             return false;
         } else {
-            document.getElementById("messagemaKhachHang").innerHTML = "";
+            document.getElementById("messagetenPhieu").innerHTML = "";
         }
 
         alert("Dữ liệu bạn nhập hợp lệ, dữ liệu sẽ được cập nhật vào database");

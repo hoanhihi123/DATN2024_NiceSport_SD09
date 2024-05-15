@@ -1,5 +1,6 @@
 package com.example.duantn.service.impl;
 
+
 import com.example.duantn.model.NhanVien;
 import com.example.duantn.repository.NhanVienRepository;
 import com.example.duantn.service.BaseService;
@@ -17,10 +18,19 @@ public class NhanVienServiceImpl implements BaseService<NhanVien> {
     @Autowired
     NhanVienRepository repo_nhanVien;
 
-//    @Override
+    //    @Override
 //    public List<NhanVien> layDanhSach() {
 //        return repo_nhanVien.getAll();
 //    }
+    @Override
+    public List<NhanVien> layDanhSach() {
+        return repo_nhanVien.getAll();
+    }
+
+    ///anh code
+    public List<NhanVien> layDanhSachNhanVien_theoSDT(String sdt){
+        return repo_nhanVien.getAllBySDT_Customer(sdt);
+    }
 
     @Override
     public Page<NhanVien> layDanhSach(Pageable pageable) {
@@ -43,16 +53,12 @@ public class NhanVienServiceImpl implements BaseService<NhanVien> {
 
     @Override
     public void themMoi(NhanVien entity) {
-        if(entity!=null){
-            repo_nhanVien.save(entity);
-        }
+        repo_nhanVien.save(entity);
     }
 
     @Override
     public void capNhat(NhanVien entity) {
-        if(entity!=null){
-             repo_nhanVien.save(entity);
-        }
+        repo_nhanVien.save(entity);
     }
 
     @Override
@@ -67,14 +73,11 @@ public class NhanVienServiceImpl implements BaseService<NhanVien> {
         return  repo_nhanVien.getAllTheoTen(ten);
     }
 
-    @Override
-    public List<NhanVien> layDanhSach() {
-        return repo_nhanVien.getAll();
-    }
+
 
 
     public Boolean kiemTraTrungTenKhong(String tenMoi, String tenCu){
-        List<NhanVien> dsNhanVien = (List<NhanVien>) this.layDanhSach(Pageable.unpaged());
+        List<NhanVien> dsNhanVien = this.layDanhSach();
         Boolean isCheck = false;
         Boolean isCheck2 = true;
 
@@ -82,7 +85,7 @@ public class NhanVienServiceImpl implements BaseService<NhanVien> {
         for(NhanVien nhanVien : dsNhanVien){
             if(nhanVien.getHoVaTen().equalsIgnoreCase(tenMoi.trim())){
                 isCheck = true;
-                break;
+
             }
         }
 
@@ -91,11 +94,11 @@ public class NhanVienServiceImpl implements BaseService<NhanVien> {
             isCheck2 = false;
         }
 
-        return isCheck&&isCheck2 ;
+        return isCheck && isCheck2 ;
     }
 
     public Boolean kiemTraTrungTenKhong(String tenCheck){
-        List<NhanVien> dsNhanVien = (List<NhanVien>) this.layDanhSach(Pageable.unpaged());
+        List<NhanVien> dsNhanVien = this.layDanhSach();
         Boolean isCheck = false;
 
         // kiem tra xem ten moi co trung voi cac ten khac khong
@@ -108,21 +111,19 @@ public class NhanVienServiceImpl implements BaseService<NhanVien> {
         return isCheck ;
     }
 
-    public Boolean kiemTraTrungMaKhong(String maCkeck){
-        List<NhanVien> dsnhanVien = (List<NhanVien>) this.layDanhSach(Pageable.unpaged());
+    public Boolean kiemTraTrungMaKhong(String maCkeck) {
+        List<NhanVien> dsNhanVien = repo_nhanVien.getAllTheoMa(maCkeck);
         Boolean isCheck = false;
 
         // kiem tra xem ten moi co trung voi cac ten khac khong
-        for(NhanVien nhanVien : dsnhanVien){
-            if(nhanVien.getMa().equalsIgnoreCase(maCkeck.trim())){
-                isCheck = true;
-            }
+        if (dsNhanVien.size() > 0) {
+            isCheck = true;
         }
-        return isCheck ;
+        return isCheck;
     }
 
     public Boolean kiemTraTrungMaKhong(String maMoi, String maCu){
-        List<NhanVien> dsnhanVien = (List<NhanVien>) this.layDanhSach(Pageable.unpaged());
+        List<NhanVien> dsnhanVien = this.layDanhSach();
         Boolean isCheck = false;
         Boolean isCheck2 = true;
 
@@ -130,6 +131,7 @@ public class NhanVienServiceImpl implements BaseService<NhanVien> {
         for(NhanVien nhanVien : dsnhanVien){
             if(nhanVien.getMa().equalsIgnoreCase(maMoi.trim())){
                 isCheck = true;
+                break;
             }
         }
 
@@ -138,7 +140,7 @@ public class NhanVienServiceImpl implements BaseService<NhanVien> {
             isCheck2 = false;
         }
 
-        return isCheck&&isCheck2 ;
+        return isCheck && isCheck2 ;
     }
 
 

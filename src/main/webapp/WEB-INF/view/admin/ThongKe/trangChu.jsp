@@ -39,83 +39,182 @@
         <div id="main-menu" class="main-menu collapse navbar-collapse">
             <ul class="nav navbar-nav">
                 <%--                <li class="">--%>
-                <%--                    <a href="dashboard_2.html"><i class="menu-icon fa fa-laptop"></i>Dashboard </a>--%>
+                <%--                    <a href="dashboard_2.html">--%>
+                <%--                        <i class="menu-icon fa fa-laptop"></i>Dashboard--%>
+                <%--                    </a>--%>
                 <%--                </li>--%>
-                <li class="menu-title">Quản lý</li><!-- /.menu-title -->
-                <li class="menu-item-has-children dropdown active">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-cogs"></i>Quản lý giày</a>
-                    <ul class="sub-menu children dropdown-menu">
-                        <ul class="sub-menu children dropdown-menu">
-                            <li><i class="fa fa-puzzle-piece"></i><a href="/san-pham/hien-thi">Giày</a></li>
-                            <li><i class="fa fa-gear"></i><a href="/chat-lieu/hien-thi">Chất liệu</a></li>
-                            <li><i class="fa fa-eraser"></i><a href="/mau-sac/hien-thi">Màu sắc</a></li>
-                            <li><i class="fa fa-id-badge"></i><a href="/thuong-hieu/hien-thi">Thương hiệu</a></li>
-                            <li><i class="fa fa-arrows-h"></i><a href="/kich-thuoc/hien-thi">Kích cỡ</a></li>
-                            <li><i class="fa fa-inbox"></i><a href="/kieu-dang/hien-thi" >Kiểu dáng</a></li>
-                            <li><i class="fa fa-suitcase"></i><a href="/nha-sx/hien-thi">NSX</a></li>
-                        </ul>
-                    </ul>
-
-                </li>
-                <%--                <li class="menu-item-has-children dropdown">--%>
-                <%--                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-print" ></i>Quản lý hóa đơn</a>--%>
+                <li class="menu-title">Quản lý hóa đơn</li>
+                <!-- /.menu-title -->
+                <%--                <li class="menu-item-has-children dropdown ">--%>
+                <%--                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">--%>
+                <%--                        <i class="menu-icon fa fa-cogs"></i>Quản lý thuộc tính--%>
+                <%--                    </a>--%>
                 <%--                    <ul class="sub-menu children dropdown-menu">--%>
-                <%--                        <li><i class="fa fa-puzzle-piece"></i><a href="ui-buttons.html">Xuất hóa đơn</a></li>--%>
-                <%--                        <li><i class="fa fa-id-badge"></i><a href="ui-badges.html">Quản lý hóa đơn</a></li>--%>
+                <%--                        <li>--%>
+                <%--                            <i class="fa fa-puzzle-piece"></i>--%>
+                <%--                            <a href="/san-pham/hien-thi">Sản phẩm</a>--%>
+                <%--                        </li>--%>
+                <%--                        <li>--%>
+                <%--                            <i class="fa fa-gear"></i>--%>
+                <%--                            <a href="/chat-lieu/hien-thi">Chất liệu</a>--%>
+                <%--                        </li>--%>
+                <%--                        <li>--%>
+                <%--                            <i class="fa fa-eraser"></i>--%>
+                <%--                            <a href="/mau-sac/hien-thi">Màu sắc</a>--%>
+                <%--                        </li>--%>
+                <%--                        <li>--%>
+                <%--                            <i class="fa fa-id-badge"></i>--%>
+                <%--                            <a href="/thuong-hieu/hien-thi">Thương hiệu</a>--%>
+                <%--                        </li>--%>
+                <%--                        <li>--%>
+                <%--                            <i class="fa fa-arrows-h"></i>--%>
+                <%--                            <a href="/kich-thuoc/hien-thi">Kích cỡ</a>--%>
+                <%--                        </li>--%>
+                <%--                        <li>--%>
+                <%--                            <i class="fa fa-inbox"></i>--%>
+                <%--                            <a href="/kieu-dang/hien-thi">Kiểu dáng</a>--%>
+                <%--                        </li>--%>
+                <%--                        <li>--%>
+                <%--                            <i class="fa fa-suitcase"></i>--%>
+                <%--                            <a href="/nha-sx/hien-thi">NSX</a>--%>
+                <%--                        </li>--%>
                 <%--                    </ul>--%>
+
                 <%--                </li>--%>
                 <li>
                     <a href="/hoa-don/hien-thi" aria-expanded="false">
                         <i class="menu-icon fa fa-print"></i>Quản lý hóa đơn
                     </a>
-                    <a href="/admin/quanLySanPham/hien-thi" aria-expanded="false">
-                        <i class="menu-icon fa fa-print"></i>Quản lý sản phẩm
+                    <a href="/admin/quanLySanPham/hien-thi" aria-expanded="false" >
+                        <i class="menu-icon fa fa-star"></i>Quản lý sản phẩm
                     </a>
+                    <%--                    <ul class="sub-menu children dropdown-menu">--%>
+                    <%--                        <li>--%>
+                    <%--                            <i class="fa fa-puzzle-piece"></i>--%>
+                    <%--                            <a href="ui-buttons.html">Xuất hóa đơn</a>--%>
+                    <%--                        </li>--%>
+                    <%--                        <li>--%>
+                    <%--                            <i class="fa fa-id-badge"></i>--%>
+                    <%--                            <a href="ui-badges.html">Quản lý hóa đơn</a>--%>
+                    <%--                        </li>--%>
+                    <%--                    </ul>--%>
                 </li>
+                <%--                <li class="">--%>
+                <%--                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">--%>
+                <%--                        <i class="menu-icon fa fa-leaf"></i>Quản lý khuyến mãi--%>
+                <%--                    </a>--%>
+                <%--                </li>--%>
                 <li class="menu-item-has-children dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-leaf" ></i>Quản lý khuyến mãi</a>
                     <ul class="sub-menu children dropdown-menu">
-                        <li><i class="fa fa-puzzle-piece"></i><a href="/dot-khuyen-mai/hien-thi">Đợt giảm giá</a></li>
+                        <li><i class="fa fa-puzzle-piece"></i><a href="/dot-khuyen-mai/hien-thi">Đợt khuyến mãi</a></li>
                         <li><i class="fa fa-id-badge"></i><a href="/phieu-giam-gia/hien-thi">Phiếu giảm giá</a></li>
                     </ul>
                 </li>
-                <%--                <li class="">--%>
-                <%--                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-user" ></i>Quản lý tài khoản</a>--%>
-                <%--                </li>--%>
                 <li class="menu-item-has-children dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="menu-icon fa fa-user"></i>Quản lý tài khoản
+                        <i class="menu-icon fa fa-puzzle-piece"></i>Quản lý thuộc tính
                     </a>
                     <ul class="sub-menu children dropdown-menu">
                         <li class="">
-                            <a href="/khach-hang/hien-thi">
-                                <i class="fa fa-pencil-square-o"></i>Quản lý khách hàng
+                            <a href="/thuong-hieu/hien-thi">
+                                <i class="fa fa-id-badge"></i> Thương hiệu
                             </a>
                         </li>
                         <li class="">
-                            <a href="/nhan-vien/hien-thi">
-                                <i class="fa fa-users"></i>Quản lý nhân viên
+                            <a href="/nha-sx/hien-thi">
+                                <i class="fa fa-suitcase"></i> Nhà sản xuất
+                            </a>
+                        </li>
+                        <li class="">
+                            <a href="/danh-muc/hien-thi">
+                                <i class="fa fa-building-o"></i> Danh mục
+                            </a>
+                        </li>
+                        <li class="">
+                            <a href="/loai-sp/hien-thi">
+                                <i class="fa fa-sun-o"></i> Loại sản phẩm
+                            </a>
+                        </li>
+                        <li class="">
+                            <a href="/kieu-dang/hien-thi">
+                                <i class="fa fa-inbox"></i> Kiểu dáng
+                            </a>
+                        </li>
+                        <li class="">
+                            <a href="/chat-lieu/hien-thi">
+                                <i class="fa  fa-beer"></i> Chất liệu
+                            </a>
+                        </li>
+                        <li class="">
+                            <a href="/mui-giay/hien-thi">
+                                <i class="fa fa-cog"></i> Mũi giày
+                            </a>
+                        </li>
+                        <li class="">
+                            <a href="/day-giay/hien-thi">
+                                <i class="fa fa-bars"></i> Dây giày
+                            </a>
+                        </li>
+                        <li class="">
+                            <a href="/de-giay/hien-thi">
+                                <i class="fa fa-sort-desc"></i> Đế giày
+                            </a>
+                        </li>
+                        <li class="">
+                            <a href="/lot-giay/hien-thi">
+                                <i class="fa  fa-road "></i> Lót giày
+                            </a>
+                        </li>
+                        <li class="">
+                            <a href="/mau-sac/hien-thi">
+                                <i class="fa fa-eraser"></i> Màu sắc
+                            </a>
+                        </li>
+                        <li class="">
+                            <a href="/kich-thuoc/hien-thi">
+                                <i class="fa fa-arrows-h"></i> Size giày
                             </a>
                         </li>
                     </ul>
                 </li>
-                <li class="menu-title">Thống kê</li><!-- /.menu-title -->
-                <li>
+                <li class="menu-title ">Thống kê</li>
+                <!-- /.menu-title -->
+                <li class="active">
                     <a href="/thong-ke" aria-expanded="false"> <i class="menu-icon fa fa-bar-chart-o"></i>Thống kê doanh thu</a>
-                    <%--                    <ul class="sub-menu children dropdown-menu">--%>
-                    <%--                        <li><i class="fa fa-puzzle-piece"></i><a href="ui-buttons.html">Hàng ngày</a></li>--%>
-                    <%--                        <li><i class="fa fa-id-badge"></i><a href="ui-badges.html">Hàng tháng</a></li>--%>
-                    <%--                        <li><i class="fa fa-bars"></i><a href="ui-tabs.html">Hàng năm</a></li>--%>
-                    <%--                    </ul>--%>
                 </li>
-                <li class="menu-title">Bán hàng</li><!-- /.menu-title -->
-                <li class="">
-                    <a href="/ban-hang/view"> <i class="menu-icon fa fa-file-text-o"></i>Bán hàng tại quầy</a>
+                <%--                <li class="menu-item-has-children dropdown">--%>
+                <%--                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">--%>
+                <%--                        <i class="menu-icon fa fa-bar-chart-o"></i>Thống kê doanh thu--%>
+                <%--                    </a>--%>
+                <%--                    <ul class="sub-menu children dropdown-menu">--%>
+                <%--                        <li>--%>
+                <%--                            <i class="fa fa-puzzle-piece"></i>--%>
+                <%--                            <a href="ui-buttons.html">Hàng ngày</a>--%>
+                <%--                        </li>--%>
+                <%--                        <li>--%>
+                <%--                            <i class="fa fa-id-badge"></i>--%>
+                <%--                            <a href="ui-badges.html">Hàng tháng</a>--%>
+                <%--                        </li>--%>
+                <%--                        <li>--%>
+                <%--                            <i class="fa fa-bars"></i>--%>
+                <%--                            <a href="ui-tabs.html">Hàng năm</a>--%>
+                <%--                        </li>--%>
+                <%--                    </ul>--%>
+                <%--                </li>--%>
+                <li class="menu-title">Bán hàng</li>
+                <!-- /.menu-title -->
+                <li >
+                    <a href="/ban-hang/view">
+                        <i class="menu-icon fa fa-file-text-o"></i>Bán hàng tại quầy
+                    </a>
                 </li>
             </ul>
-        </div><!-- /.navbar-collapse -->
+        </div>
+        <!-- /.navbar-collapse -->
     </nav>
 </aside>
+
 <!-- /#left-panel -->
 
 <!-- Left Panel -->

@@ -19,7 +19,7 @@ public class PhieuGiamGia extends BaseModel{
     private String ma;
 
     @Column(name = "TenPhieu")
-    private String ten;
+    private String tenPhieu;
 
     @Column(name = "GiaTriGiam")
     private Double giaTriGiam;

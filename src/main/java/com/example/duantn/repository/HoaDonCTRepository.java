@@ -79,10 +79,21 @@ public interface HoaDonCTRepository extends JpaRepository<HoaDonChiTiet, UUID> {
 
     // hoan code
 
+    @Query(value = "select * from HoaDonCT where IdHoaDon =:idHoaDon order by NgayMua asc ",
+            countQuery = "select * from HoaDonCT where IdHoaDon =:idHoaDon", nativeQuery = true)
+    List<HoaDonChiTiet> layDanhSachHoaDonCT_theoIDHoaDon(@Param("idHoaDon") UUID idHoaDon);
+
 
 
     @Query(value = "select * from HoaDon where Ma =:maInput ", countQuery = "select * from HoaDon where Ma =:maInput", nativeQuery = true)
     HoaDon getHoaDonBy_ma(@Param("maInput") String maHoaDon);
+
+    @Transactional
+    @Modifying
+    @Query(value = "update HoaDonCT\n" +
+            "set TrangThai=:trangThaiNew \n" +
+            "where IdHoaDon = :idHoaDon", nativeQuery = true)
+    public void updateTrangThaiHoaDonCT( @Param("idHoaDon") UUID idHoaDon, @Param("trangThaiNew") String trangThaiNew);
 
     ///
 

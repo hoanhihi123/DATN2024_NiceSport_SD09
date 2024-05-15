@@ -1,13 +1,7 @@
 package com.example.duantn.service.impl;
 
-import com.example.duantn.model.ChiTietSanPham;
-import com.example.duantn.model.DotKhuyenMai;
-import com.example.duantn.model.SanPham;
-import com.example.duantn.model.SanPhamDotKhuyenMai;
-import com.example.duantn.repository.DotKhuyenMaiRepository;
-import com.example.duantn.repository.SanPhamCTRepository;
-import com.example.duantn.repository.SanPhamDotKhuyenMaiRepository;
-import com.example.duantn.repository.SanPhamRepository;
+import com.example.duantn.model.*;
+import com.example.duantn.repository.*;
 import com.example.duantn.service.BaseService;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
@@ -23,11 +17,26 @@ public class DotKhuyenMaiServiceImpl implements BaseService<DotKhuyenMai> {
     private final SanPhamCTRepository sanPhamCTRepository;
     private final SanPhamDotKhuyenMaiRepository sanPhamDotKhuyenMaiRepository;
 
-    public DotKhuyenMaiServiceImpl(DotKhuyenMaiRepository dotKhuyenMaiRepository, SanPhamRepository sanPhamRepository, SanPhamCTRepository sanPhamCTRepository, SanPhamDotKhuyenMaiRepository sanPhamDotKhuyenMaiRepository) {
+    private  HoaDonRepository hoaDonRepository;
+    private HoaDonCTRepository hoaDonCTRepository;
+    private ChiTietSanPhamRepository chiTietSanPhamRepository;
+
+    public DotKhuyenMaiServiceImpl(
+            DotKhuyenMaiRepository dotKhuyenMaiRepository
+            , SanPhamRepository sanPhamRepository
+            , SanPhamCTRepository sanPhamCTRepository
+            , SanPhamDotKhuyenMaiRepository sanPhamDotKhuyenMaiRepository
+            , HoaDonRepository hoaDonRepository
+            , HoaDonCTRepository hoaDonCTRepository
+            , ChiTietSanPhamRepository chiTietSanPhamRepository
+    ) {
         this.dotKhuyenMaiRepository = dotKhuyenMaiRepository;
         this.sanPhamRepository = sanPhamRepository;
         this.sanPhamCTRepository = sanPhamCTRepository;
         this.sanPhamDotKhuyenMaiRepository = sanPhamDotKhuyenMaiRepository;
+        this.hoaDonCTRepository = hoaDonCTRepository;
+        this.hoaDonRepository = hoaDonRepository;
+        this.chiTietSanPhamRepository = chiTietSanPhamRepository;
     }
 
     public List<DotKhuyenMai> layDanhSach() {
@@ -193,5 +202,42 @@ public class DotKhuyenMaiServiceImpl implements BaseService<DotKhuyenMai> {
                 }
             }
         }
+
+        // -----------------------------------
+        List<HoaDon> danhSach_hoaDonCho = new ArrayList<>();
+        danhSach_hoaDonCho = hoaDonRepository.getHoaDonBy_status(0);
+
+        for(HoaDon hoaDonCho : danhSach_hoaDonCho){
+            List<HoaDonChiTiet> danhSachHoaDonChiTiet_tuongUng = new ArrayList<>();
+            danhSachHoaDonChiTiet_tuongUng = hoaDonCTRepository.getListHoaDonChiTiet_theoIdHoaDon(hoaDonCho.getId());
+            for(HoaDonChiTiet hoaDonChiTiet: danhSachHoaDonChiTiet_tuongUng){
+                // duyệt lần lượt hóa đơn chi tiết - mỗi hóa đơn chi tiết tương ứng với 1 sản phẩm chi tiết
+                // lấy ra thông tin của sản phẩm chi tiết ứng với hóa đơn chi tiết đó => cập nhật lại thông tin cho hóa đơn chi tiết đó
+                HoaDonChiTiet hoaDonChiTiet_update = hoaDonChiTiet;
+                ChiTietSanPham chiTietSanPham = chiTietSanPhamRepository.findById(hoaDonChiTiet.getChiTietSanPham().getId()).orElse(null);
+                hoaDonChiTiet_update.setGiaGocSP(chiTietSanPham.getGiaTriSanPham());
+                Double giaGiam = 0.0;
+                if(chiTietSanPham.getGiaTriGiam()!=null&&chiTietSanPham.getGiaTriGiam()>0){
+                    giaGiam = chiTietSanPham.getGiaTriGiam();
+                }
+                hoaDonChiTiet_update.setGiaSauGiam(giaGiam);
+                Double thanhTien = 0.0;
+                if(chiTietSanPham.getGiaTriGiam()!=null&&chiTietSanPham.getGiaTriGiam()>0) {
+                    thanhTien = chiTietSanPham.getGiaTriGiam()*hoaDonChiTiet_update.getSoLuong();
+                }else {
+                    thanhTien = chiTietSanPham.getGiaTriSanPham()*hoaDonChiTiet_update.getSoLuong();
+                }
+                hoaDonChiTiet_update.setDonGia(thanhTien);
+                System.out.println(">>>>>>>>>>>>>>> tại class scheduled task - cập nhật hóa đơn chi tiết ");
+                System.out.println("Thành tiền : " + thanhTien);
+                System.out.println("Gia giam : " + giaGiam);
+                System.out.println("gia gốc : " + chiTietSanPham.getGiaTriSanPham());
+                System.out.println("Hóa đơn chi tiết được cập nhật : " + hoaDonChiTiet_update.toString());
+                hoaDonCTRepository.save(hoaDonChiTiet_update);
+            }
+        }
+
+
+
     }
 }
