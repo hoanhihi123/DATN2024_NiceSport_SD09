@@ -223,9 +223,8 @@
                                         </td>
                                         <td class="quantity-col">
                                             <div class="cart-product-quantity">
-                                                <input type="number"  value="${sanPhamTrongGio.soLuong}" min="1" step="1"
+                                                <input type="number"  value="${sanPhamTrongGio.soLuong}"
                                                        onchange="changeNumberProduct('${sanPhamTrongGio.idSanPhamCT}',this.value)" />
-
                                             </div>
                                         </td>
 
@@ -558,20 +557,34 @@
 
     // Hàm để gửi dữ liệu về server để lưu vào session
     function changeNumberProduct(idSanPhamCT, soLuong) {
-        // console.log("id sản phẩm:" + idSanPhamCT + "số lượng sản phẩm: " + soLuong);
-
-        // lấy ra tổng số lượng + số lượng thêm => vượt quá 10 thì đưa ra thông báo
-        // nếu mà vượt quá => set value cho input tại nơi sửa dữ liệu = là giá trị cũ
-        // return để ngăn chặn thực hiện câu lệnh phía sau
         var tongSoLuongTrongGio = 0;
         tongSoLuongSPTrongGio(idSanPhamCT, soLuong).then(function(tongSoLuongSPGio) {
             tongSoLuongTrongGio = parseInt(tongSoLuongSPGio) + parseInt(soLuong);
             console.log(">><< TỔNG SỐ LƯỢNG TRONG GIỎ : " + tongSoLuongTrongGio);
 
             if(parseInt(tongSoLuongTrongGio)>10){
-                alert("Giỏ hàng chỉ chứa tối đa 10 sản phẩm ");
+                alert("Giỏ hàng chỉ được thêm tối đa 10 sản phẩm! ");
                 window.location.href = "/gio-hang/view-gio";
                 return;
+            }
+
+            // so luong < 0 => đưa ra thông báo và return
+            // if(parseInt(soLuong)<=0){
+            //     alert("Vui lòng nhập số lượng mới > 0");
+            //     window.location.href = "/gio-hang/view-gio";
+            //     return;
+            // }
+
+            // so luong = 0 => xóa
+            if(parseInt(soLuong)===0){
+                // đưa ra confirm bạn có muốn xóa sản phẩm này ko
+                // oke => chạy vào xóa sản phẩm => reload lại trang
+                if(confirm("Số lượng mua mới của bạn nhỏ hơn hoặc = 0 \nBạn có muốn xóa sản phẩm này không ?")){
+                    window.location.href = "/gio-hang/xoa/"+idSanPhamCT;
+                }else{
+                    window.location.href = "/gio-hang/view-gio";
+                    return;
+                }
             }
 
             $.ajax({
@@ -593,7 +606,7 @@
 
                     let soLuongMuaVuotQua = jsonResult.soLuongMuaVuotQua;
                     if(soLuongMuaVuotQua===true){
-                        alert("Số lượng trong kho không đủ, vui lòng chọn sản phẩm khác hoặc liên hệ với chúng tôi để đặt hàng sớm nhất.");
+                        alert("Số lượng trong kho không đủ! \nVui lòng chọn sản phẩm khác ");
                     }
 
                     window.location.href = "/gio-hang/view-gio";

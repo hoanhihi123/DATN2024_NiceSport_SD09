@@ -186,6 +186,7 @@ public class BanHangRestController {
     ) throws IOException, ParseException {
         UUID idSanPhamChiTiet = muaHangTaiQuay.getIdSanPhamCT();
         UUID idHoaDon = muaHangTaiQuay.getIdHoaDon();
+        System.out.println("ID hóa đơn tại /themSanPhamVaoHoaDonChiTiet : " + idHoaDon);
         Integer soLuongMua = muaHangTaiQuay.getSoLuong_sanPhamMua();
 
         Integer soLuongSanPhamDaChonTrongHoaDon = hoaDonCTService.getSoLuongSanPhamTrongHoaDonCT(idHoaDon, idSanPhamChiTiet);
@@ -209,6 +210,30 @@ public class BanHangRestController {
             int soLuongSauMua = soLuongKho - soLuongMua;
             chiTietSanPhamCapNhat.setSoLuong(soLuongSauMua);
             sanPhamCTService.capNhat(chiTietSanPhamCapNhat);
+
+            // lấy ra hóa đơn hiện tại, tính lại tổng tiền
+            HoaDon hoaDonCurrent = new HoaDon();
+            hoaDonCurrent = hoaDonService.chiTietTheoId(idHoaDon);
+
+            // lấy ra danh sách hóa đơn chi tiết => tính lại tổng tiền cho hóa đơn
+            List<HoaDonChiTiet> ds_hoaDonCT = new ArrayList<>();
+            ds_hoaDonCT = hoaDonCTService.layDanhSachHoaDon_theoIdHoaDon(idHoaDon);
+            Double tongTienHang = 0.0;
+            Double tongTienHangSauGiam = 0.0;
+
+            for(HoaDonChiTiet hoaDonCT : ds_hoaDonCT){
+                tongTienHang+=hoaDonCT.getDonGia()*hoaDonCT.getSoLuong();
+            }
+
+            // khi nào thì tổng tiền hàng sau giảm thay đổi => áp phiếu giảm giá
+            if(hoaDonCurrent.getPhieuGiamGia()!=null){
+                // lấy ra giá trị giảm từ phiếu giảm giá
+                PhieuGiamGia phieuGiamGia = phieuGiamGiaService.chiTietTheoId(hoaDonCurrent.getPhieuGiamGia().getId());
+                tongTienHangSauGiam = tongTienHang + phieuGiamGia.getGiaTriGiam();
+            }else {
+                tongTienHangSauGiam = tongTienHang;
+            }
+
 
                 checkThemSanPhamVaoHDCT = true;
 //                System.out.println("Chạy xong  hàm cập nhật số lượng ");
@@ -251,6 +276,30 @@ public class BanHangRestController {
             int soLuongSauMua = soLuongKho - soLuongMua;
             chiTietSanPhamCapNhat.setSoLuong(soLuongSauMua);
             sanPhamCTService.capNhat(chiTietSanPhamCapNhat);
+
+            // lấy ra hóa đơn hiện tại, tính lại tổng tiền
+            HoaDon hoaDonCurrent = new HoaDon();
+            hoaDonCurrent = hoaDonService.chiTietTheoId(idHoaDon);
+
+            // lấy ra danh sách hóa đơn chi tiết => tính lại tổng tiền cho hóa đơn
+            List<HoaDonChiTiet> ds_hoaDonCT = new ArrayList<>();
+            ds_hoaDonCT = hoaDonCTService.layDanhSachHoaDon_theoIdHoaDon(idHoaDon);
+            Double tongTienHang = 0.0;
+            Double tongTienHangSauGiam = 0.0;
+
+            for(HoaDonChiTiet hoaDonCT : ds_hoaDonCT){
+                tongTienHang+=hoaDonCT.getDonGia()*hoaDonCT.getSoLuong();
+            }
+
+            // khi nào thì tổng tiền hàng sau giảm thay đổi => áp phiếu giảm giá
+            if(hoaDonCurrent.getPhieuGiamGia()!=null){
+                // lấy ra giá trị giảm từ phiếu giảm giá
+                PhieuGiamGia phieuGiamGia = phieuGiamGiaService.chiTietTheoId(hoaDonCurrent.getPhieuGiamGia().getId());
+                tongTienHangSauGiam = tongTienHang + phieuGiamGia.getGiaTriGiam();
+            }else {
+                tongTienHangSauGiam = tongTienHang;
+            }
+
 
             if(ketQuaThemHoaDonChiTiet!=null){
                 checkThemSanPhamVaoHDCT = true;

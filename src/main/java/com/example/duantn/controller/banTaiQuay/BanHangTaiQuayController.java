@@ -433,7 +433,7 @@ public class BanHangTaiQuayController {
             jsonResult.put("tongTienDonHangSauGiam", tongTienSauGiam);
         }else{
             jsonResult.put("tienDuocGiam", 0);
-            jsonResult.put("tongTienDonHangSauGiam", 0);
+            jsonResult.put("tongTienDonHangSauGiam", tongTienDonHang);
         }
 
 

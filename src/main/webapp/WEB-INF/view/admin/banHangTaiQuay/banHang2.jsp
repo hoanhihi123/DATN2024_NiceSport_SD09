@@ -486,7 +486,7 @@
                                     <div class="col-lg-12" style="margin-top: 20px;">
                                         <div class="row ">
                                             <span class="col-lg-12">Tiền thừa trả khách:  </span>
-                                            <input type="number" id="tienThuaTraKhach" class="form-control col-lg-5" style="margin-left: 20px;" readonly>
+                                            <input type="text" id="tienThuaTraKhach" class="form-control col-lg-5" style="margin-left: 20px;" readonly>
                                         </div>
                                     </div>
 
@@ -826,6 +826,7 @@
 <script src="https://cdn.jsdelivr.net/npm/jquery-match-height@0.7.2/dist/jquery.matchHeight.min.js"></script>
 <script src="/admin/assets/js/main.js"></script>
 <script src="/user/js/callAPIAdress.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
 
 
 <%--Tạo dữ liệu và phân trang cho hóa đơn chờ --%>
@@ -913,6 +914,10 @@
                     tongTienDonHang(idHoaDon_active).then(function(result) {
                         var tongTien = result.tongTienDonHang;
                         console.log("Tổng tiền đơn hàng: " + tongTien);
+
+                        document.getElementById("tienKhachDua").value='0';
+                        document.getElementById("tienKhachDua").value='0';
+
                         if (tongTien > 0) {
                             // Bỏ thuộc tính readonly cho một phần tử có id là "elementId"
                             document.getElementById("tienKhachDua").removeAttribute("readonly");
@@ -1129,13 +1134,13 @@
             var giaTriSanPham = item.chiTietSanPham.giaTriSanPham;
             var giaTriGiam = item.chiTietSanPham.giaTriGiam >= 0 ? item.chiTietSanPham.giaTriGiam : 0;
 
-            var formatted_giaGiam = new Intl.NumberFormat('vi-VN', { maximumFractionDigits: 0 }).format(giaTriGiam);
+            var formatted_giaGiam = new Intl.NumberFormat('vi-VN', { maximumFractionDigits: 0 }).format(item.chiTietSanPham.giaTriGiam);
             var formatted_giaGoc = new Intl.NumberFormat('vi-VN', { maximumFractionDigits: 0 }).format(item.chiTietSanPham.giaTriSanPham);
 
-            var hienThiGiaSanPham = giaTriGiam > 0 ? "<td><del>" + formatted_giaGoc + "</del> - <b>" + formatted_giaGiam + "</b></td>" : "<td>" + formatted_giaGoc + "</td>";
+            var hienThiGiaSanPham = item.chiTietSanPham.giaTriGiam > 0 ? "<td><del>" + formatted_giaGoc + "</del> - <b>" + formatted_giaGiam + "</b></td>" : "<td>" + formatted_giaGoc + "</td>";
 
-            var formatted_giaGoc = new Intl.NumberFormat('vi-VN', { maximumFractionDigits: 0 }).format(item.donGia);
-            var hienThiDonGia = "<td>" + formatted_giaGoc + "</td>";
+            var formatted_thanhTien = new Intl.NumberFormat('vi-VN', { maximumFractionDigits: 0 }).format(item.donGia);
+            var hienThiDonGia = "<td>" + formatted_thanhTien + "</td>";
 
 
             var row =
@@ -1743,7 +1748,7 @@
 
             var formatted_giaGoc = new Intl.NumberFormat('vi-VN', { maximumFractionDigits: 0 }).format(item.giaTriSanPham);
             var formatted_giaGiam = new Intl.NumberFormat('vi-VN', { maximumFractionDigits: 0 }).format(item.giaTriGiam);
-            var hienThiGiaSanPham = giaTriGiam > 0 ? "<td><del>" + formatted_giaGoc + "</del> - <b>" + formatted_giaGiam + "</b></td>" : "<td>" + formatted_giaGoc + "</td>";
+            var hienThiGiaSanPham = item.giaTriGiam  > 0 ? "<td><del>" + formatted_giaGoc + "</del> - <b>" + formatted_giaGiam + "</b></td>" : "<td>" + formatted_giaGoc + "</td>";
 
 
             var disabledAttribute = item.soLuong <= 0 ? "disabled" : ""; // Kiểm tra số lượng sản phẩm
@@ -2147,17 +2152,22 @@
     function themSanPhamVaoHoaDonHienTai(idSanPhamChiTiet, soLuongMua) {
         var idHoaDon_active = layIDCuaButtonTabPane_active();
 
+        if(parseInt(soLuongMua)<=0){
+            alert("Vui lòng nhập số lượng mua > 0");
+            return;
+        }
+
         kiemTraSoLuongMuaHopLeKhong(idHoaDon_active, idSanPhamChiTiet, soLuongMua)
             .then(result => {
                 if (result.ketQuaKiemTra === false) { // trường hợp thêm sản phẩm bị vượt quá trong hóa đơn
                     // alert("Số lượng mua ở param truyền vào = " + soLuongMua);
                     // alert("Số lượng mua lấy từ kết quả trả về trong kiểm tra số lượng hợp lệ : " + result.soLuongMuaVaoHoaDon);
                     if(result.soLuongMuaVaoHoaDon<=0){
-                        alert("Không thể thêm số lượng mua = 0 vào hóa đơn");
+                        alert("Không thể thêm số lượng mua < 1 vào hóa đơn");
                         return;
                     }
                     if(result.soLuongConTrongKho <=0){
-                        alert("Trong kho không đủ sản phẩm cho bạn mua");
+                        alert("Kho hàng hết sản phẩm! Vui lòng chọn sản phẩm khác");
                         return;
                     }
 
@@ -2633,6 +2643,7 @@
 
                         var formatted_tongTienSauGiam = new Intl.NumberFormat('vi-VN', { maximumFractionDigits: 0 }).format(tongTienSauGiam);
                         var tongTienThanhToan = document.getElementById("tongTienThanhToan");
+
                         tongTienThanhToan.textContent = formatted_tongTienSauGiam;
 
                         console.log("=>>>>>>>>>>>>>>>>>>> Tổng tiền đơn hàng o tinh tong tien hang : " + tongTienDonHang);
@@ -3009,6 +3020,7 @@
         }
 
         var tienKhachDuaNumber = parseFloat(tienKhachDua);
+        console.log("Tiền khach dua number = " + tienKhachDuaNumber);
 
         var idHoaDon_active = layIDCuaButtonTabPane_active();
         // từ tổng tiền hàng lấy ra giá trị => tongTienHang, nếu >0 => set bỏ readonly cho element theo id chỉ định
@@ -3021,25 +3033,31 @@
 
                 if(tongTienSauGiam>0){
                     var tienThua =  tienKhachDuaNumber - tongTienSauGiam;
-                    var formatted_tienThua= new Intl.NumberFormat('vi-VN', { maximumFractionDigits: 0 }).format(tienThua);
-                    document.getElementById("tienThuaTraKhach").value=formatted_tienThua;
+                    // console.log("Tiền thừa sau tính tongTienSauGiam >0  : " + tienThua);
+
+                    let formatted_tienThua = tienThua.toLocaleString('vi-VN');
+
+                    // Gán giá trị đã định dạng vào thẻ HTML
+                    document.getElementById("tienThuaTraKhach").value = formatted_tienThua;
                 }else{
                     var tienThua =  tienKhachDuaNumber - tongTien;
-                    var tienThua =  tienKhachDuaNumber - tongTienSauGiam;
-                    var formatted_tienThua= new Intl.NumberFormat('vi-VN', { maximumFractionDigits: 0 }).format(tienThua);
-                    document.getElementById("tienThuaTraKhach").value=formatted_tienThua;
+
+                    let formatted_tienThua = tienThua.toLocaleString('vi-VN');
+
+                    // Gán giá trị đã định dạng vào thẻ HTML
+                    document.getElementById("tienThuaTraKhach").value = formatted_tienThua;
                 }
             })
             .catch(function(error) {
                 console.log("Đã xảy ra lỗi: " + error);
             });
 
-        tongTienDonHang(idHoaDon_active).then(function(tongTien,tongTienSauGiam) {
-            console.log("Tổng tiền sau giảm : " + tongTienSauGiam);
-
-        }).catch(function(error) {
-            console.log("Đã xảy ra lỗi: " + error);
-        });
+        // tongTienDonHang(idHoaDon_active).then(function(tongTien,tongTienSauGiam) {
+        //     console.log("Tổng tiền sau giảm : " + tongTienSauGiam);
+        //
+        // }).catch(function(error) {
+        //     console.log("Đã xảy ra lỗi: " + error);
+        // });
     }
 
 

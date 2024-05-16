@@ -144,7 +144,7 @@ public interface ChiTietSanPhamRepository extends JpaRepository<ChiTietSanPham, 
 
     @Query(value = "SELECT SanPhamCT.*, SanPham.Id AS SanPhamId FROM SanPhamCT \n" +
             "JOIN SanPham ON SanPhamCT.IdSanPham = SanPham.Id\n" +
-            "WHERE SanPham.TrangThai = 1 AND SoLuong > 0 ORDER BY (GiaTriSanPham - GiaTriGiam) / GiaTriSanPham * 100 DESC",
+            "WHERE SanPham.TrangThai = 1 AND SanPhamCT.TrangThai = 1 AND SoLuong > 0 ORDER BY (GiaTriSanPham - GiaTriGiam) / GiaTriSanPham * 100 DESC",
             countQuery = "SELECT COUNT(*) FROM SanPhamCT \n" +
                     "JOIN SanPham ON SanPhamCT.IdSanPham = SanPham.Id\n" +
                     "WHERE SanPham.TrangThai = 1 AND SoLuong > 0", nativeQuery = true)
@@ -189,7 +189,7 @@ public interface ChiTietSanPhamRepository extends JpaRepository<ChiTietSanPham, 
     // lay danh sách sản phẩm theo IdMauSac va IdSanPham
     @Query(value = "select spct.* from SanPhamCT spct\n" +
             "join KichThuoc kt on spct.IdKichThuoc = kt.Id\n" +
-            "where spct.IdSanPham =:idSanPham and spct.IdMauSac =:idMauSac\n" +
+            "where spct.IdSanPham =:idSanPham and spct.IdMauSac =:idMauSac and spct.trangThai=1\n" +
             "order by kt.Ten\n"
             , nativeQuery = true)
     public List<ChiTietSanPham> getListSanPhamCT_theoIdMauSac_IdSanPham(@Param("idSanPham") UUID idSanPham,
@@ -232,8 +232,10 @@ public interface ChiTietSanPhamRepository extends JpaRepository<ChiTietSanPham, 
                 "WHERE ID = :idSanPhamCT", nativeQuery = true)
         public void updateTrangThaiSanPhamCT( @Param("idSanPhamCT") UUID idSanPhamCT);
 
-
     // hoan code
+    @Query(value = "select * from SanPhamCT where Id =:idSanPhamCT and trangThai=1"
+            , nativeQuery = true)
+    public ChiTietSanPham getSanPhamChiTietBy_Id(@Param("idSanPhamCT") UUID idSanPhamCT);
 
 
 

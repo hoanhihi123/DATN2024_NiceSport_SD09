@@ -43,7 +43,7 @@ public class ProductTrangChu {
     ) {
         HttpSession session = request.getSession();
 
-        // idSPCT theo truyền URl là sản phẩm chi tiết được chọn trên trang chủ
+        // chi tiết sản phẩm theo idSanPham
         ChiTietSanPham chiTietSanPham = new ChiTietSanPham();
         chiTietSanPham = chiTietSPService.chiTietTheoId(idSanPhamChiTiet_url);
 
@@ -58,7 +58,7 @@ public class ProductTrangChu {
 ////        }
         // chưa có trường hợp ngược lại
 
-        // với idSanPhamChiTiet => lấy ra danh sách hình ảnh
+        // với idSanPhamChiTiet => lấy ra danh sách hình ảnh với trạng thái sản phẩm chi tiết = 1
         List<ChiTietSanPham> dsChiTietSP = new ArrayList<>();
         dsChiTietSP = chiTietSPService.layDanhSachSPCT_theoIDSanPham_va_ID_mauSac(chiTietSanPham.getSanPham().getId(),chiTietSanPham.getMauSac().getId());
 

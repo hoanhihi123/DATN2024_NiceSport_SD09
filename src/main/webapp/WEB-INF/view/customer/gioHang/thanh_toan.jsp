@@ -91,6 +91,7 @@
                                                 <label>Họ và tên <span class="dauSao">*</span></label>
                                                 <sf:input path="hoVaTen" class="form-control" id="hoVaTen"  />
                                                 <sf:errors path="hoVaTen" cssClass="text-danger" />
+                                                <span id="checkHoVaTen" style="color: red !important;"></span>
                                             </div><!-- End .col-sm-6 -->
                                         </div><!-- End .row -->
 
@@ -99,12 +100,14 @@
                                                 <label>Số điện thoại <span class="dauSao">*</span></label>
                                                 <sf:input path="soDT" class="form-control" id="SDT" />
                                                 <sf:errors path="soDT" cssClass="text-danger" />
+                                                <span id="checkSDT" style="color: red !important;"></span>
                                             </div><!-- End .col-sm-6 -->
                                         </div><!-- End .row -->
 
                                         <label>Email <span class="dauSao">*</span></label>
                                         <sf:input path="email" class="form-control"  id="email" />
                                         <sf:errors path="email" cssClass="text-danger" />
+                                                <span id="checkEmail" style="color: red !important;"></span>
 
 
                                         <div class="row">
@@ -114,6 +117,7 @@
                                                     <sf:option value="">Chọn thành phố/tỉnh</sf:option>
                                                 </sf:select>
                                                 <sf:errors path="tinh_thanhPho" cssClass="text-danger" />
+                                                <span id="checktinh_thanhPho" style="color: red !important;"></span>
                                             </div><!-- End .col-sm-6 -->
 
                                             <div class="col-sm-6">
@@ -122,21 +126,24 @@
                                                     <sf:option value="">Chọn quận/huyện</sf:option>
                                                 </sf:select>
                                                 <sf:errors path="quan_huyen" cssClass="text-danger" />
+                                                <span id="checkquan_huyen" style="color: red !important;"></span>
                                             </div><!-- End .col-sm-6 -->
                                         </div><!-- End .row -->
 
                                         <div class="row">
                                             <div class="col-sm-12">
-                                                <label>Phường/Xã </label>
+                                                <label>Phường/Xã <span class="dauSao" >*</span> </label>
                                                 <sf:select name="" id="ward" class="form-control"  path="phuong_xa">
                                                     <sf:option value="">Chọn phường/xã</sf:option>
                                                 </sf:select>
+                                                <span id="checkphuong_xa" style="color: red !important;"></span>
                                             </div><!-- End .col-sm-6 -->
                                         </div><!-- End .row -->
 
                                         <label>Địa chỉ cụ thể <span class="dauSao" >*</span></label>
-                                        <sf:input path="diaChi" class="form-control" placeholder="Số nhà và tên đường " />
+                                        <sf:input path="diaChi" id="diaChi" class="form-control" placeholder="Số nhà và tên đường " />
                                         <sf:errors path="diaChi" cssClass="text-danger" />
+                                                <span id="checkDiaChiCuThe" style="color: red !important;"></span>
 
 
                                         <!-- <div class="custom-control custom-checkbox">
@@ -204,8 +211,9 @@
                                             <tr class="summary-subtotal">
                                                 <td colspan="3">Tổng tiền:</td>
                                                 <td colspan="3" >
-                                                    <fmt:formatNumber type = "number"
-                                                                      maxFractionDigits = "0" value = "${tongTienDonHang>0?tongTienDonHang:0}" />
+<%--                                                    <fmt:formatNumber type = "number"--%>
+<%--                                                                      maxFractionDigits = "0" value = "${tongTienDonHang>0?tongTienDonHang:0}" />--%>
+                                                    <input  type="numer" id="tongTien" name="tongTien"  value = "${tongTienDonHang>0?tongTienDonHang:0}" readonly style="border:none;" / >
 
                                                 </td>
                                             </tr><!-- End .summary-subtotal -->
@@ -218,7 +226,13 @@
                                             <tr class="summary-total">
                                                 <td colspan="3">Tổng tiền cần thanh toán:</td>
                                                 <td colspan="3">
-                                                    <sf:input path="tongTienDonHang" type="number" id="tongTienDonHang" name="tongTienDonHang"  value="${tongTienDonHang>0?tongTienDonHang:0}" readonly="true" style="border:none;" />
+<%--                                                    <sf:input path="tongTienDonHang" type="number" id="tongTienDonHang" name="tongTienDonHang"  value="${tongTienDonHang>0?tongTienDonHang:0}" readonly="true" style="border:none;" />--%>
+
+                                                    <sf:input path="tongTienDonHang" type="numer" id="tongTienDonHang" name="tongTienDonHang"  value="${tongTienDonHang>0?tongTienDonHang:0}" readonly="true" style="border:none;" />
+
+<%--                                                    <fmt:formatNumber type = "number"--%>
+<%--                                                                      maxFractionDigits = "0" value = "${tongTienDonHang>0?tongTienDonHang:0}" />--%>
+
                                                 </td>
                                             </tr><!-- End .summary-total -->
                                             </tbody>
@@ -546,12 +560,15 @@
 
     // Lấy giá trị từ thẻ
     let tongTienDonHangValue = document.getElementById('tongTienDonHang').value;
+    let tongTienValue = document.getElementById('tongTien').value;
 
     // Định dạng lại giá trị
-    let formattedValue = new Intl.NumberFormat('vi-VN').format(tongTienDonHangValue);
+    let formattedValue_tongTienDonHang = new Intl.NumberFormat('vi-VN').format(tongTienDonHangValue);
+    let formattedValue_tongTien = new Intl.NumberFormat('vi-VN').format(tongTienValue);
 
     // Gán giá trị đã được định dạng vào thẻ
-    document.getElementById('tongTienDonHang').value = formattedValue;
+    document.getElementById('tongTienDonHang').value = formattedValue_tongTienDonHang;
+    document.getElementById('tongTien').value = formattedValue_tongTien;
 
     quayLaiHome = function() {
         console.log("Xóa các sản phẩm trong cart thanh toán, quay lại trang chủ");
@@ -603,50 +620,117 @@
         var hoVaTen = document.getElementById("hoVaTen");
         var email = document.getElementById("email");
         var soDT = document.getElementById("SDT");
+
+        var tinh = document.getElementById("province");
+        var quan_huyen = document.getElementById("district");
+        var phuong_xa = document.getElementById("ward");
+
+        var diaChiCuThe = document.getElementById("ward");
+
         var regexTen = /^[\p{L}\s]+$/u;   // chỉ chứa ký tự khoảng cách hoặc chữ
         var regexSDT = /^0\d{9,}$/;
         var regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+        var ketQuaValidate = true;
+
+        if(tinh.value.trim().length===0){
+            document.getElementById("checktinh_thanhPho").innerText = "Vui lòng chọn tỉnh/ TP";
+            // hoVaTen.focus();
+            ketQuaValidate = false;
+        }
+        if(quan_huyen.value.trim().length===0){
+            document.getElementById("checkquan_huyen").innerText = "Vui lòng chọn quận/huyện";
+            // hoVaTen.focus();
+            ketQuaValidate = false;
+        }
+        if(phuong_xa.value.trim().length===0){
+            document.getElementById("checkphuong_xa").innerText = "Vui lòng chọn phường/xã";
+            ketQuaValidate = false;
+        }
+
         if(hoVaTen.value.trim().length===0){
-            alert("Vui lòng nhập họ và tên");
-            hoVaTen.focus();
-            return false;
+            // alert("Vui lòng nhập họ và tên");
+            document.getElementById("checkHoVaTen").innerText = "Vui lòng nhập họ và tên";
+            // hoVaTen.focus();
+            ketQuaValidate = false;
+        }else if(!hoVaTen.value.match(regexTen)){
+            // alert("");
+            document.getElementById("checkHoVaTen").innerText = "Họ và tên không được nhập số và ký tự đặc biệt";
+            // hoVaTen.focus();
+            ketQuaValidate = false;
         }
-        if(!hoVaTen.value.match(regexTen)){
-            alert("Họ và tên không được nhập số và ký tự đặc biệt");
-            hoVaTen.focus();
-            return false;
-        }
+
         if(soDT.value.trim().length===0){
-            alert("Vui lòng nhập SDT");
-            soDT.focus();
-            return false;
-        }
-        if(!soDT.value.match(regexSDT)){
-            alert("Vui lòng nhập đúng định dạng số điện thoại, chứa ít nhất 10 số và không nhập khoảng cách ở trong trường SDT");
-            soDT.focus();
-            return false;
+            // alert();
+            document.getElementById("checkSDT").innerText = "Vui lòng nhập SDT";
+            // soDT.focus();
+            ketQuaValidate = false;
+        }else if(!soDT.value.match(regexSDT)){
+            document.getElementById("checkSDT").innerText = "Vui lòng nhập đúng định dạng số điện thoại, chứa ít nhất 10 số và không nhập khoảng cách ở trong trường SDT";
+            // soDT.focus();
+            ketQuaValidate = false;
         }
 
         if(email.value.trim().length===0){
-            alert("Vui lòng nhập email");
-            email.focus();
-            return false;
+            document.getElementById("checkEmail").innerText = "Vui lòng nhập email";
+            ketQuaValidate = false;
+        }else if(!email.value.match(regexEmail)){
+            document.getElementById("checkEmail").innerText = "Vui lòng nhập đúng định dạng email và không nhập khoảng cách";
+            ketQuaValidate = false;
         }
-        if(!email.value.match(regexEmail)){
-            alert("Vui lòng nhập đúng định dạng email và không nhập khoảng cách");
-            email.focus();
-            return false;
-        }
+
+        // Sử dụng hàm với Promise
+        kiemTraSoLuongTrongKho_truocKhiDatHang()
+            .then(result => {
+                if(result) {
+                    alert("\nSản phẩm trong kho hết hàng\nSản phẩm hết hàng trong kho sẽ được xóa khỏi giỏ hàng của bạn!");
+                    window.location="http://localhost:8080/gio-hang/view-gio";
+                    ketQuaValidate = result;
+                } else {
+                    console.log("Sản phẩm không còn trong kho.");
+                    // Thực hiện hành động khi sản phẩm không còn trong kho
+                    ketQuaValidate = result;
+                }
+            })
+            .catch(error => {
+                console.error("Đã xảy ra lỗi khi kiểm tra kho:", error);
+                // Xử lý lỗi
+            });
 
         var confirmed = confirm("Bạn chắc chắn muốn đặt hàng");
-        if (confirmed) {
-            // console.log("Đặt hàng thành công!");
-            return true;
+        if(ketQuaValidate==false){
+            return false;
+        }else {
+            if (confirmed) {
+                // console.log("Đặt hàng thành công!");
+                return true;
+            }
         }
-        return false;
-
     }
+
+    function kiemTraSoLuongTrongKho_truocKhiDatHang() {
+        return new Promise((resolve, reject) => {
+            jQuery.ajax({
+                url: "/gio-hang/kiemTraLai_soLuongTonKho",
+                type: "GET",
+                contentType: "application/json",
+                data: JSON.stringify(),
+                dataType: "json",
+
+                success: function(jsonResult) {
+                    let result = jsonResult.coSanPham_khongconHangTrongKho;
+                    resolve(result);
+                },
+
+                error: function(jqXhr, textStatus, errorMessage) {
+                    console.error('Error checking stock:', errorMessage);
+                    reject(errorMessage);
+                }
+            });
+        });
+    }
+
+
 </script>
 </body>
 

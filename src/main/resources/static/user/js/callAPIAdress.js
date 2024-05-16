@@ -48,7 +48,7 @@ var callAPI_cal_totalShipPrice = (api) => {
         .then(response => {
             // Xử lý phản hồi từ API
             // console.log(response.data.data);
-            renderDataShipPrice(response.data.data, "phiShip");
+            renderDataShipPrice(response.data.data.total, "phiShip");
         })
 }
 
@@ -60,11 +60,12 @@ var renderData = (array, select) => {
         return;
     }
 
-    let options = '<option disabled value="">Chọn</option>';
+    let options = '<option disabled value="" selected>Chọn</option>';
     array.forEach(element => {
         options += `<option value="${element.ProvinceID}">${element.ProvinceName}</option>`;
     });
     document.querySelector("#" + select).innerHTML = options;
+    renderDataShipPrice(0, "phiShip");
 
     // document.getElementById("ward").value = "";
 }
@@ -76,11 +77,14 @@ var renderDataDistrict = (array, select) => {
         return;
     }
 
-    let options = '<option disabled value="">Chọn</option>';
+    let options = '<option disabled value="" selected>Chọn</option>';
     array.forEach(element => {
         options += `<option value="${element.DistrictID}">${element.DistrictName}</option>`;
     });
     document.querySelector("#" + select).innerHTML = options;
+    renderDataWard([], "ward")
+    renderDataShipPrice(0, "phiShip");
+
 }
 
 
@@ -90,19 +94,31 @@ var renderDataWard = (array, select) => {
         return;
     }
 
-    let options = '<option disabled value="">Chọn</option>';
+    let options = '<option disabled value="" selected>Chọn</option>';
     array.forEach(element => {
         options += `<option value="${element.WardCode}">${element.WardName}</option>`;
     });
     document.querySelector("#" + select).innerHTML = options;
 }
 
-var renderDataShipPrice = (object, input) => {
+var renderDataShipPrice = (total, input) => {
 
-    let phiShip = object.total;
+    let phiShip = total;
     console.log("Phi ship " + phiShip);
-    let tongTien = parseInt(document.getElementById("tongTienDonHang").value)*1000;
-    let tongTienHang = phiShip + tongTien;
+
+    let tongTienElement = document.getElementById('tongTien');
+    let tongTien = tongTienElement.value; // Lấy giá trị từ thẻ HTML
+
+    // Chuyển đổi giá trị từ định dạng 'vi-VN' về số
+    let tongTienNumber = parseCurrency(tongTien);
+
+
+    console.log(document.getElementById("tongTien").value)
+    console.log("tongTienNumber : " + tongTienNumber);
+
+    let tongTienHang = parseInt(phiShip) + tongTienNumber;
+    // console.log(tongTienHang)
+    console.log("Tổng tiền đơn hàng: " + tongTienHang);
 
     // Định dạng số thành dạng "1.000.000"
     let formattedNumber_phiShip = new Intl.NumberFormat('vi-VN').format(phiShip);
@@ -133,12 +149,20 @@ $("#district").change(() => {
 
 
 $("#ward").change(() => {    // https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee?service_id=53321&from_district_id=1542&to_district_id=1444&to_ward_code=20314&weight=1000
-    var weight = document.getElementById("canNangGoiHang").value;
+    var weight = document.getElementById("canNangGoiHang").value || 0;
+
 
     callAPI_cal_totalShipPrice("https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee?service_type_id=2&from_district_id=1542&to_district_id="+$("#district").val()+"&to_ward_code="+$("#ward").val()+"&weight="+$("#canNangGoiHang").val());
 })
 
-
+function parseCurrency(value) {
+    // Loại bỏ dấu phân cách phần nghìn (chấm)
+    let cleanedString = value.replace(/\./g, '');
+    // Thay thế dấu phân cách thập phân (phẩy) bằng dấu chấm
+    cleanedString = cleanedString.replace(',', '.');
+    // Chuyển đổi chuỗi thành số thực
+    return parseFloat(cleanedString);
+}
 
 
 
