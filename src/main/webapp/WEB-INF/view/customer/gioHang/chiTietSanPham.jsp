@@ -285,8 +285,8 @@
                                 <div class="product-details-action  d-flex" >
                                     <!-- <div class="details-action-col"> -->
                                     <div class="col-lg-3" style="margin-top: 10px; margin-left: -7px;">
-                                        <input type="number" id="soLuongMua" class="form-control fs-3" style="font-size: 16px;" value="1" min="1" step="1" data-decimals="0" required="">
-
+<%--                                        <input type="number" id="soLuongMua" class="form-control fs-3" style="font-size: 16px;" value="1" min="1" step="1" data-decimals="0" required="">--%>
+                                        <input type="number" id="soLuongMua" class="form-control fs-3" style="font-size: 16px;" value="1"  data-decimals="0" required="">
                                     </div>
                                     <div>
                                         <p  style="font-size: 18px; margin-top: 10px;"> <span id="soLuongSPCoSan"></span> sản phẩm có sẵn</p>
@@ -775,9 +775,9 @@
         var tongSoLuongSanPhamTrongGio = 0;
         // console.log("Click vào function addToCart");
         let soLuongMua = document.getElementById('soLuongMua').value;
-        // console.log("Số lượng mua chi tiết : " + soLuongMua);
+        console.log("Số lượng mua chi tiết : " + soLuongMua);
 
-        if(soLuongMua<0){
+        if(parseInt(soLuongMua)<=0){
             alert("Vui lòng nhập số lượng mua > 0 ");
             return;
         }
@@ -805,7 +805,7 @@
                 var checkSoLuongToiDa = parseInt(tongSoLuongSanPhamTrongGio) + parseInt(soLuongMua) ;
 
                 if(checkSoLuongToiDa>10){
-                    alert(" Giỏ hàng chỉ được thêm tối đa 10 sản phẩm! \n Số lượng sản phẩm bạn vừa nhập = " + soLuongMua+"\n\tVui lòng dọn giỏ hàng");
+                    alert("Giỏ hàng chỉ được thêm tối đa 10 sản phẩm! \n" + "Tổng số lượng sản phẩm trong giỏ hàng của bạn: "+ tongSoLuongSanPhamTrongGio);
                     return;
                 }else{
                     let data = {
@@ -824,12 +824,21 @@
                         success : function(jsonResult) {
                             let soLuongMuaVuotQua = jsonResult.soLuongMuaVuotQua;
                             let totalProducts = jsonResult.totalCartProducts;
+                            let checkSoLuonagSP_conTrongKho = jsonResult.conSoLuongTrongKho;
+                            let soLuongMua = jsonResult.soLuongMua;
+                            let soLuongSPTrongKho = jsonResult.soLuongSPTrongKho;
+
                             $("#totalCartProductsId").html(totalProducts);
-                            if(soLuongMuaVuotQua===true){
-                                alert("Số lượng trong kho không đủ, vui lòng chọn sản phẩm khác hoặc liên hệ với chúng tôi để đặt hàng sớm nhất.");
+
+                            if(soLuongMua>soLuongSPTrongKho){
+                                alert("Số lượng chọn mua vượt quá số lượng sản phẩm trong kho!");
+                                return;
                             }
-
-
+                            if(soLuongMuaVuotQua===true &&  checkSoLuonagSP_conTrongKho===true ){  // quá số lượng trong kho thêm vào giỏ
+                                alert("Bạn đã thêm hết số lượng sản phẩm này vào giỏ rồi!\n Vui lòng kiểm tra giỏ hàng của bạn");
+                            }else{
+                                alert("Thêm sản phẩm vào giỏ thành công");
+                            }
                         },
 
                         error : function(jqXhr, textStatus, errorMessage) {
@@ -847,6 +856,11 @@
     muaNgay = function() {
         let soLuongMua = document.getElementById('soLuongMua').value;
         let idSanPhamCTDuocChon;
+
+        if(parseInt(soLuongMua)<=0){
+            alert("Vui lòng nhập số lượng mua > 0");
+            return;
+        }
 
         // Lấy ra radio button được chọn
         var radios = document.getElementsByName('sizeGiayDuocChon');
@@ -869,7 +883,7 @@
                 var checkSoLuongToiDa = parseInt(tongSoLuongSanPhamTrongGio) + parseInt(soLuongMua) ;
 
                 if(checkSoLuongToiDa>10){
-                    alert(" Giỏ hàng chỉ được thêm tối đa 10 sản phẩm! \n Số lượng sản phẩm bạn vừa nhập = " + soLuongMua + "\n\tVui lòng dọn giỏ hàng");
+                    alert("Giỏ hàng chỉ được thêm tối đa 10 sản phẩm! \n" + "Tổng số lượng sản phẩm trong giỏ hàng của bạn: "+ tongSoLuongSanPhamTrongGio);
                     return;
                 }else{
                     let data = {
@@ -890,11 +904,18 @@
                             let totalProducts = jsonResult.totalCartProducts;
                             $("#totalCartProductsId").html(totalProducts);
                             // $("#totalPriceInCart").html(totalPrice);
-                            if(soLuongMuaVuotQua===true){
-                                alert("Số lượng trong kho không đủ, vui lòng chọn sản phẩm khác hoặc liên hệ với chúng tôi để đặt hàng sớm nhất.");
+                            let checkSoLuonagSP_conTrongKho = jsonResult.conSoLuongTrongKho;
+                            let soLuongMua = jsonResult.soLuongMua;
+                            let soLuongSPTrongKho = jsonResult.soLuongSPTrongKho;
+
+                            if(soLuongMua>soLuongSPTrongKho){
+                                alert("Số lượng chọn mua vượt quá số lượng sản phẩm trong kho!");
+                                return;
+                            }
+                            if(soLuongMuaVuotQua===true &&  checkSoLuonagSP_conTrongKho===true ){  // quá số lượng trong kho thêm vào giỏ
+                                alert("Bạn đã thêm hết số lượng sản phẩm này vào giỏ rồi!\n Vui lòng kiểm tra giỏ hàng của bạn");
                             }else{
                                 window.location.href = "/gio-hang/view-gio";
-                                // window.location.reload();
                             }
                         },
 

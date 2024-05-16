@@ -166,6 +166,11 @@ public class ChiTietSPServiceImpl implements BaseService<ChiTietSanPham> {
         return repo_chiTietSanPham.findById(id).orElse(null);
     }
 
+    public ChiTietSanPham chiTietTheoId_checkTrangThai(UUID id) {
+        return repo_chiTietSanPham.getSanPhamChiTietBy_Id(id);
+    }
+
+
     @Override
     public List<ChiTietSanPham> layDanhSachTheoTen(String ten) {
         return null;
